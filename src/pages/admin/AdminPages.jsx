@@ -13,17 +13,19 @@ import {
 // AdminGallery
 // ============================================================
 export function AdminGallery() {
-  const [photos, setPhotos]     = useState([]);
-  const [loading, setLoading]   = useState(true);
-  const [cat, setCat]           = useState('');
+  const [photos, setPhotos]       = useState([]);
+  const [loading, setLoading]     = useState(true);
+  const [cat, setCat]             = useState('');
   const [uploading, setUploading] = useState(false);
-  const [form, setForm]         = useState({ title: '', category: 'Wedding', featured: false });
-  const [file, setFile]         = useState(null);
+  const [form, setForm]           = useState({ title: '', category: 'Wedding', featured: false });
+  const [file, setFile]           = useState(null);
 
   const load = () => {
     const q = cat ? `?category=${cat}` : '';
     api.get(`/gallery${q}`).then(r => setPhotos(r.data)).catch(() => {}).finally(() => setLoading(false));
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => { load(); }, [cat]);
 
   const upload = async (e) => {
@@ -261,7 +263,7 @@ export function AdminClients() {
 }
 
 // ============================================================
-// AdminStaff  — Edit + Delete + Role change
+// AdminStaff
 // ============================================================
 const ROLES = ['Lead Photographer','Photographer','Photo Editor','Videographer','Assistant','Manager'];
 
@@ -342,53 +344,28 @@ export function AdminStaff() {
         </div>
         <button className="btn btn-primary" onClick={openAdd}>+ Add Staff</button>
       </div>
-
       <div className="admin-services-grid">
         {staff.map(s => (
           <div key={s._id} className="card" style={{ position: 'relative', padding: '1.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem', marginBottom: '1rem' }}>
-              <div className="profile-avatar" style={{
-                width: 54, height: 54, fontSize: '1.15rem', flexShrink: 0,
-                border: '2.5px solid var(--gold)', boxShadow: '0 4px 14px rgba(184,146,42,0.2)',
-              }}>
+              <div className="profile-avatar" style={{ width: 54, height: 54, fontSize: '1.15rem', flexShrink: 0, border: '2.5px solid var(--gold)', boxShadow: '0 4px 14px rgba(184,146,42,0.2)' }}>
                 {initials(s.name)}
               </div>
               <div style={{ minWidth: 0 }}>
                 <h4 style={{ fontFamily: 'var(--font-serif)', fontSize: '1rem', marginBottom: '0.25rem', lineHeight: 1.2 }}>{s.name}</h4>
-                <span style={{
-                  display: 'inline-block', padding: '0.18rem 0.65rem',
-                  borderRadius: '40px', fontSize: '0.68rem', fontWeight: 700,
-                  letterSpacing: '0.08em', textTransform: 'uppercase',
-                  background: `${roleColor(s.role)}18`,
-                  color: roleColor(s.role),
-                  border: `1px solid ${roleColor(s.role)}40`,
-                }}>
+                <span style={{ display: 'inline-block', padding: '0.18rem 0.65rem', borderRadius: '40px', fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', background: `${roleColor(s.role)}18`, color: roleColor(s.role), border: `1px solid ${roleColor(s.role)}40` }}>
                   {s.role}
                 </span>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', marginBottom: '0.75rem' }}>
-              {s.phone && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.83rem', color: 'var(--text2)' }}>
-                  <span>📞</span>
-                  <a href={`tel:${s.phone}`} style={{ color: 'inherit', textDecoration: 'none' }}>{s.phone}</a>
-                </div>
-              )}
-              {s.email && (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.83rem', color: 'var(--text2)' }}>
-                  <span>✉️</span>
-                  <a href={`mailto:${s.email}`} style={{ color: 'inherit', textDecoration: 'none' }}>{s.email}</a>
-                </div>
-              )}
+              {s.phone && <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.83rem', color: 'var(--text2)' }}><span>📞</span><a href={`tel:${s.phone}`} style={{ color: 'inherit', textDecoration: 'none' }}>{s.phone}</a></div>}
+              {s.email && <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.83rem', color: 'var(--text2)' }}><span>✉️</span><a href={`mailto:${s.email}`} style={{ color: 'inherit', textDecoration: 'none' }}>{s.email}</a></div>}
             </div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text3)', marginBottom: '1rem' }}>
-              {s.assignedOrders?.length || 0} active orders assigned
-            </div>
+            <div style={{ fontSize: '0.78rem', color: 'var(--text3)', marginBottom: '1rem' }}>{s.assignedOrders?.length || 0} active orders assigned</div>
             <div style={{ display: 'flex', gap: '0.5rem', borderTop: '1px solid var(--bg2)', paddingTop: '0.85rem' }}>
               <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={() => openEdit(s)}>✏️ Edit</button>
-              {s.phone && (
-                <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={() => window.open(`https://wa.me/91${s.phone.replace(/\D/g,'')}`, '_blank')}>💬 WhatsApp</button>
-              )}
+              {s.phone && <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={() => window.open(`https://wa.me/91${s.phone.replace(/\D/g,'')}`, '_blank')}>💬 WhatsApp</button>}
               <button className="btn btn-danger btn-sm" style={{ padding: '0.38rem 0.65rem' }} onClick={() => deleteStaff(s._id)} title="Remove staff">🗑</button>
             </div>
           </div>
@@ -401,7 +378,6 @@ export function AdminStaff() {
           </div>
         )}
       </div>
-
       {showForm && (
         <div className="modal-backdrop" onClick={() => setShowForm(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
@@ -409,30 +385,18 @@ export function AdminStaff() {
               <div className="modal-title">{editing ? '✏️ Edit Staff Member' : '➕ Add Staff Member'}</div>
               <button className="modal-close" onClick={() => setShowForm(false)}>×</button>
             </div>
-            <div className="form-group">
-              <label className="form-label">Full Name *</label>
-              <input className="form-control" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. Vijay Prakash" />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Role</label>
+            <div className="form-group"><label className="form-label">Full Name *</label><input className="form-control" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} placeholder="e.g. Vijay Prakash" /></div>
+            <div className="form-group"><label className="form-label">Role</label>
               <select className="form-control" value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))}>
                 {ROLES.map(r => <option key={r}>{r}</option>)}
               </select>
             </div>
             <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Phone</label>
-                <input className="form-control" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="+91 XXXXX XXXXX" />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Email</label>
-                <input className="form-control" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="staff@gle.com" />
-              </div>
+              <div className="form-group"><label className="form-label">Phone</label><input className="form-control" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} placeholder="+91 XXXXX XXXXX" /></div>
+              <div className="form-group"><label className="form-label">Email</label><input className="form-control" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} placeholder="staff@gle.com" /></div>
             </div>
             <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.5rem' }}>
-              <button className="btn btn-primary" style={{ flex: 1 }} onClick={save} disabled={saving}>
-                {saving ? 'Saving...' : editing ? '✅ Update Staff' : '➕ Add Member'}
-              </button>
+              <button className="btn btn-primary" style={{ flex: 1 }} onClick={save} disabled={saving}>{saving ? 'Saving...' : editing ? '✅ Update Staff' : '➕ Add Member'}</button>
               <button className="btn btn-ghost" onClick={() => setShowForm(false)}>Cancel</button>
             </div>
           </div>
@@ -524,7 +488,7 @@ export function AdminAnalytics() {
 }
 
 // ============================================================
-// AdminSettings — logo upload REMOVED, everything else original
+// AdminSettings
 // ============================================================
 export function AdminSettings() {
   const [form, setForm]       = useState({
@@ -535,10 +499,7 @@ export function AdminSettings() {
   const [saving, setSaving]   = useState(false);
 
   useEffect(() => {
-    api.get('/settings')
-      .then(r => { setForm(f => ({ ...f, ...r.data })); })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    api.get('/settings').then(r => { setForm(f => ({ ...f, ...r.data })); }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
@@ -549,17 +510,13 @@ export function AdminSettings() {
     try {
       const payload = {};
       Object.entries(form).forEach(([key, val]) => {
-        if (!['logo','_id','__v','createdAt','updatedAt'].includes(key)) {
-          payload[key] = val || '';
-        }
+        if (!['logo','_id','__v','createdAt','updatedAt'].includes(key)) payload[key] = val || '';
       });
       await api.put('/settings', payload);
       toast.success('✅ Settings saved! Changes are live across the site.');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Save failed');
-    } finally {
-      setSaving(false);
-    }
+    } finally { setSaving(false); }
   };
 
   if (loading) return <div className="spinner-wrap"><div className="spinner" /></div>;
@@ -568,65 +525,30 @@ export function AdminSettings() {
     <>
       <div className="admin-page-title">Studio Settings</div>
       <div className="admin-page-sub">Changes here update contact details, WhatsApp number, address across the entire site.</div>
-
       <form onSubmit={save} style={{ maxWidth: 680 }}>
-
-        {/* Studio Info */}
         <div className="settings-section">
           <div className="settings-section-title">Studio Information</div>
           <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">Studio Name</label>
-              <input className="form-control" name="studioName" value={form.studioName} onChange={handle} />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Tagline</label>
-              <input className="form-control" name="tagline" value={form.tagline} onChange={handle} placeholder="Capturing Your Golden Moments" />
-            </div>
+            <div className="form-group"><label className="form-label">Studio Name</label><input className="form-control" name="studioName" value={form.studioName} onChange={handle} /></div>
+            <div className="form-group"><label className="form-label">Tagline</label><input className="form-control" name="tagline" value={form.tagline} onChange={handle} placeholder="Capturing Your Golden Moments" /></div>
           </div>
-          <div className="form-group">
-            <label className="form-label">Email Address</label>
-            <input className="form-control" name="email" type="email" value={form.email} onChange={handle} placeholder="hello@glestudio.in" />
-          </div>
-          <div className="form-group">
-            <label className="form-label">Studio Address</label>
-            <textarea className="form-control" name="address" rows={3} value={form.address} onChange={handle} placeholder="Full studio address..." />
-            <p className="form-hint">This address shows in the footer, contact page and booking confirmation.</p>
-          </div>
+          <div className="form-group"><label className="form-label">Email Address</label><input className="form-control" name="email" type="email" value={form.email} onChange={handle} placeholder="hello@glestudio.in" /></div>
+          <div className="form-group"><label className="form-label">Studio Address</label><textarea className="form-control" name="address" rows={3} value={form.address} onChange={handle} placeholder="Full studio address..." /><p className="form-hint">This address shows in the footer, contact page and booking confirmation.</p></div>
         </div>
-
-        {/* Contact & WhatsApp */}
         <div className="settings-section">
           <div className="settings-section-title">Contact Numbers</div>
           <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">Display Phone Number</label>
-              <input className="form-control" name="phone" value={form.phone} onChange={handle} placeholder="+91 93457 60278" />
-              <p className="form-hint">Shown in navbar, footer and contact section.</p>
-            </div>
-            <div className="form-group">
-              <label className="form-label">WhatsApp Number</label>
-              <input className="form-control" name="whatsappNumber" value={form.whatsappNumber} onChange={handle} placeholder="919345760278" />
-              <p className="form-hint">Country code without +. All booking & frame orders go here.</p>
-            </div>
+            <div className="form-group"><label className="form-label">Display Phone Number</label><input className="form-control" name="phone" value={form.phone} onChange={handle} placeholder="+91 93457 60278" /><p className="form-hint">Shown in navbar, footer and contact section.</p></div>
+            <div className="form-group"><label className="form-label">WhatsApp Number</label><input className="form-control" name="whatsappNumber" value={form.whatsappNumber} onChange={handle} placeholder="919345760278" /><p className="form-hint">Country code without +. All booking & frame orders go here.</p></div>
           </div>
         </div>
-
-        {/* Social Media */}
         <div className="settings-section">
           <div className="settings-section-title">Social Media</div>
           <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">Instagram URL</label>
-              <input className="form-control" name="instagramUrl" value={form.instagramUrl} onChange={handle} placeholder="https://instagram.com/glestudio" />
-            </div>
-            <div className="form-group">
-              <label className="form-label">Facebook URL</label>
-              <input className="form-control" name="facebookUrl" value={form.facebookUrl} onChange={handle} placeholder="https://facebook.com/glestudio" />
-            </div>
+            <div className="form-group"><label className="form-label">Instagram URL</label><input className="form-control" name="instagramUrl" value={form.instagramUrl} onChange={handle} placeholder="https://instagram.com/glestudio" /></div>
+            <div className="form-group"><label className="form-label">Facebook URL</label><input className="form-control" name="facebookUrl" value={form.facebookUrl} onChange={handle} placeholder="https://facebook.com/glestudio" /></div>
           </div>
         </div>
-
         <button type="submit" className="btn btn-primary btn-lg btn-full" disabled={saving} style={{ marginTop: '0.5rem' }}>
           {saving ? '💾 Saving…' : '💾 Save Settings'}
         </button>
