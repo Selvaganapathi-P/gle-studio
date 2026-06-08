@@ -261,7 +261,7 @@ export function AdminClients() {
 }
 
 // ============================================================
-// AdminStaff  — Edit + Delete + Role change added
+// AdminStaff  — Edit + Delete + Role change
 // ============================================================
 const ROLES = ['Lead Photographer','Photographer','Photo Editor','Videographer','Assistant','Manager'];
 
@@ -269,7 +269,7 @@ export function AdminStaff() {
   const [staff, setStaff]       = useState([]);
   const [loading, setLoading]   = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [editing, setEditing]   = useState(null); // null = add, id = edit
+  const [editing, setEditing]   = useState(null);
   const [saving, setSaving]     = useState(false);
   const [form, setForm]         = useState({ name: '', role: 'Photographer', phone: '', email: '' });
 
@@ -311,7 +311,7 @@ export function AdminStaff() {
   const deleteStaff = async id => {
     if (!window.confirm('Remove this staff member? This cannot be undone.')) return;
     try {
-      await api.put(`/staff/${id}`, { active: false }); // soft delete — sets active:false
+      await api.put(`/staff/${id}`, { active: false });
       setStaff(prev => prev.filter(s => s._id !== id));
       toast.success('Staff member removed');
     } catch { toast.error('Delete failed'); }
@@ -319,7 +319,6 @@ export function AdminStaff() {
 
   const initials = name => name?.split(' ').map(n => n[0]).slice(0,2).join('').toUpperCase() || 'S';
 
-  // Role badge color
   const roleColor = role => {
     const map = {
       'Lead Photographer': '#b8460b',
@@ -336,7 +335,6 @@ export function AdminStaff() {
 
   return (
     <>
-      {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.75rem' }}>
         <div>
           <div className="admin-page-title">Staff Management</div>
@@ -345,12 +343,9 @@ export function AdminStaff() {
         <button className="btn btn-primary" onClick={openAdd}>+ Add Staff</button>
       </div>
 
-      {/* Staff grid */}
       <div className="admin-services-grid">
         {staff.map(s => (
           <div key={s._id} className="card" style={{ position: 'relative', padding: '1.5rem' }}>
-
-            {/* Avatar + name row */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem', marginBottom: '1rem' }}>
               <div className="profile-avatar" style={{
                 width: 54, height: 54, fontSize: '1.15rem', flexShrink: 0,
@@ -372,8 +367,6 @@ export function AdminStaff() {
                 </span>
               </div>
             </div>
-
-            {/* Contact info */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem', marginBottom: '0.75rem' }}>
               {s.phone && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.83rem', color: 'var(--text2)' }}>
@@ -388,42 +381,18 @@ export function AdminStaff() {
                 </div>
               )}
             </div>
-
-            {/* Orders assigned */}
             <div style={{ fontSize: '0.78rem', color: 'var(--text3)', marginBottom: '1rem' }}>
               {s.assignedOrders?.length || 0} active orders assigned
             </div>
-
-            {/* Action buttons */}
             <div style={{ display: 'flex', gap: '0.5rem', borderTop: '1px solid var(--bg2)', paddingTop: '0.85rem' }}>
-              <button
-                className="btn btn-ghost btn-sm"
-                style={{ flex: 1 }}
-                onClick={() => openEdit(s)}
-              >
-                ✏️ Edit
-              </button>
+              <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={() => openEdit(s)}>✏️ Edit</button>
               {s.phone && (
-                <button
-                  className="btn btn-ghost btn-sm"
-                  style={{ flex: 1 }}
-                  onClick={() => window.open(`https://wa.me/91${s.phone.replace(/\D/g,'')}`, '_blank')}
-                >
-                  💬 WhatsApp
-                </button>
+                <button className="btn btn-ghost btn-sm" style={{ flex: 1 }} onClick={() => window.open(`https://wa.me/91${s.phone.replace(/\D/g,'')}`, '_blank')}>💬 WhatsApp</button>
               )}
-              <button
-                className="btn btn-danger btn-sm"
-                style={{ padding: '0.38rem 0.65rem' }}
-                onClick={() => deleteStaff(s._id)}
-                title="Remove staff"
-              >
-                🗑
-              </button>
+              <button className="btn btn-danger btn-sm" style={{ padding: '0.38rem 0.65rem' }} onClick={() => deleteStaff(s._id)} title="Remove staff">🗑</button>
             </div>
           </div>
         ))}
-
         {staff.length === 0 && (
           <div style={{ gridColumn: '1/-1' }} className="empty-state">
             <div className="empty-state-icon">🧑‍💼</div>
@@ -433,7 +402,6 @@ export function AdminStaff() {
         )}
       </div>
 
-      {/* Add / Edit modal */}
       {showForm && (
         <div className="modal-backdrop" onClick={() => setShowForm(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
@@ -556,29 +524,25 @@ export function AdminAnalytics() {
 }
 
 // ============================================================
-// AdminSettings — logo upload fixed, all fields save to backend
+// AdminSettings — logo upload REMOVED, everything else original
 // ============================================================
 export function AdminSettings() {
   const [form, setForm]       = useState({
     studioName: 'GLE Studio', tagline: '', phone: '', whatsappNumber: '',
     email: '', address: '', instagramUrl: '', facebookUrl: '',
   });
-  const [loading, setLoading]       = useState(true);
-  const [saving, setSaving]         = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving]   = useState(false);
 
-  // Load current settings from backend on mount
   useEffect(() => {
     api.get('/settings')
-      .then(r => {
-        setForm(f => ({ ...f, ...r.data }));
-      })
+      .then(r => { setForm(f => ({ ...f, ...r.data })); })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
   const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
-  // Save — plain JSON, no file upload
   const save = async e => {
     e.preventDefault();
     setSaving(true);
@@ -603,11 +567,11 @@ export function AdminSettings() {
   return (
     <>
       <div className="admin-page-title">Studio Settings</div>
-      <div className="admin-page-sub">Changes here update contact details, WhatsApp number, address and logo across the entire site.</div>
+      <div className="admin-page-sub">Changes here update contact details, WhatsApp number, address across the entire site.</div>
 
       <form onSubmit={save} style={{ maxWidth: 680 }}>
 
-        {/* ── Studio Info ─────────────────────────────────────── */}
+        {/* Studio Info */}
         <div className="settings-section">
           <div className="settings-section-title">Studio Information</div>
           <div className="form-row">
@@ -631,7 +595,7 @@ export function AdminSettings() {
           </div>
         </div>
 
-        {/* ── Contact & WhatsApp ──────────────────────────────── */}
+        {/* Contact & WhatsApp */}
         <div className="settings-section">
           <div className="settings-section-title">Contact Numbers</div>
           <div className="form-row">
@@ -648,7 +612,7 @@ export function AdminSettings() {
           </div>
         </div>
 
-        {/* ── Social Media ─────────────────────────────────────── */}
+        {/* Social Media */}
         <div className="settings-section">
           <div className="settings-section-title">Social Media</div>
           <div className="form-row">
@@ -663,13 +627,7 @@ export function AdminSettings() {
           </div>
         </div>
 
-        {/* ── Save button ──────────────────────────────────────── */}
-        <button
-          type="submit"
-          className="btn btn-primary btn-lg btn-full"
-          disabled={saving}
-          style={{ marginTop: '0.5rem' }}
-        >
+        <button type="submit" className="btn btn-primary btn-lg btn-full" disabled={saving} style={{ marginTop: '0.5rem' }}>
           {saving ? '💾 Saving…' : '💾 Save Settings'}
         </button>
         <p style={{ textAlign: 'center', fontSize: '0.78rem', color: 'var(--text3)', marginTop: '0.75rem' }}>

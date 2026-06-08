@@ -3920,3 +3920,30 @@ img:-moz-broken { color: transparent; }
   .footer-grid { grid-template-columns: 1fr; gap: 1.25rem; }
   .footer { padding: 3rem 0 2rem; }
 }
+
+
+.settings-section {
+  background: var(--white);
+  border: 1px solid var(--bg3);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.settings-section-title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--bg3);
+}
+
+.admin-services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-top: 0;
+}
