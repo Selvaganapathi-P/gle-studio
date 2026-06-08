@@ -70,7 +70,7 @@ export default function AdminOrders() {
   const getImageUrl = (url) => {
     if (!url) return null;
     if (url.startsWith('http')) return url;
-    return `http://localhost:5000${url}`;
+    return `${process.env.REACT_APP_API_URL}${url}`;
   };
 
   return (
