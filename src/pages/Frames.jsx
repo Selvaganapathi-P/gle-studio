@@ -160,7 +160,7 @@ export default function Frames() {
                       {loading ? 'Saving order...' : '📱 Place Order via WhatsApp'}
                     </button>
                     <p style={{ textAlign: 'center', color: 'var(--text3)', fontSize: '0.78rem', marginTop: '0.75rem' }}>
-                      Free delivery within Dharmapuri. 3–5 days for other locations.
+                      Free delivery within Tirupattur. 3–5 days for other locations.
                     </p>
                   </>
                 )}

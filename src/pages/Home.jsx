@@ -164,11 +164,11 @@ export default function Home() {
               <div className="divider" />
               <div className="contact-item">
                 <div className="contact-icon">📍</div>
-                <div><div className="contact-label">Studio Location</div><div className="contact-value" style={{ color: 'rgba(255,255,255,0.8)' }}>42 Golden Lane, Dharmapuri, TN 636701</div></div>
+                <div><div className="contact-label">Studio Location</div><div className="contact-value" style={{ color: 'rgba(255,255,255,0.8)' }}>Golden legacy events, Tirupattur, TN 635901</div></div>
               </div>
               <div className="contact-item">
                 <div className="contact-icon">📞</div>
-                <div><div className="contact-label">Phone / WhatsApp</div><div className="contact-value" style={{ color: 'rgba(255,255,255,0.8)' }}>+91 93457 60278</div></div>
+                <div><div className="contact-label">Phone / WhatsApp</div><div className="contact-value" style={{ color: 'rgba(255,255,255,0.8)' }}>+91 6382748663</div></div>
               </div>
               <div className="contact-item">
                 <div className="contact-icon">⏰</div>
@@ -192,7 +192,7 @@ function QuickEnquiryForm() {
   const send = () => {
     if (!form.name || !form.phone) { alert('Please enter name and phone'); return; }
     const msg = encodeURIComponent(`Hi GLE Studio! I'd like to enquire about ${form.service}.\nName: ${form.name}\nPhone: ${form.phone}\nMessage: ${form.message}`);
-    window.open(`https://wa.me/919345760278?text=${msg}`, '_blank');
+    window.open(`https://wa.me/916382748663?text=${msg}`, '_blank');
   };
   return (
     <>
