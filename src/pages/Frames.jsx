@@ -5,37 +5,54 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 
 const FALLBACK_FRAMES = [
-  { _id:'1',  size:'4×6',   material:'Matte',   price:299  },
-  { _id:'2',  size:'4×6',   material:'Glossy',  price:449  },
-  { _id:'3',  size:'5×7',   material:'Matte',   price:499  },
-  { _id:'4',  size:'5×7',   material:'Glossy',  price:649  },
-  { _id:'5',  size:'5×7',   material:'Canvas',  price:899  },
-  { _id:'6',  size:'8×10',  material:'Matte',   price:799  },
-  { _id:'7',  size:'8×10',  material:'Canvas',  price:1299 },
-  { _id:'8',  size:'8×10',  material:'Acrylic', price:1799 },
-  { _id:'9',  size:'12×16', material:'Canvas',  price:2199 },
-  { _id:'10', size:'12×16', material:'Acrylic', price:2999 },
-  { _id:'11', size:'16×20', material:'Canvas',  price:3499 },
-  { _id:'12', size:'24×36', material:'Canvas',  price:5999 },
+  { _id:'1',  size:'4×6',   material:'Matte',   price:299,  offerPercent:0, offerLabel:'' },
+  { _id:'2',  size:'4×6',   material:'Glossy',  price:449,  offerPercent:0, offerLabel:'' },
+  { _id:'3',  size:'5×7',   material:'Matte',   price:499,  offerPercent:0, offerLabel:'' },
+  { _id:'4',  size:'5×7',   material:'Glossy',  price:649,  offerPercent:0, offerLabel:'' },
+  { _id:'5',  size:'5×7',   material:'Canvas',  price:899,  offerPercent:0, offerLabel:'' },
+  { _id:'6',  size:'8×10',  material:'Matte',   price:799,  offerPercent:0, offerLabel:'' },
+  { _id:'7',  size:'8×10',  material:'Canvas',  price:1299, offerPercent:0, offerLabel:'' },
+  { _id:'8',  size:'8×10',  material:'Acrylic', price:1799, offerPercent:0, offerLabel:'' },
+  { _id:'9',  size:'12×16', material:'Canvas',  price:2199, offerPercent:0, offerLabel:'' },
+  { _id:'10', size:'12×16', material:'Acrylic', price:2999, offerPercent:0, offerLabel:'' },
+  { _id:'11', size:'16×20', material:'Canvas',  price:3499, offerPercent:0, offerLabel:'' },
+  { _id:'12', size:'24×36', material:'Canvas',  price:5999, offerPercent:0, offerLabel:'' },
 ];
 
 export default function Frames() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [frames, setFrames]             = useState(FALLBACK_FRAMES);
+  const [frames, setFrames]               = useState(FALLBACK_FRAMES);
   const [selectedFrame, setSelectedFrame] = useState(FALLBACK_FRAMES[0]);
-  const [qty, setQty]                   = useState(1);
-  const [form, setForm]                 = useState({ name: '', phone: '', address: '' });
-  const [waNumber, setWaNumber]         = useState('919345760278');
-  const [loading, setLoading]           = useState(false);
+  const [qty, setQty]                     = useState(1);
+  const [form, setForm]                   = useState({ name: '', phone: '', address: '' });
+  const [waNumber, setWaNumber]           = useState('916382748663');
+  const [loading, setLoading]             = useState(false);
 
   useEffect(() => {
-    api.get('/frames').then(r => { if (r.data.length > 0) { setFrames(r.data); setSelectedFrame(r.data[0]); } }).catch(() => {});
-    api.get('/settings').then(r => { if (r.data?.whatsappNumber) setWaNumber(r.data.whatsappNumber); }).catch(() => {});
+    api.get('/frames').then(r => {
+      if (r.data.length > 0) { setFrames(r.data); setSelectedFrame(r.data[0]); }
+    }).catch(() => {});
+    api.get('/settings').then(r => {
+      if (r.data?.whatsappNumber) setWaNumber(r.data.whatsappNumber);
+    }).catch(() => {});
   }, []);
 
-  const total  = (selectedFrame?.price || 0) * qty;
+  // ── Price calculation with offer ──────────────────────────
+  const offerPercent    = selectedFrame?.offerPercent || 0;
+  const originalPrice   = selectedFrame?.price || 0;
+  const discountedPrice = offerPercent > 0
+    ? Math.round(originalPrice - (originalPrice * offerPercent / 100))
+    : originalPrice;
+  const total    = discountedPrice * qty;
+  const savings  = (originalPrice - discountedPrice) * qty;
+
   const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+
+  const getFramePrice = (f) => {
+    if (!f.offerPercent || f.offerPercent <= 0) return f.price;
+    return Math.round(f.price - (f.price * f.offerPercent / 100));
+  };
 
   const placeOrder = async () => {
     if (!user) {
@@ -47,19 +64,48 @@ export default function Frames() {
     setLoading(true);
     try {
       const fd = new FormData();
-      fd.append('clientName', form.name); fd.append('clientPhone', form.phone);
-      fd.append('clientAddress', form.address); fd.append('service', 'Frame Order');
-      fd.append('orderType', 'frame'); fd.append('amount', total);
-      fd.append('notes', `Size: ${selectedFrame.size}" | Material: ${selectedFrame.material} | Qty: ${qty} | Total: ₹${total.toLocaleString('en-IN')}`);
+      fd.append('clientName',    form.name);
+      fd.append('clientPhone',   form.phone);
+      fd.append('clientAddress', form.address);
+      fd.append('service',       'Frame Order');
+      fd.append('orderType',     'frame');
+      fd.append('amount',        total);
+      fd.append('notes',
+        `Size: ${selectedFrame.size}" | Material: ${selectedFrame.material} | Qty: ${qty}` +
+        `${offerPercent > 0 ? ` | Offer: ${offerPercent}% OFF` : ''}` +
+        ` | Total: ₹${total.toLocaleString('en-IN')}`
+      );
       const fi = document.getElementById('frame-photo');
       if (fi?.files[0]) fd.append('referenceImage', fi.files[0]);
       const res = await api.post('/orders', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
       toast.success('Order saved! Opening WhatsApp…');
-      const msg = encodeURIComponent(`🖼️ *GLE Studio – Frame Order*\nName: ${form.name}\nPhone: ${form.phone}\nSize: ${selectedFrame.size}"\nMaterial: ${selectedFrame.material}\nQty: ${qty}\nTotal: ₹${total.toLocaleString('en-IN')}\nAddress: ${form.address || 'Not provided'}\n🆔 Order ID: ${res.data.order._id}`);
+      const msg = encodeURIComponent(
+        `🖼️ *GLE Studio – Frame Order*\n` +
+        `Name: ${form.name}\n` +
+        `Phone: ${form.phone}\n` +
+        `Size: ${selectedFrame.size}"\n` +
+        `Material: ${selectedFrame.material}\n` +
+        `Qty: ${qty}\n` +
+        (offerPercent > 0 ? `Offer: ${offerPercent}% OFF${selectedFrame.offerLabel ? ` (${selectedFrame.offerLabel})` : ''}\n` : '') +
+        (offerPercent > 0 ? `Original Price: ₹${(originalPrice * qty).toLocaleString('en-IN')}\n` : '') +
+        (offerPercent > 0 ? `You Save: ₹${savings.toLocaleString('en-IN')}\n` : '') +
+        `Total: ₹${total.toLocaleString('en-IN')}\n` +
+        `Address: ${form.address || 'Not provided'}\n` +
+        `🆔 Order ID: ${res.data.order._id}`
+      );
       window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
     } catch {
       toast.error('Could not save, opening WhatsApp directly');
-      const msg = encodeURIComponent(`🖼️ *GLE Studio – Frame Order*\nName: ${form.name}\nPhone: ${form.phone}\nSize: ${selectedFrame.size}"\nMaterial: ${selectedFrame.material}\nQty: ${qty}\nTotal: ₹${total.toLocaleString('en-IN')}`);
+      const msg = encodeURIComponent(
+        `🖼️ *GLE Studio – Frame Order*\n` +
+        `Name: ${form.name}\n` +
+        `Phone: ${form.phone}\n` +
+        `Size: ${selectedFrame.size}"\n` +
+        `Material: ${selectedFrame.material}\n` +
+        `Qty: ${qty}\n` +
+        (offerPercent > 0 ? `Offer: ${offerPercent}% OFF\n` : '') +
+        `Total: ₹${total.toLocaleString('en-IN')}`
+      );
       window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
     } finally { setLoading(false); }
   };
@@ -74,23 +120,59 @@ export default function Frames() {
 
       <section className="section-pad">
         <div className="container">
-          {/* frames-layout — CSS handles responsive (2-col → 1-col) */}
           <div className="frames-layout">
 
-            {/* Left: Frame selection */}
+            {/* ── Left: Frame selection ── */}
             <div>
               <h3 style={{ fontFamily: 'var(--font-serif)', marginBottom: '1.25rem' }}>Select Your Frame</h3>
-              {/* frame-options-grid — responsive 3→2→2 cols */}
               <div className="frame-options-grid">
-                {frames.map(f => (
-                  <div key={f._id} className={`frame-option${selectedFrame?._id === f._id ? ' selected' : ''}`} onClick={() => setSelectedFrame(f)}>
-                    <div className="size">{f.size}"</div>
-                    <div className="material">{f.material}</div>
-                    <div className="price">₹{f.price.toLocaleString('en-IN')}</div>
-                  </div>
-                ))}
+                {frames.map(f => {
+                  const frameDiscounted = getFramePrice(f);
+                  const hasOffer = f.offerPercent > 0;
+                  return (
+                    <div
+                      key={f._id}
+                      className={`frame-option${selectedFrame?._id === f._id ? ' selected' : ''}`}
+                      onClick={() => setSelectedFrame(f)}
+                    >
+                      {/* Offer badge */}
+                      {hasOffer && (
+                        <div style={{
+                          fontSize: '0.62rem', fontWeight: 800,
+                          background: 'var(--danger-bg)', color: 'var(--danger)',
+                          borderRadius: '40px', padding: '0.15rem 0.55rem',
+                          marginBottom: '0.3rem', display: 'inline-block',
+                          border: '1px solid #f5c6c6', letterSpacing: '0.04em',
+                        }}>
+                          {f.offerPercent}% OFF
+                        </div>
+                      )}
+
+                      <div className="size">{f.size}"</div>
+                      <div className="material">{f.material}</div>
+
+                      {/* Strikethrough original price */}
+                      {hasOffer && (
+                        <div style={{ fontSize: '0.75rem', color: 'var(--text3)', textDecoration: 'line-through', marginTop: '0.2rem' }}>
+                          ₹{f.price.toLocaleString('en-IN')}
+                        </div>
+                      )}
+
+                      {/* Final price */}
+                      <div className="price">₹{frameDiscounted.toLocaleString('en-IN')}</div>
+
+                      {/* Offer label */}
+                      {hasOffer && f.offerLabel && (
+                        <div style={{ fontSize: '0.62rem', color: 'var(--gold)', marginTop: '0.15rem', fontWeight: 600 }}>
+                          {f.offerLabel}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
+              {/* Material guide */}
               <div className="card-flat" style={{ marginTop: '1.5rem' }}>
                 <h4 style={{ fontFamily: 'var(--font-serif)', marginBottom: '1rem' }}>Material Guide</h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
@@ -109,13 +191,20 @@ export default function Frames() {
               </div>
             </div>
 
-            {/* Right: Order summary */}
+            {/* ── Right: Order summary ── */}
             <div>
               <div className="form-section">
                 <h3 style={{ fontFamily: 'var(--font-serif)', marginBottom: '1.25rem' }}>Your Order Summary</h3>
+
                 <div className="frame-summary">
-                  <div className="frame-summary-row"><span>Size</span><strong>{selectedFrame?.size}"</strong></div>
-                  <div className="frame-summary-row"><span>Material</span><strong>{selectedFrame?.material}</strong></div>
+                  <div className="frame-summary-row">
+                    <span>Size</span>
+                    <strong>{selectedFrame?.size}"</strong>
+                  </div>
+                  <div className="frame-summary-row">
+                    <span>Material</span>
+                    <strong>{selectedFrame?.material}</strong>
+                  </div>
                   <div className="frame-summary-row">
                     <span>Quantity</span>
                     <div className="qty-ctrl">
@@ -124,10 +213,52 @@ export default function Frames() {
                       <button className="qty-btn" onClick={() => setQty(q => q + 1)}>+</button>
                     </div>
                   </div>
-                  <div className="frame-summary-row"><span>Price each</span><span>₹{selectedFrame?.price?.toLocaleString('en-IN')}</span></div>
-                  <div className="frame-summary-row total"><span>Total</span><span>₹{total.toLocaleString('en-IN')}</span></div>
+
+                  {/* Price per item */}
+                  <div className="frame-summary-row">
+                    <span>Price each</span>
+                    <span>
+                      {offerPercent > 0 && (
+                        <span style={{ textDecoration: 'line-through', color: 'var(--text3)', fontSize: '0.82rem', marginRight: '0.5rem' }}>
+                          ₹{originalPrice.toLocaleString('en-IN')}
+                        </span>
+                      )}
+                      <span style={{ fontWeight: 700, color: offerPercent > 0 ? 'var(--danger)' : 'var(--dark)' }}>
+                        ₹{discountedPrice.toLocaleString('en-IN')}
+                      </span>
+                    </span>
+                  </div>
+
+                  {/* Offer row */}
+                  {offerPercent > 0 && (
+                    <div className="frame-summary-row" style={{ color: 'var(--success)', fontSize: '0.85rem', fontWeight: 600 }}>
+                      <span>
+                        🎉 {selectedFrame?.offerLabel || `${offerPercent}% Offer Applied`}
+                      </span>
+                      <span>−₹{savings.toLocaleString('en-IN')}</span>
+                    </div>
+                  )}
+
+                  {/* Total */}
+                  <div className="frame-summary-row total">
+                    <span>Total</span>
+                    <span>₹{total.toLocaleString('en-IN')}</span>
+                  </div>
+
+                  {/* Savings highlight */}
+                  {offerPercent > 0 && savings > 0 && (
+                    <div style={{
+                      marginTop: '0.75rem', padding: '0.6rem 0.85rem',
+                      background: 'var(--success-bg)', border: '1px solid #b8ddc8',
+                      borderRadius: 'var(--radius-sm)', fontSize: '0.82rem',
+                      color: 'var(--success)', fontWeight: 600, textAlign: 'center',
+                    }}>
+                      🎊 You're saving ₹{savings.toLocaleString('en-IN')} on this order!
+                    </div>
+                  )}
                 </div>
 
+                {/* Auth check */}
                 {!user ? (
                   <div className="guest-order-notice">
                     <p style={{ margin: 0, fontSize: '0.88rem', fontWeight: 600 }}>🔐 Sign in to place your order</p>
@@ -166,6 +297,7 @@ export default function Frames() {
                 )}
               </div>
             </div>
+
           </div>
         </div>
       </section>
