@@ -2,28 +2,28 @@ import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
 
 const FALLBACK = [
-  { _id: 'f1',  title: 'Wedding Ceremony',       category: 'Wedding',    imageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80' },
-  { _id: 'f2',  title: 'Bridal Portrait',         category: 'Wedding',    imageUrl: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&q=80' },
-  { _id: 'f3',  title: 'Ring Exchange',           category: 'Wedding',    imageUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80' },
-  { _id: 'f4',  title: 'Wedding Dance',           category: 'Wedding',    imageUrl: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=800&q=80' },
-  { _id: 'f5',  title: 'Wedding Flowers',         category: 'Wedding',    imageUrl: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80' },
-  { _id: 'f6',  title: 'Studio Portrait',         category: 'Portrait',   imageUrl: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80' },
-  { _id: 'f7',  title: 'Family Session',          category: 'Portrait',   imageUrl: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80' },
-  { _id: 'f8',  title: 'Child Portrait',          category: 'Portrait',   imageUrl: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80' },
-  { _id: 'f9',  title: 'Outdoor Portrait',        category: 'Portrait',   imageUrl: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80' },
-  { _id: 'f10', title: 'Birthday Party',          category: 'Events',     imageUrl: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&q=80' },
-  { _id: 'f11', title: 'Baby Shower',             category: 'Events',     imageUrl: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=800&q=80' },
-  { _id: 'f12', title: 'Corporate Gala',          category: 'Events',     imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80' },
-  { _id: 'f13', title: 'Concert Night',           category: 'Events',     imageUrl: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80' },
-  { _id: 'f14', title: 'Product Shoot',           category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80' },
-  { _id: 'f15', title: 'Brand Campaign',          category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80' },
-  { _id: 'f16', title: 'Food Photography',        category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80' },
-  { _id: 'f17', title: 'Fashion Editorial',       category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80' },
-  { _id: 'f18', title: 'Watch Product Shoot',     category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1524592094714-0f0654e0f411?w=800&q=80' },
+  { _id: 'f1',  title: 'Wedding Ceremony',   category: 'Wedding',    imageUrl: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80' },
+  { _id: 'f2',  title: 'Bridal Portrait',     category: 'Wedding',    imageUrl: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800&q=80' },
+  { _id: 'f3',  title: 'Ring Exchange',       category: 'Wedding',    imageUrl: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80' },
+  { _id: 'f4',  title: 'Wedding Dance',       category: 'Wedding',    imageUrl: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=800&q=80' },
+  { _id: 'f5',  title: 'Wedding Flowers',     category: 'Wedding',    imageUrl: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80' },
+  { _id: 'f6',  title: 'Studio Portrait',     category: 'Portrait',   imageUrl: 'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=800&q=80' },
+  { _id: 'f7',  title: 'Family Session',      category: 'Portrait',   imageUrl: 'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80' },
+  { _id: 'f8',  title: 'Child Portrait',      category: 'Portrait',   imageUrl: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80' },
+  { _id: 'f9',  title: 'Outdoor Portrait',    category: 'Portrait',   imageUrl: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80' },
+  { _id: 'f10', title: 'Birthday Party',      category: 'Events',     imageUrl: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&q=80' },
+  { _id: 'f11', title: 'Baby Shower',         category: 'Events',     imageUrl: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=800&q=80' },
+  { _id: 'f12', title: 'Corporate Gala',      category: 'Events',     imageUrl: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80' },
+  { _id: 'f13', title: 'Concert Night',       category: 'Events',     imageUrl: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80' },
+  { _id: 'f14', title: 'Product Shoot',       category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80' },
+  { _id: 'f15', title: 'Brand Campaign',      category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80' },
+  { _id: 'f16', title: 'Food Photography',    category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&q=80' },
+  { _id: 'f17', title: 'Fashion Editorial',   category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80' },
+  { _id: 'f18', title: 'Watch Product Shoot', category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1524592094714-0f0654e0f411?w=800&q=80' },
 ];
 
 const SAFE_FALLBACK = 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80';
-const CATS = ['All', 'Wedding', 'Portrait', 'Events', 'Commercial'];
+const DEFAULT_CATS  = ['All', 'Wedding', 'Portrait', 'Events', 'Commercial'];
 
 const isPhoto = url =>
   url && (
@@ -34,6 +34,7 @@ const isPhoto = url =>
 
 export default function Gallery() {
   const [photos, setPhotos]     = useState(FALLBACK);
+  const [cats, setCats]         = useState(DEFAULT_CATS);
   const [cat, setCat]           = useState('All');
   const [lightbox, setLightbox] = useState(null);
   const [loading, setLoading]   = useState(true);
@@ -43,8 +44,14 @@ export default function Gallery() {
       .then(r => {
         const adminPhotos = r.data.filter(p => isPhoto(p.imageUrl));
         if (adminPhotos.length > 0) {
-          const adminIds = new Set(adminPhotos.map(p => p.category));
-          const fillIn = FALLBACK.filter(f => !adminIds.has(f.category));
+          // Build dynamic categories from actual uploaded photos
+          const uploadedCats = [...new Set(adminPhotos.map(p => p.category))];
+          // Merge with default cats, keeping All first
+          const merged = ['All', ...new Set([...DEFAULT_CATS.slice(1), ...uploadedCats])];
+          setCats(merged);
+
+          const adminCatSet = new Set(adminPhotos.map(p => p.category));
+          const fillIn = FALLBACK.filter(f => !adminCatSet.has(f.category));
           setPhotos([...adminPhotos, ...fillIn]);
         }
       })
@@ -80,9 +87,15 @@ export default function Gallery() {
 
       <section className="section-pad">
         <div className="container">
+
+          {/* Dynamic category filters */}
           <div className="gallery-filters">
-            {CATS.map(c => (
-              <button key={c} className={`filter-btn${cat === c ? ' active' : ''}`} onClick={() => setCat(c)}>
+            {cats.map(c => (
+              <button
+                key={c}
+                className={`filter-btn${cat === c ? ' active' : ''}`}
+                onClick={() => setCat(c)}
+              >
                 {c}
               </button>
             ))}
@@ -122,6 +135,7 @@ export default function Gallery() {
         </div>
       </section>
 
+      {/* Lightbox */}
       {lightbox !== null && (
         <div className="lightbox-backdrop" onClick={closeLb}>
           <button className="lightbox-close" onClick={closeLb}>×</button>
