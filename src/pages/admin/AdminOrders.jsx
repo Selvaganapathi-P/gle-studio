@@ -125,7 +125,13 @@ export default function AdminOrders() {
                   </td>
                   <td style={{ fontSize: '0.82rem' }}>{o.clientPhone}</td>
                   <td style={{ fontSize: '0.82rem', maxWidth: 160 }}>{o.service}</td>
-                  <td style={{ fontSize: '0.82rem', whiteSpace: 'nowrap' }}>{o.preferredDate || '—'}</td>
+                  {/* <td style={{ fontSize: '0.82rem', whiteSpace: 'nowrap' }}>{o.preferredDate || '—'}</td> */}
+                  <td style={{ fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
+  <div>{o.preferredDate || '—'}</div>
+  <div style={{ fontSize: '0.72rem', color: 'var(--text3)', marginTop: '0.2rem' }}>
+    Ordered: {new Date(o.createdAt).toLocaleDateString('en-IN')}
+  </div>
+</td>
                   <td style={{ fontWeight: 600 }}>
                     {o.amount > 0 ? `₹${o.amount.toLocaleString('en-IN')}` : '—'}
                   </td>
