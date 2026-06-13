@@ -2873,12 +2873,11 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
    All 20 issues fixed — GLE Studio
    ============================================================ */
 
-/* ── 1. OVERFLOW — prevent horizontal scroll everywhere ── */
-html, body { overflow-x: hidden !important; max-width: 100vw; }
-#root { overflow-x: hidden; }
-.page-wrapper, .admin-layout, .admin-main,
-.container, .container-sm,
-.section-alt, .section-dark { overflow-x: hidden; }
+/* ── 1. OVERFLOW — prevent horizontal scroll on mobile only ── */
+@media (max-width: 768px) {
+  html, body { overflow-x: hidden; }
+  .container, .container-sm { overflow-x: hidden; }
+}
 
 /* ── 2. TABLE — min-width forces horizontal scroll ── */
 .table-wrap {
@@ -2889,10 +2888,8 @@ html, body { overflow-x: hidden !important; max-width: 100vw; }
 table { min-width: 560px; }
 .admin-main table { min-width: 620px; }
 
-/* ── 3. RECHARTS — never overflow chart box ── */
-.chart-box { overflow: hidden; width: 100%; min-width: 0; }
-.recharts-responsive-container { width: 100% !important; min-height: 250px; }
-.recharts-wrapper { max-width: 100%; }
+/* ── 3. RECHARTS — fix container sizing without breaking measurement ── */
+.chart-box { width: 100%; min-width: 0; }
 
 /* ── 4. MODAL — bottom-sheet on mobile, no padding overflow ── */
 @media (max-width: 520px) {
