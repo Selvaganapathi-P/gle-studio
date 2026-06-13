@@ -2890,9 +2890,9 @@ table { min-width: 560px; }
 .admin-main table { min-width: 620px; }
 
 /* ── 3. RECHARTS — never overflow chart box ── */
-.chart-box { overflow: hidden; width: 100%; }
-.recharts-wrapper,
-.recharts-surface { max-width: 100% !important; }
+.chart-box { overflow: hidden; width: 100%; min-width: 0; }
+.recharts-responsive-container { width: 100% !important; min-height: 250px; }
+.recharts-wrapper { max-width: 100%; }
 
 /* ── 4. MODAL — bottom-sheet on mobile, no padding overflow ── */
 @media (max-width: 520px) {
@@ -3101,7 +3101,7 @@ table { min-width: 560px; }
 /* Analytics charts stack on mobile */
 @media (max-width: 768px) {
   .chart-box { padding: 1.1rem !important; }
-  .recharts-responsive-container { min-height: 180px; }
+  .recharts-responsive-container { min-height: 200px; }
 }
 
 /* Admin settings form full width */
