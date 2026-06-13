@@ -165,11 +165,10 @@ export function AdminGallery() {
 
       {/* ── Filter ── */}
       <div className="gallery-filters">
-        {['', ...categories].map(c => (
-          <button key={c} className={`filter-btn${cat === c ? ' active' : ''}`} onClick={() => setCat(c)}>{c || 'All'}</button>
-        ))}
-      </div>
-
+  {['', 'Wedding', 'Portrait', 'Events', 'Commercial'].map(c => (
+    <button key={c} className={`filter-btn${cat === c ? ' active' : ''}`} onClick={() => setCat(c)}>{c || 'All'}</button>
+  ))}
+</div>
       {/* ── Photos Grid ── */}
       {loading ? <div className="spinner-wrap"><div className="spinner" /></div> : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(170px,1fr))', gap: '0.75rem', marginTop: '1rem' }}>
