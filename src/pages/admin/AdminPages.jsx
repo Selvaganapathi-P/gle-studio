@@ -1,5 +1,3 @@
-
-// cat > /mnt/user-data/outputs/AdminPages.jsx << 'JSXEOF'
 // ============================================================
 // AdminPages.jsx — All admin sub-pages in one file
 // ============================================================
@@ -62,6 +60,22 @@ export function AdminGallery() {
     api.get(`/gallery${q}`).then(r => setPhotos(r.data)).catch(() => {}).finally(() => setLoading(false));
   };
   useEffect(() => { load(); }, [cat]);
+
+  // ── Sync categories with what's actually in the database ──
+  // Ensures custom categories (e.g. "Batman") show up here even if
+  // localStorage doesn't have them (different browser/session/cleared storage).
+  useEffect(() => {
+    api.get('/gallery')
+      .then(r => {
+        const dbCats = [...new Set(r.data.map(p => p.category).filter(Boolean))];
+        const merged = [...new Set([...categories, ...dbCats])];
+        if (merged.length !== categories.length || !merged.every(c => categories.includes(c))) {
+          saveCategories(merged);
+        }
+      })
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const upload = async (e) => {
     e.preventDefault();
@@ -165,10 +179,11 @@ export function AdminGallery() {
 
       {/* ── Filter ── */}
       <div className="gallery-filters">
-  {['', 'Wedding', 'Portrait', 'Events', 'Commercial'].map(c => (
-    <button key={c} className={`filter-btn${cat === c ? ' active' : ''}`} onClick={() => setCat(c)}>{c || 'All'}</button>
-  ))}
-</div>
+        {['', ...categories].map(c => (
+          <button key={c} className={`filter-btn${cat === c ? ' active' : ''}`} onClick={() => setCat(c)}>{c || 'All'}</button>
+        ))}
+      </div>
+
       {/* ── Photos Grid ── */}
       {loading ? <div className="spinner-wrap"><div className="spinner" /></div> : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(170px,1fr))', gap: '0.75rem', marginTop: '1rem' }}>
@@ -208,6 +223,8 @@ export function AdminFrames() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing]   = useState(null);
   const [form, setForm]         = useState({ size: '', material: 'Matte', price: '', offerPercent: '', offerLabel: '' });
+  const [file, setFile]         = useState(null);
+  const [preview, setPreview]   = useState(null);
 
   // Custom materials stored in localStorage
   const [materials, setMaterials] = useState(() => {
@@ -245,32 +262,40 @@ export function AdminFrames() {
     api.get('/frames').then(r => setFrames(r.data)).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
-  const openAdd  = () => { setEditing(null); setForm({ size: '', material: materials[0] || 'Matte', price: '', offerPercent: '', offerLabel: '' }); setShowForm(true); };
-  const openEdit = f  => { setEditing(f._id); setForm({ size: f.size, material: f.material, price: f.price, offerPercent: f.offerPercent || '', offerLabel: f.offerLabel || '' }); setShowForm(true); };
+  const openAdd  = () => { setEditing(null); setForm({ size: '', material: materials[0] || 'Matte', price: '', offerPercent: '', offerLabel: '' }); setFile(null); setPreview(null); setShowForm(true); };
+  const openEdit = f  => { setEditing(f._id); setForm({ size: f.size, material: f.material, price: f.price, offerPercent: f.offerPercent || '', offerLabel: f.offerLabel || '' }); setFile(null); setPreview(f.imageUrl || null); setShowForm(true); };
+
+  const handleFileChange = e => {
+    const f = e.target.files[0];
+    setFile(f || null);
+    setPreview(f ? URL.createObjectURL(f) : (editing ? preview : null));
+  };
 
   const save = async () => {
     if (!form.size || !form.price) { toast.error('Fill in size and price'); return; }
     if (form.offerPercent && (Number(form.offerPercent) < 1 || Number(form.offerPercent) > 90)) {
       toast.error('Offer must be between 1% and 90%'); return;
     }
-    const payload = {
-      size: form.size,
-      material: form.material,
-      price: Number(form.price),
-      offerPercent: form.offerPercent ? Number(form.offerPercent) : 0,
-      offerLabel: form.offerLabel || '',
-    };
+    const fd = new FormData();
+    fd.append('size', form.size);
+    fd.append('material', form.material);
+    fd.append('price', form.price);
+    fd.append('offerPercent', form.offerPercent ? Number(form.offerPercent) : 0);
+    fd.append('offerLabel', form.offerLabel || '');
+    if (file) fd.append('frame', file);
     try {
       if (editing) {
-        const res = await api.put(`/frames/${editing}`, payload);
+        const res = await api.put(`/frames/${editing}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
         setFrames(prev => prev.map(f => f._id === editing ? res.data : f));
         toast.success('Frame updated');
       } else {
-        const res = await api.post('/frames', payload);
+        const res = await api.post('/frames', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
         setFrames(prev => [res.data, ...prev]);
         toast.success('Frame added');
       }
       setShowForm(false);
+      setFile(null);
+      setPreview(null);
     } catch { toast.error('Save failed'); }
   };
 
@@ -351,6 +376,7 @@ export function AdminFrames() {
           <table>
             <thead>
               <tr>
+                <th>Image</th>
                 <th>Size</th>
                 <th>Material</th>
                 <th>Original Price</th>
@@ -364,6 +390,13 @@ export function AdminFrames() {
                 const finalPrice = discountedPrice(f.price, f.offerPercent);
                 return (
                   <tr key={f._id}>
+                    <td>
+                      {f.imageUrl ? (
+                        <img src={f.imageUrl} alt={f.size} style={{ width: 48, height: 48, objectFit: 'cover', borderRadius: 'var(--radius-sm)', border: '1px solid var(--bg3)' }} />
+                      ) : (
+                        <div style={{ width: 48, height: 48, borderRadius: 'var(--radius-sm)', background: 'var(--bg2)', border: '1px solid var(--bg3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', color: 'var(--text3)' }}>🖼️</div>
+                      )}
+                    </td>
                     <td style={{ fontWeight: 600 }}>{f.size}"</td>
                     <td><span className="badge badge-gold">{f.material}</span></td>
                     <td style={{ color: finalPrice ? 'var(--text3)' : 'var(--gold)', fontWeight: 700, textDecoration: finalPrice ? 'line-through' : 'none', fontSize: finalPrice ? '0.82rem' : '0.88rem' }}>
@@ -401,7 +434,7 @@ export function AdminFrames() {
                 );
               })}
               {frames.length === 0 && (
-                <tr><td colSpan={6} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text3)' }}>No frames yet. Click "+ Add Frame"</td></tr>
+                <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: 'var(--text3)' }}>No frames yet. Click "+ Add Frame"</td></tr>
               )}
             </tbody>
           </table>
@@ -433,6 +466,18 @@ export function AdminFrames() {
             <div className="form-group">
               <label className="form-label">Original Price (₹) *</label>
               <input className="form-control" type="number" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} placeholder="e.g. 499" />
+            </div>
+
+            {/* Frame Image */}
+            <div className="form-group">
+              <label className="form-label">Frame Photo (optional)</label>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                {preview && (
+                  <img src={preview} alt="preview" style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 'var(--radius-sm)', border: '1px solid var(--bg3)', flexShrink: 0 }} />
+                )}
+                <input type="file" className="form-control" accept="image/*" style={{ padding: '0.4rem' }} onChange={handleFileChange} />
+              </div>
+              <p className="form-hint">Shown to customers on the Frames page. JPEG, PNG, WebP — max 10MB.</p>
             </div>
 
             {/* Offer Section */}
@@ -864,5 +909,3 @@ export function AdminSettings() {
 }
 
 export default AdminGallery;
-// JSXEOF
-// echo "✅ Done: $(wc -l < /mnt/user-data/outputs/AdminPages.jsx) lines"

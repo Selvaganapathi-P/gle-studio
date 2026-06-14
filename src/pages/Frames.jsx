@@ -5,18 +5,18 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 
 const FALLBACK_FRAMES = [
-  { _id:'1',  size:'4×6',   material:'Matte',   price:299,  offerPercent:0, offerLabel:'' },
-  { _id:'2',  size:'4×6',   material:'Glossy',  price:449,  offerPercent:0, offerLabel:'' },
-  { _id:'3',  size:'5×7',   material:'Matte',   price:499,  offerPercent:0, offerLabel:'' },
-  { _id:'4',  size:'5×7',   material:'Glossy',  price:649,  offerPercent:0, offerLabel:'' },
-  { _id:'5',  size:'5×7',   material:'Canvas',  price:899,  offerPercent:0, offerLabel:'' },
-  { _id:'6',  size:'8×10',  material:'Matte',   price:799,  offerPercent:0, offerLabel:'' },
-  { _id:'7',  size:'8×10',  material:'Canvas',  price:1299, offerPercent:0, offerLabel:'' },
-  { _id:'8',  size:'8×10',  material:'Acrylic', price:1799, offerPercent:0, offerLabel:'' },
-  { _id:'9',  size:'12×16', material:'Canvas',  price:2199, offerPercent:0, offerLabel:'' },
-  { _id:'10', size:'12×16', material:'Acrylic', price:2999, offerPercent:0, offerLabel:'' },
-  { _id:'11', size:'16×20', material:'Canvas',  price:3499, offerPercent:0, offerLabel:'' },
-  { _id:'12', size:'24×36', material:'Canvas',  price:5999, offerPercent:0, offerLabel:'' },
+  { _id:'1',  size:'4×6',   material:'Matte',   price:299,  offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'2',  size:'4×6',   material:'Glossy',  price:449,  offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'3',  size:'5×7',   material:'Matte',   price:499,  offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'4',  size:'5×7',   material:'Glossy',  price:649,  offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'5',  size:'5×7',   material:'Canvas',  price:899,  offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'6',  size:'8×10',  material:'Matte',   price:799,  offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'7',  size:'8×10',  material:'Canvas',  price:1299, offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'8',  size:'8×10',  material:'Acrylic', price:1799, offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'9',  size:'12×16', material:'Canvas',  price:2199, offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'10', size:'12×16', material:'Acrylic', price:2999, offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'11', size:'16×20', material:'Canvas',  price:3499, offerPercent:0, offerLabel:'', imageUrl:'' },
+  { _id:'12', size:'24×36', material:'Canvas',  price:5999, offerPercent:0, offerLabel:'', imageUrl:'' },
 ];
 
 export default function Frames() {
@@ -135,8 +135,31 @@ export default function Frames() {
                       className={`frame-option${selectedFrame?._id === f._id ? ' selected' : ''}`}
                       onClick={() => setSelectedFrame(f)}
                     >
-                      {/* Offer badge */}
-                      {hasOffer && (
+                      {/* Frame photo */}
+                      {f.imageUrl && (
+                        <div style={{ position: 'relative', marginBottom: '0.5rem' }}>
+                          <img
+                            src={f.imageUrl}
+                            alt={`${f.size} ${f.material} frame`}
+                            style={{ width: '100%', height: 90, objectFit: 'cover', borderRadius: 'var(--radius-sm)', display: 'block' }}
+                          />
+                          {/* Offer badge over the image */}
+                          {hasOffer && (
+                            <div style={{
+                              position: 'absolute', top: 6, left: 6,
+                              fontSize: '0.62rem', fontWeight: 800,
+                              background: 'var(--danger-bg)', color: 'var(--danger)',
+                              borderRadius: '40px', padding: '0.15rem 0.55rem',
+                              border: '1px solid #f5c6c6', letterSpacing: '0.04em',
+                            }}>
+                              {f.offerPercent}% OFF
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Offer badge (no image case) */}
+                      {!f.imageUrl && hasOffer && (
                         <div style={{
                           fontSize: '0.62rem', fontWeight: 800,
                           background: 'var(--danger-bg)', color: 'var(--danger)',
@@ -195,6 +218,15 @@ export default function Frames() {
             <div>
               <div className="form-section">
                 <h3 style={{ fontFamily: 'var(--font-serif)', marginBottom: '1.25rem' }}>Your Order Summary</h3>
+
+                {/* Selected frame preview */}
+                {selectedFrame?.imageUrl && (
+                  <img
+                    src={selectedFrame.imageUrl}
+                    alt={`${selectedFrame.size} ${selectedFrame.material} frame`}
+                    style={{ width: '100%', height: 160, objectFit: 'cover', borderRadius: 'var(--radius)', marginBottom: '1rem' }}
+                  />
+                )}
 
                 <div className="frame-summary">
                   <div className="frame-summary-row">
