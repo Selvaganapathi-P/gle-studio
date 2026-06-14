@@ -1520,11 +1520,11 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
 .modal {
   background: var(--white); border-radius: var(--radius-2xl);
   padding: 2.5rem; width: 100%; max-width: 480px;
-  max-height: 90vh; overflow-y: auto;
+  max-height: 90vh; overflow-y: auto; overflow-x: hidden;
   box-shadow: 0 40px 100px rgba(0,0,0,0.25), 0 0 0 1px rgba(184,146,42,0.12);
   animation: bounceIn 0.38s cubic-bezier(0.22,1,0.36,1);
   border: 1px solid rgba(184,146,42,0.1);
-  position: relative; overflow: hidden;
+  position: relative;
 }
 .modal::before {
   content: '';
