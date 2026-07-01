@@ -5621,6 +5621,42 @@ tbody tr:hover td { background: #f8fafc !important; }
 }
 
 /* ============================================================
+   SERVICES PAGE — MOBILE FIX
+   Inline gridTemplateColumns on .service-pkg-card never collapses;
+   force single-column stack with image always on top.
+   ============================================================ */
+.service-pkg-card {
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+@media (max-width: 768px) {
+  .service-pkg-card {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: unset !important;
+  }
+  /* Image always renders first (top) regardless of JSX order */
+  .service-pkg-card img {
+    order: -1 !important;
+    width: 100% !important;
+    height: 220px !important;
+    object-fit: cover !important;
+  }
+  /* Content block below image */
+  .service-pkg-card > div {
+    order: 0 !important;
+    padding: 1.5rem !important;
+  }
+}
+@media (max-width: 480px) {
+  .service-pkg-card img {
+    height: 185px !important;
+  }
+  .service-pkg-card > div {
+    padding: 1.25rem !important;
+  }
+}
+
+/* ============================================================
    60% OFFER BANNER — between Hero and Services
    ============================================================ */
 
