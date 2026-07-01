@@ -4837,19 +4837,18 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold) !important; }
 }
 .modal-content h2, .modal-content h3, .modal-content h4 { color: var(--text) !important; }
 
-/* ── Admin sidebar ── */
-.admin-sidebar {
-  background: var(--dark) !important;
-  border-right: 1px solid rgba(255,255,255,0.08) !important;
-}
-
 /* ── Stat cards (dashboard) ── */
 .stat-card {
-  background: rgba(255,255,255,0.88) !important;
-  border-color: rgba(212,168,83,0.10) !important;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06) !important;
+  background: #ffffff !important;
+  border-color: #e8ecf0 !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.04) !important;
 }
-.stat-value { color: var(--text) !important; }
+.stat-card:hover {
+  box-shadow: 0 8px 28px rgba(0,0,0,0.08), 0 0 0 1px rgba(200,155,60,0.18) !important;
+  border-color: rgba(200,155,60,0.22) !important;
+}
+.stat-value { color: #1e293b !important; }
+.stat-label { color: #94a3b8 !important; }
 
 /* ── Spinner: indigo border base ── */
 .spinner {
@@ -5386,4 +5385,237 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold) !important; }
 .btn-primary:hover {
   box-shadow: 0 8px 40px rgba(212,168,83,0.55), 0 0 0 1px rgba(212,168,83,0.4) !important;
   filter: brightness(1.08) !important;
+}
+
+/* ============================================================
+   ORIX CREATIVE × GLE STUDIO — ADMIN PANEL LIGHT THEME
+   Reference: dribbble.com/shots/21942946-Dashboard-Design
+   Clean white sidebar · soft #f1f5f9 canvas · gold accent
+   ============================================================ */
+
+/* ── 1. Layout canvas ── */
+.admin-layout {
+  background: #f1f5f9 !important;
+}
+
+/* ── 2. Sidebar: clean white card, Orix-style ── */
+.admin-sidebar {
+  background: #ffffff !important;
+  border-right: 1px solid #e5e7eb !important;
+  box-shadow: 4px 0 20px rgba(15,23,42,0.06) !important;
+}
+.admin-sidebar:hover::-webkit-scrollbar-thumb {
+  background: rgba(100,116,139,0.22) !important;
+}
+
+/* ── 3. Logo area ── */
+.admin-sidebar-logo {
+  border-bottom: 1px solid #f1f5f9 !important;
+  background: #ffffff !important;
+}
+.logo-name {
+  background: linear-gradient(135deg, #92611a 0%, #c89b3c 60%, #d4a853 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  animation: none !important;
+}
+.logo-role {
+  color: #94a3b8 !important;
+}
+
+/* ── 4. Section labels ── */
+.sidebar-section-label {
+  color: #b0bec5 !important;
+  font-size: 0.60rem !important;
+  letter-spacing: 0.20em !important;
+}
+
+/* ── 5. Nav links — dark text on white ── */
+.sidebar-link {
+  color: #64748b !important;
+  border-left: 3px solid transparent !important;
+}
+.sidebar-link::before {
+  background: linear-gradient(90deg, rgba(200,155,60,0.07), transparent) !important;
+}
+.sidebar-link:hover {
+  color: #1e293b !important;
+  border-left-color: rgba(200,155,60,0.45) !important;
+  background: rgba(200,155,60,0.05) !important;
+}
+.sidebar-link:hover::before { transform: translateX(0) !important; }
+.sidebar-link.active {
+  color: #92611a !important;
+  border-left-color: #c89b3c !important;
+  background: rgba(200,155,60,0.10) !important;
+  font-weight: 600 !important;
+}
+.sidebar-link.active::before {
+  background: linear-gradient(90deg, rgba(200,155,60,0.14), transparent) !important;
+  transform: translateX(0) !important;
+}
+.sidebar-link-icon { color: inherit !important; }
+
+/* ── 6. Sidebar footer ── */
+.sidebar-footer {
+  border-top: 1px solid #f1f5f9 !important;
+  background: #ffffff !important;
+}
+
+/* ── 7. Main content area ── */
+.admin-main {
+  background: #f1f5f9 !important;
+}
+
+/* ── 8. Page titles ── */
+.admin-page-title {
+  color: #1e293b !important;
+  font-size: 1.65rem !important;
+}
+.admin-page-sub { color: #64748b !important; }
+
+/* ── 9. Stat cards: crisp white, Orix shadow ── */
+.stats-grid { background: transparent !important; }
+.stat-card {
+  background: #ffffff !important;
+  border: 1px solid #e8ecf0 !important;
+  box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 4px 12px rgba(15,23,42,0.04) !important;
+  border-radius: 16px !important;
+}
+.stat-card:hover {
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 28px rgba(15,23,42,0.09), 0 0 0 1.5px rgba(200,155,60,0.20) !important;
+  border-color: rgba(200,155,60,0.20) !important;
+}
+.stat-value { color: #1e293b !important; }
+.stat-label { color: #94a3b8 !important; }
+
+/* ── 10. Tables: white with clean borders ── */
+.table-wrap {
+  background: #ffffff !important;
+  border: 1px solid #e8ecf0 !important;
+  box-shadow: 0 1px 4px rgba(15,23,42,0.05) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+}
+thead th {
+  background: #f8fafc !important;
+  color: #64748b !important;
+  border-bottom: 1px solid #e8ecf0 !important;
+}
+tbody td {
+  color: #374151 !important;
+  border-bottom: 1px solid #f4f6f8 !important;
+}
+tbody tr:last-child td { border-bottom: none !important; }
+tbody tr:hover td { background: #f8fafc !important; }
+
+/* ── 11. Chart boxes ── */
+.chart-box {
+  background: #ffffff !important;
+  border: 1px solid #e8ecf0 !important;
+  box-shadow: 0 1px 4px rgba(15,23,42,0.05) !important;
+  border-radius: 16px !important;
+}
+.chart-box h4 { color: #1e293b !important; }
+
+/* ── 12. Admin cards (orders, clients, etc.) ── */
+.order-card, .booking-card, .dashboard-card, .glass-card {
+  background: #ffffff !important;
+  border: 1px solid #e8ecf0 !important;
+  box-shadow: 0 1px 4px rgba(15,23,42,0.05) !important;
+}
+.order-card:hover, .booking-card:hover, .dashboard-card:hover {
+  border-color: rgba(200,155,60,0.22) !important;
+  box-shadow: 0 8px 24px rgba(15,23,42,0.08) !important;
+}
+
+/* ── 13. Admin service cards ── */
+.service-card {
+  background: #ffffff !important;
+  border: 1px solid #e8ecf0 !important;
+  box-shadow: 0 1px 4px rgba(15,23,42,0.05) !important;
+  border-radius: 14px !important;
+}
+.service-card:hover {
+  border-color: rgba(200,155,60,0.25) !important;
+  box-shadow: 0 8px 24px rgba(15,23,42,0.08) !important;
+}
+
+/* ── 14. Mobile admin bar: clean white ── */
+.admin-mobile-bar {
+  background: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb !important;
+  box-shadow: 0 2px 8px rgba(15,23,42,0.06) !important;
+}
+.admin-mobile-toggle {
+  background: rgba(200,155,60,0.10) !important;
+  border: 1px solid rgba(200,155,60,0.28) !important;
+  color: #92611a !important;
+}
+.admin-mobile-toggle:hover {
+  background: rgba(200,155,60,0.20) !important;
+}
+
+/* ── 15. Modals on admin ── */
+.modal-backdrop { background: rgba(15,23,42,0.55) !important; backdrop-filter: blur(8px) !important; }
+.modal, .modal-content {
+  background: #ffffff !important;
+  border: 1px solid #e8ecf0 !important;
+  box-shadow: 0 24px 80px rgba(15,23,42,0.14) !important;
+}
+.modal-content h2, .modal-content h3, .modal-content h4 { color: #1e293b !important; }
+
+/* ── 16. Forms inside admin ── */
+.admin-main .form-control, .admin-main input, .admin-main select, .admin-main textarea {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #1e293b !important;
+}
+.admin-main .form-control:focus, .admin-main input:focus,
+.admin-main select:focus, .admin-main textarea:focus {
+  border-color: #c89b3c !important;
+  box-shadow: 0 0 0 3px rgba(200,155,60,0.12) !important;
+  background: #ffffff !important;
+}
+.admin-main .form-label { color: #374151 !important; }
+
+/* ── 17. Badge / status chips ── */
+.badge-success { background: #dcfce7 !important; color: #166534 !important; border: 1px solid #bbf7d0 !important; }
+.badge-warning { background: #fef9c3 !important; color: #854d0e !important; border: 1px solid #fef08a !important; }
+.badge-danger  { background: #fee2e2 !important; color: #991b1b !important; border: 1px solid #fecaca !important; }
+.badge-info    { background: #dbeafe !important; color: #1e40af !important; border: 1px solid #bfdbfe !important; }
+
+/* ── 18. Empty states ── */
+.empty-state {
+  background: #f8fafc !important;
+  border: 1.5px dashed #e2e8f0 !important;
+  border-radius: 16px !important;
+}
+.empty-state h3 { color: #1e293b !important; }
+.empty-state p  { color: #64748b !important; }
+
+/* ── 19. Analytics page specific ── */
+.analytics-charts-grid .chart-box { margin-bottom: 0 !important; }
+
+/* ── 20. Button overrides inside admin ── */
+.admin-main .btn-outline {
+  border-color: #e2e8f0 !important;
+  color: #374151 !important;
+  background: #ffffff !important;
+}
+.admin-main .btn-outline:hover {
+  border-color: #c89b3c !important;
+  color: #92611a !important;
+  background: rgba(200,155,60,0.06) !important;
+}
+
+/* ── Admin mobile responsive ── */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    background: #ffffff !important;
+    border-right: none !important;
+    border-bottom: 1px solid #e5e7eb !important;
+  }
 }
