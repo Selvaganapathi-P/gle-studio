@@ -6,124 +6,135 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Outfit:wght@200;300;400;500;600;700&display=swap');
 
 /* ============================================================
-   ROOT VARIABLES
+   ROOT VARIABLES — OBSIDIAN NOIR × GOLD
+   Ultra-dark luxury with live aurora, gold glow & violet sparks
    ============================================================ */
 :root {
-  /* ── Backgrounds — clean airy stage, lets photography stay the focus ── */
-  --bg:           #fdfcf8;
-  --bg2:          #f6f1e7;
-  --bg3:          #ede5cf;
+  /* ── OBSIDIAN — deepest dark backgrounds ── */
+  --bg:  #08090e;
+  --bg2: #0d0f1a;
+  --bg3: #141826;
 
-  /* ── Structural darks — now deep emerald green (was near-black) ──
-     Every component using var(--dark/--dark2/--dark3/--dark4) for
-     navbar, footer, dark buttons, and heading text automatically
-     becomes emerald through this single repoint. ── */
-  --dark:         #0e251c;
-  --dark2:        #14352a;
-  --dark3:        #1c4733;
-  --dark4:        #2a5c41;
+  /* ── Structural darks (true obsidian, not emerald) ── */
+  --dark:  #08090e;
+  --dark2: #0d0f1a;
+  --dark3: #141826;
+  --dark4: #1c2138;
 
-  /* ── True emerald ramp — for cases that want green specifically
-     rather than "the structural dark" semantically ── */
+  /* ── Violet — electric luxury accent (new secondary) ── */
+  --violet-deep: #3b0a8a;
+  --violet:      #6d28d9;
+  --violet2:     #7c3aed;
+  --violet3:     #8b5cf6;
+  --violet4:     #a78bfa;
+  --violet-pale: rgba(124,58,237,0.12);
+
+  /* ── Cyan — electric highlight ── */
+  --cyan:       #06b6d4;
+  --cyan2:      #22d3ee;
+  --cyan-pale:  rgba(6,182,212,0.10);
+
+  /* ── Gold — primary luxury accent, more vivid on dark ── */
+  --gold-deep:  #9c7520;
+  --gold:       #e8b84b;
+  --gold2:      #f5cf72;
+  --gold3:      #fae19a;
+  --gold4:      #fef3d0;
+  --gold-pale:  rgba(232,184,75,0.12);
+
+  /* ── Bronze ── */
+  --bronze:      #c4884a;
+  --bronze-deep: #8a5a25;
+  --bronze-pale: rgba(196,136,74,0.12);
+
+  /* ── Emerald (legacy compatibility) ── */
   --emerald-deep: #0a1f17;
   --emerald:      #1a5c42;
   --emerald2:     #2f7a52;
   --emerald3:     #4a9a6c;
-  --emerald-pale: #e3eee2;
+  --emerald-pale: rgba(26,92,66,0.12);
 
-  /* ── Gold spectrum — the single luxury accent, used sparingly ── */
-  --gold-deep:    #7a5810;
-  --gold:         #b8862a;
-  --gold2:        #d9a23f;
-  --gold3:        #f0c468;
-  --gold4:        #fbe6ad;
-  --gold-pale:    #fdf2dc;
+  /* ── Text — warm off-white on dark ── */
+  --text:  #eae6e1;
+  --text2: #7e8799;
+  --text3: #444d60;
 
-  /* ── Bronze — secondary warm accent for variety in badges ── */
-  --bronze:       #a8743a;
-  --bronze-deep:  #7a4f1f;
-  --bronze-pale:  #f3e4d2;
+  --white: #ffffff;
 
-  /* ── Text — warmed toward the emerald/ivory pairing ── */
-  --text:         #14241c;
-  --text2:        #4a4138;
-  --text3:        #7d7468;
-
-  --white:        #ffffff;
-
-  /* ── Status colors ── */
-  --success:      #2d7a4f;
-  --success-bg:   #e8f5ee;
-  --danger:       #b83232;
-  --danger-bg:    #fdeaea;
-  --warning:      #b8722a;
-  --warning-bg:   #fdf0e0;
-  --info:         #2a5eb8;
-  --info-bg:      #e8effe;
+  /* ── Status (vivid on dark) ── */
+  --success:    #34d399;
+  --success-bg: rgba(52,211,153,0.12);
+  --danger:     #f87171;
+  --danger-bg:  rgba(248,113,113,0.12);
+  --warning:    #fbbf24;
+  --warning-bg: rgba(251,191,36,0.12);
+  --info:       #60a5fa;
+  --info-bg:    rgba(96,165,250,0.12);
 
   /* ── Radius scale ── */
-  --radius-sm:    6px;
-  --radius:       10px;
-  --radius-lg:    16px;
-  --radius-xl:    24px;
-  --radius-2xl:   32px;
-  --radius-full:  999px;
+  --radius-sm:  6px;
+  --radius:     12px;
+  --radius-lg:  20px;
+  --radius-xl:  28px;
+  --radius-2xl: 40px;
+  --radius-full: 999px;
 
   /* ── Spacing scale ── */
-  --space-1:  0.25rem;
-  --space-2:  0.5rem;
-  --space-3:  0.75rem;
-  --space-4:  1rem;
-  --space-5:  1.5rem;
-  --space-6:  2rem;
-  --space-7:  3rem;
-  --space-8:  4rem;
-  --space-9:  6rem;
-  --space-10: 8rem;
+  --space-1:  0.25rem; --space-2:  0.5rem;
+  --space-3:  0.75rem; --space-4:  1rem;
+  --space-5:  1.5rem;  --space-6:  2rem;
+  --space-7:  3rem;    --space-8:  4rem;
+  --space-9:  6rem;    --space-10: 8rem;
 
-  /* ── Shadows — graduated depth scale, now emerald-tinted ── */
-  --shadow-xs:    0 1px 4px rgba(14,37,28,0.06);
-  --shadow-sm:    0 2px 8px rgba(14,37,28,0.08);
-  --shadow:       0 2px 12px rgba(14,37,28,0.08);
-  --shadow-md:    0 4px 24px rgba(14,37,28,0.12);
-  --shadow-lg:    0 8px 40px rgba(14,37,28,0.18);
-  --shadow-xl:    0 20px 80px rgba(14,37,28,0.25);
+  /* ── Shadows — deep darkness + glow ── */
+  --shadow-xs:  0 1px 4px rgba(0,0,0,0.55);
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.65);
+  --shadow:     0 4px 16px rgba(0,0,0,0.65);
+  --shadow-md:  0 8px 32px rgba(0,0,0,0.72);
+  --shadow-lg:  0 16px 60px rgba(0,0,0,0.78);
+  --shadow-xl:  0 30px 100px rgba(0,0,0,0.88);
 
-  /* ── Gold glow shadows — the luxury-accent glow, unchanged ── */
-  --shadow-gold-sm:  0 4px 20px rgba(184,134,42,0.25);
-  --shadow-gold:     0 8px 40px rgba(184,134,42,0.35);
-  --shadow-gold-lg:  0 16px 60px rgba(184,134,42,0.45);
-  --shadow-gold2:    0 20px 60px rgba(184,134,42,0.45);
+  /* ── Gold glow shadows — vivid pop on dark ── */
+  --shadow-gold-sm: 0 4px 20px rgba(232,184,75,0.35);
+  --shadow-gold:    0 8px 40px rgba(232,184,75,0.45);
+  --shadow-gold-lg: 0 16px 60px rgba(232,184,75,0.55);
+  --shadow-gold2:   0 20px 60px rgba(232,184,75,0.50);
 
-  /* ── Emerald glow shadows — for green structural elements ── */
+  /* ── Violet glow shadows ── */
+  --shadow-violet-sm: 0 4px 20px rgba(124,58,237,0.40);
+  --shadow-violet:    0 8px 40px rgba(124,58,237,0.50);
+
+  /* ── Emerald glow (legacy) ── */
   --shadow-emerald-sm: 0 4px 20px rgba(26,92,66,0.25);
   --shadow-emerald:    0 8px 40px rgba(26,92,66,0.35);
 
   /* ── Glow text shadows ── */
-  --glow-gold-soft:   0 0 20px rgba(240,196,104,0.4);
-  --glow-gold-strong: 0 0 40px rgba(240,196,104,0.8), 0 0 80px rgba(240,196,104,0.3);
+  --glow-gold-soft:   0 0 20px rgba(232,184,75,0.55);
+  --glow-gold-strong: 0 0 40px rgba(232,184,75,0.9), 0 0 80px rgba(232,184,75,0.4);
 
-  /* ── Glass tokens ── */
-  --glass-bg:          rgba(253, 252, 248, 0.78);
-  --glass-bg-strong:   rgba(253, 252, 248, 0.94);
-  --glass-bg-dark:     rgba(10, 31, 23, 0.78);
-  --glass-border:      rgba(255, 255, 255, 0.55);
-  --glass-border-gold: rgba(184, 134, 42, 0.22);
+  /* ── Glass tokens — dark glass ── */
+  --glass-bg:          rgba(255,255,255,0.04);
+  --glass-bg-strong:   rgba(255,255,255,0.08);
+  --glass-bg-dark:     rgba(0,0,0,0.65);
+  --glass-border:      rgba(255,255,255,0.07);
+  --glass-border-gold: rgba(232,184,75,0.30);
 
   /* ── Gradient tokens ── */
-  --gradient-gold:   linear-gradient(135deg, var(--gold-deep) 0%, var(--gold) 35%, var(--gold2) 65%, var(--gold3) 100%);
-  --gradient-gold-soft: linear-gradient(135deg, var(--gold-pale) 0%, var(--bg2) 100%);
-  --gradient-dark:   linear-gradient(135deg, var(--dark) 0%, var(--dark2) 55%, var(--dark3) 100%);
-  --gradient-emerald: linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald) 50%, var(--emerald2) 100%);
-  --gradient-mesh:   radial-gradient(ellipse 80% 60% at 20% -10%, rgba(184,134,42,0.14) 0%, transparent 55%),
-                     radial-gradient(ellipse 60% 50% at 100% 110%, rgba(26,92,66,0.12) 0%, transparent 50%),
-                     radial-gradient(ellipse 70% 70% at 50% 50%, rgba(14,37,28,0.04) 0%, transparent 70%);
+  --gradient-gold:      linear-gradient(135deg, #9c7520 0%, #e8b84b 35%, #f5cf72 65%, #fae19a 100%);
+  --gradient-gold-soft: linear-gradient(135deg, rgba(232,184,75,0.15) 0%, rgba(232,184,75,0.03) 100%);
+  --gradient-dark:      linear-gradient(135deg, #08090e 0%, #0d0f1a 55%, #141826 100%);
+  --gradient-violet:    linear-gradient(135deg, #3b0a8a 0%, #6d28d9 50%, #8b5cf6 100%);
+  --gradient-emerald:   linear-gradient(135deg, var(--emerald-deep) 0%, var(--emerald) 50%, var(--emerald2) 100%);
+  --gradient-mesh:
+    radial-gradient(ellipse 80% 60% at 20% -10%, rgba(124,58,237,0.20) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 50% at 100% 110%, rgba(232,184,75,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 70% at 50% 50%, rgba(6,182,212,0.06) 0%, transparent 70%);
   --gradient-bronze: linear-gradient(135deg, var(--bronze-deep) 0%, var(--bronze) 50%, var(--gold3) 100%);
 
   /* ── Transitions ── */
-  --transition:        0.28s cubic-bezier(0.22, 1, 0.36, 1);
-  --transition-slow:   0.5s  cubic-bezier(0.22, 1, 0.36, 1);
-  --transition-spring: 0.6s  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition:        0.28s cubic-bezier(0.22,1,0.36,1);
+  --transition-slow:   0.5s  cubic-bezier(0.22,1,0.36,1);
+  --transition-spring: 0.6s  cubic-bezier(0.34,1.56,0.64,1);
 
   /* ── Fonts ── */
   --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
@@ -296,6 +307,82 @@ html { scrollbar-color: var(--gold2) var(--bg2); scrollbar-width: thin; }
 @keyframes dotBounce {
   0%,80%,100%{ transform:scale(0); opacity:0; }
   40%         { transform:scale(1);   opacity:1; }
+}
+
+/* ============================================================
+   ████  LIVE ANIMATION KEYFRAMES — OBSIDIAN NOIR  ████
+   ============================================================ */
+
+/* ── Aurora: animated nebula background (body::before) ── */
+@keyframes aurora {
+  0%   { transform: scale(1)    rotate(0deg); }
+  25%  { transform: scale(1.07) rotate(4deg)  translate(3%, -2%); }
+  50%  { transform: scale(0.96) rotate(-3deg) translate(-3%, 4%); }
+  75%  { transform: scale(1.05) rotate(2deg)  translate(2%, 3%); }
+  100% { transform: scale(1)    rotate(0deg); }
+}
+
+/* ── Text shimmer: gold→violet→gold sweep on headings em ── */
+@keyframes textShimmer {
+  0%   { background-position: 0% center; }
+  50%  { background-position: 200% center; }
+  100% { background-position: 0% center; }
+}
+
+/* ── Glow pulse: breathing gold halo on cards/buttons ── */
+@keyframes glowPulse {
+  0%,100% { box-shadow: 0 0 20px rgba(232,184,75,0.25), 0 0 40px rgba(232,184,75,0.08); }
+  50%     { box-shadow: 0 0 40px rgba(232,184,75,0.60), 0 0 80px rgba(232,184,75,0.22); }
+}
+
+/* ── Violet glow pulse: for violet-accented elements ── */
+@keyframes violetGlow {
+  0%,100% { box-shadow: 0 0 20px rgba(124,58,237,0.25), 0 0 40px rgba(124,58,237,0.08); }
+  50%     { box-shadow: 0 0 40px rgba(124,58,237,0.60), 0 0 80px rgba(124,58,237,0.22); }
+}
+
+/* ── Orb drift: floating blurred colored orb ── */
+@keyframes orbDrift {
+  0%   { transform: translate(0px,   0px)   scale(1);    }
+  25%  { transform: translate(55px, -45px)  scale(1.1);  }
+  50%  { transform: translate(-35px,-75px)  scale(0.92); }
+  75%  { transform: translate(45px, -35px)  scale(1.06); }
+  100% { transform: translate(0px,   0px)   scale(1);    }
+}
+
+/* ── Orb drift 2: offset timing / direction for second orb ── */
+@keyframes orbDrift2 {
+  0%   { transform: translate(0px,  0px)   scale(1);    }
+  33%  { transform: translate(-65px,-35px) scale(1.08); }
+  66%  { transform: translate(45px, -60px) scale(0.93); }
+  100% { transform: translate(0px,  0px)   scale(1);    }
+}
+
+/* ── Particle float: tiny gold dot rising then fading ── */
+@keyframes particleFloat {
+  0%   { transform: translateY(0)     translateX(0)                scale(1)   rotate(0deg);   opacity: 0; }
+  8%   { opacity: 1; }
+  80%  { opacity: 0.5; }
+  100% { transform: translateY(-160px) translateX(var(--drift,22px)) scale(0.25) rotate(200deg); opacity: 0; }
+}
+
+/* ── Card sweep: light-beam sweep on card hover ── */
+@keyframes cardGlowSweep {
+  0%   { transform: translateX(-110%) skewX(-18deg); opacity: 0.6; }
+  100% { transform: translateX(310%)  skewX(-18deg); opacity: 0; }
+}
+
+/* ── Neon border: rotating conic gradient border ── */
+@keyframes neonSpin {
+  0%   { --angle: 0deg; }
+  100% { --angle: 360deg; }
+}
+
+/* ── Border laser: horizontal sweep on card top edge ── */
+@keyframes borderLaser {
+  0%   { left: -100%; right: 100%; }
+  50%  { left: 0;     right: 0; }
+  100% { left: 100%;  right: -100%; }
 }
 
 /* ============================================================
@@ -4278,6 +4365,482 @@ tbody tr:hover td { background: var(--bg2); }
   30%  { opacity: 0.6; }
   60%  { opacity: 0.4; transform: translateY(-24px)  scale(1.4); }
   100% { opacity: 0;   transform: translateY(-40px)  scale(0.8); }
+}
+
+/* ============================================================
+   ████████████████████████████████████████████████████████████
+   ████  OBSIDIAN NOIR × GOLD — DARK THEME OVERRIDES  ████████
+   ████  Applied last so they win every specificity battle ████
+   ████████████████████████████████████████████████████████████
+   ============================================================ */
+
+/* ── Body: obsidian base + live aurora nebula background ── */
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 55% at 12% 18%, rgba(109,40,217,0.18) 0%, transparent 62%),
+    radial-gradient(ellipse 55% 45% at 88% 82%, rgba(232,184,75,0.11) 0%, transparent 58%),
+    radial-gradient(ellipse 65% 55% at 55% 108%, rgba(6,182,212,0.08) 0%, transparent 62%),
+    radial-gradient(ellipse 40% 35% at 65% 25%, rgba(124,58,237,0.07) 0%, transparent 55%);
+  animation: aurora 24s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ── Typography — light text on dark ── */
+h1, h2, h3, h4, h5 { color: var(--text); }
+p { color: var(--text2); }
+.text-display { color: var(--text); }
+.text-dark { color: var(--text) !important; }
+
+/* ── Section title em: live gold→violet→gold shimmer ── */
+.section-title em {
+  font-style: italic;
+  background: linear-gradient(90deg,
+    var(--gold) 0%, var(--gold2) 22%, var(--violet4) 48%,
+    var(--gold2) 72%, var(--gold) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 5s linear infinite;
+}
+
+/* ── Hero h1 em shimmer (larger, more vivid) ── */
+.hero h1 em {
+  font-style: italic;
+  background: linear-gradient(90deg,
+    var(--gold3) 0%, var(--white) 25%, var(--gold2) 50%,
+    var(--violet4) 70%, var(--gold3) 100%);
+  background-size: 220% auto;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 4s linear infinite;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gold), var(--gold-deep));
+  border-color: var(--bg2);
+}
+::selection     { background: rgba(232,184,75,0.22); color: var(--text); }
+::-moz-selection{ background: rgba(232,184,75,0.22); color: var(--text); }
+
+/* ── Navbar: dark glass ── */
+.navbar {
+  background: rgba(8,9,14,0.70) !important;
+  backdrop-filter: blur(28px) saturate(200%);
+  border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+}
+.navbar:hover { box-shadow: 0 4px 32px rgba(232,184,75,0.06) !important; }
+.navbar-logo-name {
+  background: linear-gradient(135deg, var(--text), var(--gold2)) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+.navbar-logo-sub { animation: breathe 3s ease-in-out infinite; }
+.hamburger span { background: var(--text2) !important; }
+.hamburger:hover span { background: var(--gold) !important; }
+
+/* ── Nav links: dark backdrop ── */
+.nav-link { color: var(--text2) !important; }
+.nav-link::before { background: rgba(232,184,75,0.07) !important; }
+.nav-link:hover, .nav-link.active { color: var(--gold2) !important; }
+.nav-link::after { background: var(--gold2) !important; }
+
+/* ── Avatar ── */
+.avatar {
+  background: rgba(232,184,75,0.12) !important;
+  color: var(--gold2) !important;
+  border-color: rgba(232,184,75,0.40) !important;
+}
+
+/* ── Mobile nav ── */
+.mobile-nav {
+  background: rgba(8,9,14,0.97) !important;
+  backdrop-filter: blur(28px);
+  border-top: 1px solid rgba(232,184,75,0.15) !important;
+}
+
+/* ── HERO: obsidian base, animated violet + gold orbs ── */
+.hero {
+  background: linear-gradient(135deg, #08090e 0%, #0c0e18 50%, #08090e 100%) !important;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(109,40,217,0.30) 0%, rgba(109,40,217,0.08) 45%, transparent 70%);
+  border-radius: 50%; top: -280px; right: -180px;
+  animation: orbDrift 20s ease-in-out infinite;
+  filter: blur(80px); pointer-events: none; z-index: 0;
+}
+.hero-overlay {
+  background:
+    linear-gradient(to right, rgba(8,9,14,0.97) 0%, rgba(8,9,14,0.88) 38%, rgba(8,9,14,0.42) 68%, rgba(8,9,14,0.15) 100%),
+    linear-gradient(to top,   rgba(8,9,14,0.72) 0%, transparent 58%),
+    linear-gradient(to bottom,rgba(8,9,14,0.42) 0%, transparent 32%) !important;
+}
+.hero-bg-img {
+  opacity: 0.22 !important;
+  filter: saturate(0.7) brightness(0.5);
+}
+
+/* ── Hero gold orb (bottom-left) via pseudo on hero-bg-img ── */
+.hero-bg-img::before {
+  content: '' !important;
+  position: absolute !important;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(232,184,75,0.22) 0%, rgba(232,184,75,0.05) 50%, transparent 70%);
+  border-radius: 50%; bottom: -150px; left: -120px;
+  animation: orbDrift2 28s ease-in-out infinite;
+  filter: blur(70px); pointer-events: none; z-index: 1;
+}
+
+/* ── Hero tag chip ── */
+.hero-tag {
+  background: rgba(232,184,75,0.10) !important;
+  border-color: rgba(232,184,75,0.30) !important;
+  color: var(--gold2) !important;
+  backdrop-filter: blur(12px);
+}
+
+/* ── Hero stats ── */
+.hero-stat-num {
+  background: linear-gradient(135deg, var(--gold), var(--gold2)) !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+.hero-stat-label { color: rgba(234,230,225,0.55) !important; }
+.hero-stat-sep   { background: rgba(232,184,75,0.28) !important; }
+
+/* ── Hero live particle container & dots ── */
+.hero-particles {
+  position: absolute; inset: 0;
+  pointer-events: none; overflow: hidden; z-index: 3;
+}
+.hero-particle {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, var(--gold2) 0%, transparent 70%);
+  box-shadow: 0 0 10px var(--gold), 0 0 20px rgba(232,184,75,0.4);
+  pointer-events: none;
+}
+
+/* ── Cards: dark glass ── */
+.card {
+  background: rgba(13,15,26,0.82) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+}
+.card::after {
+  background: radial-gradient(ellipse at 50% 0%, rgba(232,184,75,0.07) 0%, transparent 65%) !important;
+}
+.card:hover {
+  background: rgba(20,24,38,0.92) !important;
+  border-color: rgba(232,184,75,0.28) !important;
+  box-shadow: 0 20px 70px rgba(0,0,0,0.65),
+              0 0 0 1px rgba(232,184,75,0.22),
+              0 0 60px rgba(232,184,75,0.06) !important;
+}
+/* Card hover: gold laser sweep */
+.card::before {
+  background: linear-gradient(90deg, transparent, rgba(232,184,75,0.35), var(--gold2), rgba(232,184,75,0.35), transparent) !important;
+}
+.card-icon {
+  background: rgba(232,184,75,0.10) !important;
+  border-color: rgba(232,184,75,0.22) !important;
+}
+.card:hover .card-icon {
+  background: rgba(232,184,75,0.18) !important;
+  box-shadow: 0 8px 28px rgba(232,184,75,0.30) !important;
+}
+.card-flat { background: var(--bg2) !important; border-color: rgba(255,255,255,0.05) !important; }
+.card-flat:hover { background: var(--bg3) !important; }
+
+/* ── Glass cards ── */
+.glass-card {
+  background: rgba(255,255,255,0.04) !important;
+  border-color: rgba(255,255,255,0.07) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+}
+.glass-card:hover {
+  background: rgba(255,255,255,0.065) !important;
+  border-color: rgba(232,184,75,0.28) !important;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.55), 0 0 0 1px rgba(232,184,75,0.20) !important;
+}
+
+/* ── Section backgrounds ── */
+.section-white { background: var(--bg2) !important; }
+.section-alt   { background: var(--bg3) !important; }
+
+/* ── Page hero (inner pages) ── */
+.page-hero {
+  background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 80% 60% at 10% 50%, rgba(109,40,217,0.10) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 50% at 90% 50%, rgba(232,184,75,0.07) 0%, transparent 60%);
+}
+.page-hero h1 { color: var(--text); }
+.page-hero p  { color: var(--text2); }
+
+/* ── Buttons on dark ── */
+.btn-ghost {
+  background: rgba(255,255,255,0.04) !important;
+  color: var(--text2) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+.btn-ghost:hover {
+  background: rgba(255,255,255,0.08) !important;
+  color: var(--text) !important;
+  border-color: rgba(232,184,75,0.28) !important;
+}
+.btn-outline {
+  background: transparent !important;
+  color: var(--gold) !important;
+  border-color: rgba(232,184,75,0.45) !important;
+}
+.btn-outline:hover {
+  background: rgba(232,184,75,0.08) !important;
+  border-color: var(--gold2) !important;
+  box-shadow: var(--shadow-gold-sm) !important;
+  color: var(--gold2) !important;
+}
+.btn-outline-inner { background: rgba(232,184,75,0.06) !important; }
+.btn-primary { color: var(--bg) !important; text-shadow: none !important; }
+.btn-dark {
+  background: rgba(255,255,255,0.06) !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+}
+.btn-dark:hover { background: rgba(255,255,255,0.10) !important; }
+.btn-danger {
+  background: var(--danger-bg) !important;
+  color: var(--danger) !important;
+  border-color: rgba(248,113,113,0.25) !important;
+}
+
+/* ── Forms: dark glass ── */
+.form-label { color: var(--text3) !important; }
+.form-group:focus-within .form-label { color: var(--gold) !important; }
+.form-control {
+  background: rgba(13,15,26,0.88) !important;
+  border-color: rgba(255,255,255,0.09) !important;
+  color: var(--text) !important;
+}
+.form-control:hover { border-color: rgba(232,184,75,0.35) !important; }
+.form-control:focus {
+  background: rgba(20,24,38,0.95) !important;
+  border-color: var(--gold) !important;
+  box-shadow: 0 0 0 4px rgba(232,184,75,0.12), 0 4px 16px rgba(232,184,75,0.08) !important;
+}
+.form-control::placeholder { color: var(--text3) !important; }
+.form-section {
+  background: rgba(13,15,26,0.85) !important;
+  border-color: rgba(255,255,255,0.07) !important;
+  backdrop-filter: blur(20px) !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5) !important;
+}
+.form-hint { color: var(--text3) !important; }
+
+/* ── Table: dark ── */
+thead th {
+  background: linear-gradient(135deg, var(--bg3) 0%, var(--bg2) 100%) !important;
+  color: var(--text3) !important;
+}
+tbody td { color: var(--text2) !important; border-bottom-color: rgba(255,255,255,0.04) !important; }
+tbody tr:hover td {
+  background: linear-gradient(90deg, rgba(232,184,75,0.06) 0%, rgba(232,184,75,0.02) 100%) !important;
+  color: var(--text) !important; padding-left: 1.4rem;
+}
+tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold) !important; }
+.table-wrap { border-color: rgba(255,255,255,0.06) !important; }
+
+/* ── Divider diamond glow ── */
+.divider-diamond {
+  box-shadow: 0 0 16px rgba(232,184,75,0.75), 0 0 30px rgba(232,184,75,0.3) !important;
+}
+
+/* ── Testimonials: dark glass ── */
+.testimonial {
+  background: rgba(13,15,26,0.82) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+  backdrop-filter: blur(16px) !important;
+}
+.testimonial:hover {
+  border-color: rgba(232,184,75,0.28) !important;
+  box-shadow: 0 20px 70px rgba(0,0,0,0.55), 0 0 0 1px rgba(232,184,75,0.18) !important;
+}
+.testimonial-text   { color: var(--text2) !important; }
+.testimonial-author { color: var(--text)  !important; }
+.testimonial-role   { color: var(--text3) !important; }
+
+/* ── Frame options ── */
+.frame-option {
+  background: rgba(13,15,26,0.82) !important;
+  border-color: rgba(255,255,255,0.07) !important;
+  backdrop-filter: blur(12px) !important;
+}
+.frame-option:hover {
+  border-color: rgba(232,184,75,0.38) !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(232,184,75,0.22) !important;
+}
+.frame-option .size, .frame-option .material { color: var(--text) !important; }
+.frame-option .price { color: var(--gold2) !important; }
+
+/* ── Gallery filters ── */
+.gallery-filters { gap: 0.6rem; }
+.filter-btn {
+  background: rgba(255,255,255,0.04) !important;
+  color: var(--text2) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+  border-radius: var(--radius-full) !important;
+}
+.filter-btn.active, .filter-btn:hover {
+  background: rgba(232,184,75,0.12) !important;
+  color: var(--gold2) !important;
+  border-color: rgba(232,184,75,0.35) !important;
+  box-shadow: 0 4px 20px rgba(232,184,75,0.18) !important;
+}
+.gallery-item-overlay {
+  background: linear-gradient(to top, rgba(8,9,14,0.88) 0%, transparent 60%) !important;
+}
+
+/* ── Contact section ── */
+.contact-icon {
+  background: rgba(232,184,75,0.10) !important;
+  border-color: rgba(232,184,75,0.22) !important;
+}
+.contact-label { color: var(--text3) !important; }
+.contact-value { color: var(--text2) !important; }
+.contact-item:hover .contact-icon {
+  background: rgba(232,184,75,0.18) !important;
+  box-shadow: 0 4px 20px rgba(232,184,75,0.28) !important;
+}
+
+/* ── Footer: deep dark ── */
+.footer {
+  background: rgba(5,6,10,0.98) !important;
+  border-top: 1px solid rgba(232,184,75,0.10) !important;
+}
+.footer h4, .footer h5, .footer h3 { color: var(--text) !important; }
+.footer p { color: var(--text2) !important; }
+.footer a { color: var(--text3) !important; }
+.footer a:hover { color: var(--gold) !important; }
+.footer-divider { border-color: rgba(255,255,255,0.05) !important; }
+
+/* ── Modal ── */
+.modal-backdrop { background: rgba(0,0,0,0.88) !important; }
+.modal-content {
+  background: var(--bg2) !important;
+  border: 1px solid rgba(255,255,255,0.07) !important;
+  backdrop-filter: blur(24px) !important;
+}
+.modal-content h2, .modal-content h3, .modal-content h4 { color: var(--text) !important; }
+
+/* ── Admin sidebar ── */
+.admin-sidebar {
+  background: var(--bg2) !important;
+  border-right: 1px solid rgba(255,255,255,0.05) !important;
+}
+
+/* ── Stat cards (dashboard) ── */
+.stat-card {
+  background: rgba(13,15,26,0.85) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+.stat-value { color: var(--text) !important; }
+
+/* ── Spinner / loader ── */
+.spinner {
+  border-color: rgba(255,255,255,0.08) !important;
+  border-top-color: var(--gold) !important;
+}
+
+/* ── Empty state ── */
+.empty-state {
+  background: rgba(255,255,255,0.03) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+.empty-state h3 { color: var(--text) !important; }
+.empty-state p  { color: var(--text2) !important; }
+
+/* ── Profile / order cards ── */
+.order-card, .booking-card, .dashboard-card {
+  background: rgba(13,15,26,0.85) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* ── Services page ── */
+.service-card {
+  background: rgba(13,15,26,0.82) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+.service-card:hover {
+  border-color: rgba(232,184,75,0.28) !important;
+  box-shadow: 0 20px 70px rgba(0,0,0,0.6), 0 0 0 1px rgba(232,184,75,0.2) !important;
+}
+
+/* ── Home CTA section (dark strip) ── */
+.home-cta-section, section[style*="var(--dark)"] {
+  background: var(--bg2) !important;
+}
+
+/* ── Booking layout ── */
+.booking-sidebar {
+  background: rgba(13,15,26,0.85) !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* ── NEW: Utility live-animation helpers ── */
+.shimmer-text {
+  background: linear-gradient(90deg,
+    var(--gold) 0%, var(--gold2) 22%, var(--violet4) 48%,
+    var(--gold2) 72%, var(--gold) 100%) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  animation: textShimmer 5s linear infinite !important;
+}
+.glow-pulse { animation: glowPulse 3s ease-in-out infinite; }
+.violet-glow-pulse { animation: violetGlow 3s ease-in-out infinite; }
+.aurora-bg {
+  position: relative; overflow: hidden;
+}
+.aurora-bg::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 25%, rgba(109,40,217,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 45% at 85% 75%, rgba(232,184,75,0.10) 0%, transparent 55%);
+  animation: aurora 20s ease-in-out infinite;
+}
+.float-orb {
+  position: absolute; border-radius: 50%; filter: blur(60px); pointer-events: none;
+}
+.float-orb-violet {
+  background: radial-gradient(circle, rgba(109,40,217,0.35) 0%, transparent 70%);
+  animation: orbDrift 20s ease-in-out infinite;
+}
+.float-orb-gold {
+  background: radial-gradient(circle, rgba(232,184,75,0.25) 0%, transparent 70%);
+  animation: orbDrift2 28s ease-in-out infinite;
+}
+.float-orb-cyan {
+  background: radial-gradient(circle, rgba(6,182,212,0.20) 0%, transparent 70%);
+  animation: orbDrift 32s ease-in-out infinite;
+  animation-delay: -10s;
 }
 
 /* ── Reduced motion — skip to end state ── */

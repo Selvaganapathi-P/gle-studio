@@ -2,6 +2,17 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 
+// ── Live hero particles ───────────────────────────────────────
+const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
+  id: i,
+  x: `${4 + ((i * 4.1) % 92)}%`,
+  size: 2 + (i % 3),
+  delay: (i * 0.38) % 6,
+  duration: 3.5 + (i % 5) * 0.7,
+  drift: ((i % 2 === 0) ? 1 : -1) * (8 + (i * 7) % 28),
+  color: i % 3 === 0 ? '#a78bfa' : i % 3 === 1 ? '#e8b84b' : '#22d3ee',
+}));
+
 // ── Animation helpers ─────────────────────────────────────────
 
 const ease = [0.22, 1, 0.36, 1];
@@ -97,6 +108,45 @@ export default function Home() {
       <section className="hero">
         <div className="hero-bg-img" />
         <div className="hero-overlay" />
+
+        {/* Live gold + violet + cyan particles rising from bottom */}
+        <div className="hero-particles">
+          {PARTICLES.map(p => (
+            <motion.div
+              key={p.id}
+              className="hero-particle"
+              style={{
+                left: p.x, bottom: `${8 + (p.id % 15)}%`,
+                width: p.size, height: p.size,
+                background: `radial-gradient(circle, ${p.color} 0%, transparent 70%)`,
+                boxShadow: `0 0 ${p.size * 4}px ${p.color}`,
+              }}
+              animate={{
+                y:       [0, -(120 + p.id * 6), -(200 + p.id * 8)],
+                x:       [0, p.drift * 0.6, p.drift],
+                opacity: [0, 0.9, 0.4, 0],
+                scale:   [0.5, 1, 0.4],
+              }}
+              transition={{
+                duration: p.duration,
+                delay:    p.delay,
+                repeat:   Infinity,
+                ease:     'easeOut',
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Bottom-left gold orb */}
+        <motion.div
+          style={{
+            position: 'absolute', width: 500, height: 500, borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(232,184,75,0.22) 0%, transparent 70%)',
+            bottom: -160, left: -140, filter: 'blur(70px)', pointerEvents: 'none', zIndex: 0,
+          }}
+          animate={{ x: [-10, 30, -10], y: [0, -40, 0], scale: [1, 1.08, 1] }}
+          transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
+        />
         <div className="container" style={{ width: '100%' }}>
           <div className="hero-content">
             <motion.div
@@ -351,13 +401,13 @@ export default function Home() {
       </section>
 
       {/* ── CTA / CONTACT ── */}
-      <section className="section-pad" style={{ background: 'linear-gradient(135deg, var(--dark) 0%, var(--dark2) 100%)' }}>
+      <section className="section-pad" style={{ background: 'linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%)', position: 'relative', overflow: 'hidden' }}>
         <div className="container">
           <Section>
             <div className="home-cta-grid">
               <Reveal variant={fadeLeft}>
                 <span className="section-tag">Get In Touch</span>
-                <h2 className="section-title" style={{ color: 'white' }}>Ready to Create <em>Magic Together?</em></h2>
+                <h2 className="section-title">Ready to Create <em>Magic Together?</em></h2>
                 <div className="divider" />
                 {[
                   ['📍', 'Studio Location', 'Golden legacy events, Tirupattur, TN 635901'],
@@ -373,7 +423,7 @@ export default function Home() {
                     <div className="contact-icon">{icon}</div>
                     <div>
                       <div className="contact-label">{label}</div>
-                      <div className="contact-value" style={{ color: 'rgba(255,255,255,0.75)' }}>{val}</div>
+                      <div className="contact-value">{val}</div>
                     </div>
                   </motion.div>
                 ))}
