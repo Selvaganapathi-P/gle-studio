@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 
 // ── Live hero particles ───────────────────────────────────────
 const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
@@ -13,11 +13,16 @@ const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
   color: i % 3 === 0 ? '#e8c376' : i % 3 === 1 ? '#d4a853' : '#fef3c7',
 }));
 
-// ── Hero 3D frame images ──────────────────────────────────────
-const HERO_FRAMES = [
-  'https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&q=80',
-  'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80',
-  'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80',
+// ── Hero slideshow image pool (cycles every 3 s) ─────────────
+const HERO_POOL = [
+  'https://images.unsplash.com/photo-1529636798458-92182e662485?w=700&q=85',
+  'https://images.unsplash.com/photo-1519741497674-611481863552?w=700&q=85',
+  'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=700&q=85',
+  'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=700&q=85',
+  'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=700&q=85',
+  'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&q=85',
+  'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=700&q=85',
+  'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=700&q=85',
 ];
 
 // ── Animation helpers ─────────────────────────────────────────
@@ -109,6 +114,15 @@ const SAFE_FB = 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=
 export default function Home() {
   const navigate = useNavigate();
 
+  // ── Hero slideshow: cycle through image pool every 3 s ───────
+  const [heroIdx, setHeroIdx] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setHeroIdx(i => (i + 1) % HERO_POOL.length), 3000);
+    return () => clearInterval(t);
+  }, []);
+  const N = HERO_POOL.length;
+  const frameImg = offset => HERO_POOL[(heroIdx + offset) % N];
+
   return (
     <>
       {/* ── HERO ── */}
@@ -164,10 +178,19 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.1, delay: 0.4, ease }}
           >
-            <img
-              src={HERO_FRAMES[0]} alt=""
-              onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
-            />
+            <AnimatePresence mode="sync">
+              <motion.img
+                key={frameImg(0)}
+                src={frameImg(0)}
+                alt=""
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                initial={{ opacity: 0, scale: 1.06 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.85, ease: 'easeInOut' }}
+                onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
+              />
+            </AnimatePresence>
             <div className="hero-3d-frame-glow" />
           </motion.div>
 
@@ -178,10 +201,19 @@ export default function Home() {
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 1.1, delay: 0.6, ease }}
           >
-            <img
-              src={HERO_FRAMES[1]} alt=""
-              onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
-            />
+            <AnimatePresence mode="sync">
+              <motion.img
+                key={frameImg(3)}
+                src={frameImg(3)}
+                alt=""
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                initial={{ opacity: 0, scale: 1.06 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.85, ease: 'easeInOut' }}
+                onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
+              />
+            </AnimatePresence>
           </motion.div>
 
           {/* Front frame */}
@@ -191,10 +223,19 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, delay: 0.8, ease }}
           >
-            <img
-              src={HERO_FRAMES[2]} alt=""
-              onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
-            />
+            <AnimatePresence mode="sync">
+              <motion.img
+                key={frameImg(5)}
+                src={frameImg(5)}
+                alt=""
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                initial={{ opacity: 0, scale: 1.06 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.85, ease: 'easeInOut' }}
+                onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
+              />
+            </AnimatePresence>
             {/* Award badge on front frame */}
             <div className="hero-3d-badge">
               <span className="hero-3d-badge-icon">🏆</span>
