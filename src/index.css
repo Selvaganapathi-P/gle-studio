@@ -3210,6 +3210,82 @@ table { min-width: 560px; }
 }
 .admin-mobile-toggle:hover { background: rgba(184,134,42,0.3); }
 
+/* ============================================================
+   MISSING BASE GRID LAYOUTS  (Phase 7 fix)
+   These were only present as mobile overrides — base styles
+   are required for the desktop layout to render correctly.
+   ============================================================ */
+
+/* Home page — featured gallery 4×2 photo grid */
+.home-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 220px);
+  gap: 0.6rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.home-gallery-cell {
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  border-radius: var(--radius);
+}
+.home-gallery-cell img {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.55s cubic-bezier(0.22,1,0.36,1), filter 0.4s ease;
+}
+.home-gallery-cell:hover img {
+  transform: scale(1.08);
+  filter: brightness(1.05) saturate(1.1);
+}
+/* Make first cell span 2 columns for visual interest */
+.home-gallery-cell:first-child {
+  grid-column: span 2;
+  grid-row: span 2;
+  border-radius: var(--radius-lg);
+}
+@media (max-width: 900px) {
+  .home-gallery-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 180px); }
+  .home-gallery-cell:first-child { grid-column: span 2; grid-row: span 2; }
+}
+@media (max-width: 600px) {
+  .home-gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(4, 150px); }
+  .home-gallery-cell:first-child { grid-column: span 2; grid-row: span 1; }
+}
+
+/* Home page — CTA section 2-column layout */
+.home-cta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* Frames page — left selector + right summary */
+.frames-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+/* Frame options — 4 columns of selectable frame cards */
+.frame-options-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.9rem;
+}
+
+/* Booking page — info + form side by side */
+.booking-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
 /* ── 8. HERO STATS — flex-wrap + smaller on mobile ── */
 .hero-stats { flex-wrap: wrap; overflow: hidden; }
 @media (max-width: 540px) {
