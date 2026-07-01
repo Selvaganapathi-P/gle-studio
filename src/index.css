@@ -341,6 +341,23 @@ html { scrollbar-color: var(--gold2) var(--bg2); scrollbar-width: thin; }
   50%     { box-shadow: 0 0 40px rgba(212,168,83,0.60), 0 0 80px rgba(212,168,83,0.22); }
 }
 
+/* ── 3D frame float — FANCY/Alex Bender stacked photography frames ── */
+@keyframes float3dBack {
+  0%,100% { transform: perspective(1100px) rotateY(-14deg) rotateX(6deg) translateZ(-80px) translate(0,0); }
+  40%     { transform: perspective(1100px) rotateY(-10deg) rotateX(4deg) translateZ(-80px) translate(6px,-14px); }
+  70%     { transform: perspective(1100px) rotateY(-16deg) rotateX(7deg) translateZ(-80px) translate(-4px,-8px); }
+}
+@keyframes float3dMid {
+  0%,100% { transform: perspective(1100px) rotateY(-9deg) rotateX(4deg) translateZ(-30px) translate(0,0); }
+  35%     { transform: perspective(1100px) rotateY(-6deg) rotateX(2deg) translateZ(-30px) translate(8px,-18px); }
+  68%     { transform: perspective(1100px) rotateY(-12deg) rotateX(5deg) translateZ(-30px) translate(-3px,-10px); }
+}
+@keyframes float3dFront {
+  0%,100% { transform: perspective(1100px) rotateY(-4deg) rotateX(2deg) translateZ(20px) translate(0,0); }
+  38%     { transform: perspective(1100px) rotateY(-2deg) rotateX(1deg) translateZ(20px) translate(5px,-12px); }
+  72%     { transform: perspective(1100px) rotateY(-6deg) rotateX(3deg) translateZ(20px) translate(-2px,-6px); }
+}
+
 /* ── Orb drift: floating blurred colored orb ── */
 @keyframes orbDrift {
   0%   { transform: translate(0px,   0px)   scale(1);    }
@@ -5074,4 +5091,283 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold) !important; }
 @media (max-width: 640px) {
   .admin-services-header { flex-direction: column; }
   .admin-services-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   FANCY × ALEX BENDER — 3D FLOATING FRAME HERO STACK
+   Photography frames floating in perspective on hero right side
+   ============================================================ */
+
+.hero-3d-wrap {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 52%;
+  z-index: 2;
+  pointer-events: none;
+  perspective: 1400px;
+  perspective-origin: 40% 50%;
+}
+
+/* ── Individual 3D frame ── */
+.hero-3d-frame {
+  position: absolute;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(212,168,83,0.22);
+  box-shadow:
+    0 30px 90px rgba(0,0,0,0.65),
+    0 0 0 1px rgba(212,168,83,0.08) inset;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.hero-3d-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.88) saturate(1.05);
+}
+/* Cinematic colour grade overlay */
+.hero-3d-frame::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(155deg, rgba(212,168,83,0.06) 0%, transparent 55%, rgba(22,14,4,0.25) 100%);
+  pointer-events: none;
+}
+/* Gold edge glow */
+.hero-3d-frame::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 3;
+  box-shadow: inset 0 0 40px rgba(212,168,83,0.05);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+/* ── Back frame — largest, darkest, rotated most ── */
+.hero-3d-frame--back {
+  width: 62%;
+  aspect-ratio: 4/5;
+  right: 28%;
+  top: 4%;
+  transform: perspective(1100px) rotateY(-14deg) rotateX(6deg) translateZ(-80px);
+  animation: float3dBack 9s ease-in-out infinite;
+  opacity: 0.72;
+  filter: brightness(0.75);
+}
+
+/* ── Middle frame ── */
+.hero-3d-frame--mid {
+  width: 68%;
+  aspect-ratio: 4/5;
+  right: 10%;
+  top: 16%;
+  transform: perspective(1100px) rotateY(-9deg) rotateX(4deg) translateZ(-30px);
+  animation: float3dMid 11s ease-in-out infinite 1.8s;
+  opacity: 0.88;
+  filter: brightness(0.85);
+}
+
+/* ── Front frame — foreground, clearest ── */
+.hero-3d-frame--front {
+  width: 58%;
+  aspect-ratio: 4/5;
+  right: 22%;
+  bottom: 2%;
+  transform: perspective(1100px) rotateY(-4deg) rotateX(2deg) translateZ(20px);
+  animation: float3dFront 13s ease-in-out infinite 3.2s;
+  opacity: 1;
+}
+
+/* Gold inner glow on front frame */
+.hero-3d-frame-glow {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none;
+  box-shadow: inset 0 0 60px rgba(212,168,83,0.12), inset 0 -80px 80px rgba(22,14,4,0.35);
+  border-radius: 20px;
+}
+
+/* ── Award badge attached to front frame ── */
+.hero-3d-badge {
+  position: absolute;
+  bottom: 20px;
+  left: -28px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(14,10,4,0.88);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(212,168,83,0.38);
+  border-radius: 14px;
+  padding: 0.65rem 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(212,168,83,0.08) inset;
+  animation: floatBob 5s ease-in-out infinite 0.8s;
+  pointer-events: none;
+}
+.hero-3d-badge::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold3), transparent);
+  border-radius: 14px 14px 0 0;
+}
+.hero-3d-badge-icon { font-size: 1.4rem; line-height: 1; }
+.hero-3d-badge-title {
+  font-size: 0.77rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+.hero-3d-badge-sub {
+  font-size: 0.63rem;
+  color: var(--gold3);
+  letter-spacing: 0.08em;
+  margin-top: 1px;
+}
+
+/* ── Floating stat chip — clients ── */
+.hero-float-chip {
+  position: absolute;
+  z-index: 12;
+  background: rgba(14,10,4,0.85);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(212,168,83,0.32);
+  border-radius: 14px;
+  padding: 0.7rem 1.1rem;
+  box-shadow: 0 10px 36px rgba(0,0,0,0.5);
+  pointer-events: none;
+}
+.hero-float-chip--clients {
+  top: 20%;
+  left: 2%;
+  animation: floatBob 6s ease-in-out infinite 0.4s;
+  text-align: center;
+}
+.hero-float-chip--live {
+  top: 40%;
+  right: 3%;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  animation: floatBob 7s ease-in-out infinite 2s;
+}
+.hero-float-chip-num {
+  font-family: var(--font-serif);
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--gold3), var(--gold4));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerFast 3s linear infinite;
+}
+.hero-float-chip-label {
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.48);
+  text-transform: uppercase;
+  letter-spacing: 0.10em;
+  margin-top: 0.15rem;
+}
+.hero-float-chip-dot {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 10px rgba(34,197,94,0.75);
+  animation: goldGlow 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.hero-float-chip-text {
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.78);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* ── Hide 3D stack on mobile — too cramped ── */
+@media (max-width: 900px) {
+  .hero-3d-wrap { display: none; }
+}
+
+/* ============================================================
+   FANCY — ENHANCED CARD HOVER WITH 3D PERSPECTIVE
+   Applies perspective lift to service / feature cards
+   ============================================================ */
+.card {
+  transform-style: preserve-3d;
+}
+.card:hover {
+  transform: perspective(900px) rotateX(2deg) rotateY(-2deg) translateY(-6px) !important;
+}
+.glass-card {
+  transform-style: preserve-3d;
+}
+.glass-card:hover {
+  transform: perspective(900px) rotateX(2.5deg) rotateY(-1.5deg) translateY(-8px) !important;
+}
+
+/* ============================================================
+   FANCY — SECTION BACKGROUNDS: DRAMATIC GRADIENT MESH
+   ============================================================ */
+.section-white {
+  background:
+    radial-gradient(ellipse 80% 50% at 0% 0%, rgba(212,168,83,0.035) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(196,136,74,0.028) 0%, transparent 50%),
+    var(--bg2) !important;
+}
+.section-alt {
+  background:
+    radial-gradient(ellipse 70% 55% at 100% 0%, rgba(212,168,83,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 0% 100%, rgba(196,136,74,0.03) 0%, transparent 50%),
+    var(--bg3) !important;
+}
+
+/* ============================================================
+   FANCY — HOME GALLERY GRID: STAGGERED DEPTH
+   ============================================================ */
+.home-gallery-cell {
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s ease !important;
+}
+.home-gallery-cell:nth-child(odd) {
+  transform: translateY(0px);
+}
+.home-gallery-cell:nth-child(even) {
+  transform: translateY(16px);
+}
+.home-gallery-cell:hover {
+  transform: perspective(700px) rotateX(3deg) rotateY(-2deg) translateY(-4px) scale(1.04) !important;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.22), 0 0 0 2px rgba(212,168,83,0.35) !important;
+  z-index: 3 !important;
+}
+
+/* ============================================================
+   FANCY — TESTIMONIAL CARDS: PREMIUM GLASS
+   ============================================================ */
+.testimonial {
+  background: rgba(255,255,255,0.78) !important;
+  backdrop-filter: blur(20px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+  border: 1px solid rgba(212,168,83,0.14) !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.06) !important;
+  transform-style: preserve-3d;
+}
+.testimonial:hover {
+  transform: perspective(900px) rotateX(2deg) rotateY(-2deg) translateY(-8px) !important;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.10), 0 0 0 1.5px rgba(212,168,83,0.28) !important;
+}
+
+/* ============================================================
+   FANCY — BTN PRIMARY: PREMIUM GOLD GLOW
+   ============================================================ */
+.btn-primary {
+  background: var(--gradient-gold) !important;
+  box-shadow: 0 4px 20px rgba(212,168,83,0.35), 0 0 0 1px rgba(212,168,83,0.2) !important;
+  border: none !important;
+  color: #1a1000 !important;
+  font-weight: 700 !important;
+}
+.btn-primary:hover {
+  box-shadow: 0 8px 40px rgba(212,168,83,0.55), 0 0 0 1px rgba(212,168,83,0.4) !important;
+  filter: brightness(1.08) !important;
 }

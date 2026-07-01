@@ -10,8 +10,15 @@ const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
   delay: (i * 0.38) % 6,
   duration: 3.5 + (i % 5) * 0.7,
   drift: ((i % 2 === 0) ? 1 : -1) * (8 + (i * 7) % 28),
-  color: i % 3 === 0 ? '#a5b4fc' : i % 3 === 1 ? '#818cf8' : '#c7d2fe',
+  color: i % 3 === 0 ? '#e8c376' : i % 3 === 1 ? '#d4a853' : '#fef3c7',
 }));
+
+// ── Hero 3D frame images ──────────────────────────────────────
+const HERO_FRAMES = [
+  'https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&q=80',
+  'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80',
+  'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80',
+];
 
 // ── Animation helpers ─────────────────────────────────────────
 
@@ -147,6 +154,80 @@ export default function Home() {
           animate={{ x: [-10, 30, -10], y: [0, -40, 0], scale: [1, 1.08, 1] }}
           transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
         />
+
+        {/* ── 3D Floating Photography Frames (FANCY / Alex Bender style) ── */}
+        <div className="hero-3d-wrap">
+          {/* Back frame */}
+          <motion.div
+            className="hero-3d-frame hero-3d-frame--back"
+            initial={{ opacity: 0, x: 80 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.1, delay: 0.4, ease }}
+          >
+            <img
+              src={HERO_FRAMES[0]} alt=""
+              onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
+            />
+            <div className="hero-3d-frame-glow" />
+          </motion.div>
+
+          {/* Middle frame */}
+          <motion.div
+            className="hero-3d-frame hero-3d-frame--mid"
+            initial={{ opacity: 0, x: 60, y: 30 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 1.1, delay: 0.6, ease }}
+          >
+            <img
+              src={HERO_FRAMES[1]} alt=""
+              onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
+            />
+          </motion.div>
+
+          {/* Front frame */}
+          <motion.div
+            className="hero-3d-frame hero-3d-frame--front"
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.1, delay: 0.8, ease }}
+          >
+            <img
+              src={HERO_FRAMES[2]} alt=""
+              onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
+            />
+            {/* Award badge on front frame */}
+            <div className="hero-3d-badge">
+              <span className="hero-3d-badge-icon">🏆</span>
+              <div>
+                <div className="hero-3d-badge-title">Award Winning</div>
+                <div className="hero-3d-badge-sub">Studio 2024</div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Floating chip — clients */}
+          <motion.div
+            className="hero-float-chip hero-float-chip--clients"
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 1.1, ease }}
+          >
+            <div className="hero-float-chip-num">500+</div>
+            <div className="hero-float-chip-label">Happy Clients</div>
+          </motion.div>
+
+          {/* Floating chip — live */}
+          <motion.div
+            className="hero-float-chip hero-float-chip--live"
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 1.3, ease }}
+          >
+            <span className="hero-float-chip-dot" />
+            <span className="hero-float-chip-text">Available Now</span>
+          </motion.div>
+        </div>
+
         <div className="container" style={{ width: '100%' }}>
           <div className="hero-content">
             <motion.div
@@ -244,7 +325,7 @@ export default function Home() {
                   className="card"
                   style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}
                   onClick={() => navigate('/services')}
-                  whileHover={{ y: -8, scale: 1.02, boxShadow: '0 20px 60px rgba(30,27,75,0.15), 0 0 0 1.5px rgba(99,102,241,0.2)' }}
+                  whileHover={{ y: -8, scale: 1.02, boxShadow: '0 20px 60px rgba(0,0,0,0.18), 0 0 0 1.5px rgba(212,168,83,0.30)' }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 320, damping: 24 }}
                 >
@@ -349,7 +430,7 @@ export default function Home() {
                   variants={fadeUp}
                   className="glass-card"
                   style={{ padding: '1.75rem', textAlign: 'center' }}
-                  whileHover={{ y: -8, boxShadow: '0 24px 60px rgba(30,27,75,0.12), 0 0 0 1px rgba(99,102,241,0.18)' }}
+                  whileHover={{ y: -8, boxShadow: '0 24px 60px rgba(0,0,0,0.12), 0 0 0 1px rgba(212,168,83,0.22)' }}
                   transition={{ type: 'spring', stiffness: 320, damping: 22 }}
                 >
                   <motion.div
