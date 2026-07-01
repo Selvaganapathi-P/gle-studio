@@ -17,18 +17,24 @@ export default function AdminOrders() {
   const [search, setSearch]     = useState('');
   const [selected, setSelected] = useState(null);
   const [amount, setAmount]     = useState('');
+  const [apiErr, setApiErr]     = useState('');
 
-  useEffect(() => {
-    const load = () => {
-      const params = new URLSearchParams();
-      if (filter) params.set('status', filter);
-      api.get(`/orders?${params}`)
-        .then(r => setOrders(r.data.orders || []))
-        .catch(() => toast.error('Failed to load orders'))
-        .finally(() => setLoading(false));
-    };
-    load();
-  }, [filter]);
+  const load = () => {
+    setLoading(true);
+    setApiErr('');
+    const params = new URLSearchParams();
+    if (filter) params.set('status', filter);
+    api.get(`/orders?${params}`)
+      .then(r => { setOrders(r.data.orders || []); setApiErr(''); })
+      .catch(err => {
+        const msg = err?.response?.data?.message || err?.message || 'Network error — backend may be offline or waking up.';
+        setApiErr(msg);
+        toast.error('Failed to load orders');
+      })
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => { load(); }, [filter]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const updateStatus = async (id, status) => {
     try {
@@ -77,6 +83,19 @@ export default function AdminOrders() {
     <>
       <div className="admin-page-title">All Orders</div>
       <div className="admin-page-sub">Manage and track all studio bookings.</div>
+
+      {apiErr && (
+        <div style={{
+          background: 'rgba(248,113,113,0.10)', border: '1px solid rgba(248,113,113,0.30)',
+          borderRadius: 'var(--radius)', padding: '0.85rem 1.2rem', marginBottom: '1.25rem',
+          color: 'var(--danger)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.75rem',
+        }}>
+          <span style={{ flex: 1 }}>⚠️ <strong>API error:</strong> {apiErr} — Check backend is running & CORS allows this domain.</span>
+          <button className="btn btn-ghost btn-sm" onClick={load} style={{ flexShrink: 0, color: 'var(--danger)', borderColor: 'rgba(248,113,113,0.4)' }}>
+            ↻ Retry
+          </button>
+        </div>
+      )}
 
       {/* Filters */}
       <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap', alignItems: 'center' }}>

@@ -708,10 +708,21 @@ const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov
 export function AdminAnalytics() {
   const [stats, setStats]     = useState(null);
   const [loading, setLoading] = useState(true);
+  const [apiErr, setApiErr]   = useState('');
 
-  useEffect(() => {
-    api.get('/orders/stats').then(r => setStats(r.data)).catch(() => {}).finally(() => setLoading(false));
-  }, []);
+  const load = () => {
+    setLoading(true);
+    setApiErr('');
+    api.get('/orders/stats')
+      .then(r => { setStats(r.data); setApiErr(''); })
+      .catch(err => {
+        const msg = err?.response?.data?.message || err?.message || 'Network error — backend may be offline or waking up.';
+        setApiErr(msg);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const chartData = MONTHS.map((m, i) => {
     const found = stats?.monthlyRevenue?.find(r => r._id === i + 1);
@@ -724,6 +735,19 @@ export function AdminAnalytics() {
     <>
       <div className="admin-page-title">Revenue Analytics</div>
       <div className="admin-page-sub">Financial overview for GLE Studio — {new Date().getFullYear()}</div>
+
+      {apiErr && (
+        <div style={{
+          background: 'rgba(248,113,113,0.10)', border: '1px solid rgba(248,113,113,0.30)',
+          borderRadius: 'var(--radius)', padding: '0.85rem 1.2rem', marginBottom: '1.5rem',
+          color: 'var(--danger)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.75rem',
+        }}>
+          <span style={{ flex: 1 }}>⚠️ <strong>API error:</strong> {apiErr} — Check backend is running & CORS allows this domain.</span>
+          <button className="btn btn-ghost btn-sm" onClick={load} style={{ flexShrink: 0, color: 'var(--danger)', borderColor: 'rgba(248,113,113,0.4)' }}>
+            ↻ Retry
+          </button>
+        </div>
+      )}
       <div className="stats-grid">
         <div className="stat-card"><div className="stat-value" style={{ color: 'var(--gold)' }}>{stats?.revenue ? `₹${(stats.revenue/1000).toFixed(0)}K` : '₹0'}</div><div className="stat-label">Total Revenue</div></div>
         <div className="stat-card"><div className="stat-value">{stats?.total || 0}</div><div className="stat-label">Total Bookings</div></div>

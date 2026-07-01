@@ -20,7 +20,9 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [apiErr,  setApiErr]  = useState('');
 
-  useEffect(() => {
+  const load = () => {
+    setLoading(true);
+    setApiErr('');
     Promise.all([
       api.get('/orders/stats'),
       api.get('/orders?limit=6'),
@@ -32,7 +34,9 @@ export default function AdminDashboard() {
       const msg = err?.response?.data?.message || err?.message || 'Network error — backend may be offline or waking up.';
       setApiErr(msg);
     }).finally(() => setLoading(false));
-  }, []);
+  };
+
+  useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Build chart data from monthlyRevenue
   const chartData = MONTHS.map((m, i) => {
@@ -40,7 +44,7 @@ export default function AdminDashboard() {
     return { month: m, revenue: found?.revenue || 0, bookings: found?.count || 0 };
   });
 
-  if (loading) return <div className="spinner-wrap"><div className="spinner"></div></div>;
+  if (loading) return <div className="spinner-wrap" style={{ minHeight: 320 }}><div className="spinner"></div></div>;
 
   return (
     <>
@@ -54,9 +58,12 @@ export default function AdminDashboard() {
         <div style={{
           background: 'rgba(248,113,113,0.10)', border: '1px solid rgba(248,113,113,0.30)',
           borderRadius: 'var(--radius)', padding: '0.85rem 1.2rem', marginBottom: '1.5rem',
-          color: 'var(--danger)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.6rem',
+          color: 'var(--danger)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.75rem',
         }}>
-          ⚠️ <span><strong>API error:</strong> {apiErr} — Check backend is running & CORS allows this domain.</span>
+          <span style={{ flex: 1 }}>⚠️ <strong>API error:</strong> {apiErr} — Check backend is running & CORS allows this domain.</span>
+          <button className="btn btn-ghost btn-sm" onClick={load} style={{ flexShrink: 0, color: 'var(--danger)', borderColor: 'rgba(248,113,113,0.4)' }}>
+            ↻ Retry
+          </button>
         </div>
       )}
 
