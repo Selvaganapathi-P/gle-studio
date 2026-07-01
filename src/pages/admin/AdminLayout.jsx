@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import api from '../../utils/api';
 import toast from 'react-hot-toast';
 
 const NAV = [
@@ -20,6 +21,17 @@ export default function AdminLayout() {
   const navigate  = useNavigate();
   const location  = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [serverStatus, setServerStatus] = useState('checking'); // 'checking' | 'online' | 'slow'
+  const pingDone = useRef(false);
+
+  useEffect(() => {
+    if (pingDone.current) return;
+    pingDone.current = true;
+    const t = setTimeout(() => setServerStatus('slow'), 4000);
+    api.get('/health')
+      .then(() => { clearTimeout(t); setServerStatus('online'); })
+      .catch(() => { clearTimeout(t); setServerStatus('slow'); });
+  }, []);
 
   const handleLogout = () => { logout(); toast.success('Signed out'); navigate('/'); };
   const isActive = path => path === '/admin' ? location.pathname === '/admin' : location.pathname.startsWith(path);
@@ -88,6 +100,16 @@ export default function AdminLayout() {
 
         {/* Main content */}
         <main className="admin-main">
+          {serverStatus === 'slow' && (
+            <div style={{
+              background: 'rgba(245,177,47,0.10)', border: '1px solid rgba(245,177,47,0.35)',
+              borderRadius: 'var(--radius)', padding: '0.7rem 1.1rem', marginBottom: '1.25rem',
+              color: 'var(--warning)', fontSize: '0.83rem', display: 'flex', alignItems: 'center', gap: '0.6rem',
+            }}>
+              <span style={{ animation: 'spinCW 1.2s linear infinite', display: 'inline-block' }}>⟳</span>
+              <span>Backend is starting up (free tier sleeps after inactivity — may take 30–60s). Data will load automatically once online.</span>
+            </div>
+          )}
           <Outlet />
         </main>
       </div>
