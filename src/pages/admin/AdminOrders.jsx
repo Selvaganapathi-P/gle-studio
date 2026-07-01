@@ -146,11 +146,13 @@ export default function AdminOrders() {
                   <td style={{ fontSize: '0.82rem', maxWidth: 160 }}>{o.service}</td>
                   {/* <td style={{ fontSize: '0.82rem', whiteSpace: 'nowrap' }}>{o.preferredDate || '—'}</td> */}
                   <td style={{ fontSize: '0.82rem', whiteSpace: 'nowrap' }}>
-  <div>{o.preferredDate || '—'}</div>
-  <div style={{ fontSize: '0.72rem', color: 'var(--text3)', marginTop: '0.2rem' }}>
-    Ordered: {new Date(o.createdAt).toLocaleDateString('en-IN')}
-  </div>
-</td>
+                    {o.preferredDate && (
+                      <div>{new Date(o.preferredDate).toLocaleDateString('en-IN')}</div>
+                    )}
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text3)', marginTop: o.preferredDate ? '0.2rem' : 0 }}>
+                      Ordered: {new Date(o.createdAt).toLocaleDateString('en-IN')}
+                    </div>
+                  </td>
                   <td style={{ fontWeight: 600 }}>
                     {o.amount > 0 ? `₹${o.amount.toLocaleString('en-IN')}` : '—'}
                   </td>
@@ -217,7 +219,7 @@ export default function AdminOrders() {
                 <p className="form-label" style={{ marginBottom: '0.75rem' }}>Booking Info</p>
                 {[
                   ['Service',   selected.service],
-                  ['Date',      selected.preferredDate || '—'],
+                  ...(selected.preferredDate ? [['Date', new Date(selected.preferredDate).toLocaleDateString('en-IN')]] : []),
                   ['Venue',     selected.venue         || '—'],
                   ['Budget',    selected.budget        || '—'],
                   ['Order ID',  `#${selected._id.slice(-8).toUpperCase()}`],

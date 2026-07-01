@@ -5611,6 +5611,34 @@ tbody tr:hover td { background: #f8fafc !important; }
   background: rgba(200,155,60,0.06) !important;
 }
 
+/* ── 21. Filter buttons — visible on light admin bg ── */
+.admin-main .filter-btn {
+  background: #ffffff !important;
+  border: 1.5px solid #e2e8f0 !important;
+  color: #374151 !important;
+  box-shadow: 0 1px 3px rgba(15,23,42,0.06) !important;
+  transform: none !important;
+}
+/* Hide the animated gradient ::before on admin — it clips oddly on light bg */
+.admin-main .filter-btn::before {
+  display: none !important;
+}
+.admin-main .filter-btn:hover {
+  border-color: rgba(200,155,60,0.45) !important;
+  color: #92611a !important;
+  background: rgba(200,155,60,0.06) !important;
+  box-shadow: 0 2px 8px rgba(200,155,60,0.15) !important;
+  transform: none !important;
+}
+.admin-main .filter-btn.active {
+  background: #c89b3c !important;
+  border-color: #c89b3c !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 16px rgba(200,155,60,0.35) !important;
+  transform: none !important;
+  font-weight: 600 !important;
+}
+
 /* ── Admin mobile responsive ── */
 @media (max-width: 768px) {
   .admin-sidebar {
