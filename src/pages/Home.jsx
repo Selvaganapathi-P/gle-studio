@@ -10,7 +10,7 @@ const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
   delay: (i * 0.38) % 6,
   duration: 3.5 + (i % 5) * 0.7,
   drift: ((i % 2 === 0) ? 1 : -1) * (8 + (i * 7) % 28),
-  color: i % 3 === 0 ? '#e8c376' : i % 3 === 1 ? '#d4a853' : '#fef3c7',
+  color: i % 3 === 0 ? '#f9a8d4' : i % 3 === 1 ? '#ec4899' : '#fce7f3',
 }));
 
 // ── Hero slideshow image pool (cycles every 3 s) ─────────────
@@ -158,11 +158,11 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Bottom-left gold orb */}
+        {/* Bottom-left pink orb */}
         <motion.div
           style={{
             position: 'absolute', width: 500, height: 500, borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(232,184,75,0.22) 0%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(249,168,212,0.30) 0%, transparent 70%)',
             bottom: -160, left: -140, filter: 'blur(70px)', pointerEvents: 'none', zIndex: 0,
           }}
           animate={{ x: [-10, 30, -10], y: [0, -40, 0], scale: [1, 1.08, 1] }}
