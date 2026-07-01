@@ -137,15 +137,24 @@ export default function Frames() {
                       style={{ '--reveal-delay': `${(idx % 6) * 0.06}s` }}
                       onClick={() => setSelectedFrame(f)}
                     >
-                      {/* Frame photo */}
+                      {/* Frame photo — fixed aspect-ratio container so portrait & landscape look uniform */}
                       {f.imageUrl && (
-                        <div style={{ position: 'relative', marginBottom: '0.5rem' }}>
+                        <div style={{
+                          position: 'relative',
+                          width: '100%',
+                          aspectRatio: '4/3',
+                          overflow: 'hidden',
+                        }}>
                           <img
                             src={f.imageUrl}
                             alt={`${f.size} ${f.material} frame`}
-                            style={{ width: '100%', height: 90, objectFit: 'cover', borderRadius: 'var(--radius-sm)', display: 'block' }}
+                            style={{
+                              width: '100%', height: '100%',
+                              objectFit: 'cover', objectPosition: 'center',
+                              display: 'block',
+                            }}
                           />
-                          {/* Offer badge over the image */}
+                          {/* Offer badge */}
                           {hasOffer && (
                             <div style={{
                               position: 'absolute', top: 6, left: 6,
