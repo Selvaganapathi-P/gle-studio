@@ -94,7 +94,7 @@ export default function WelcomeIntro() {
               position: 'absolute',
               width: 340, height: 340,
               borderRadius: '50%',
-              border: `1px solid rgba(184,134,42,0.12)`,
+              border: `1px solid rgba(99,102,241,0.12)`,
               pointerEvents: 'none',
             }}
             animate={{ rotate: 360 }}
@@ -105,7 +105,7 @@ export default function WelcomeIntro() {
               position: 'absolute',
               width: 220, height: 220,
               borderRadius: '50%',
-              border: `1px dashed rgba(184,134,42,0.18)`,
+              border: `1px dashed rgba(99,102,241,0.18)`,
               pointerEvents: 'none',
             }}
             animate={{ rotate: -360 }}

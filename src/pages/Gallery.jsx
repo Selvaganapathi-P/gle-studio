@@ -231,9 +231,9 @@ export default function Gallery() {
               style={{
                 position: 'fixed', bottom: '1.5rem', left: '50%', transform: 'translateX(-50%)',
                 color: 'rgba(255,255,255,0.75)', fontSize: '0.85rem',
-                background: 'rgba(10,31,23,0.7)', backdropFilter: 'blur(8px)',
+                background: 'rgba(15,13,45,0.80)', backdropFilter: 'blur(8px)',
                 padding: '0.4rem 1.2rem', borderRadius: '40px',
-                border: '1px solid rgba(184,134,42,0.2)',
+                border: '1px solid rgba(99,102,241,0.25)',
               }}
             >
               {filtered[lightbox]?.title} &nbsp;·&nbsp; {lightbox + 1} / {filtered.length}

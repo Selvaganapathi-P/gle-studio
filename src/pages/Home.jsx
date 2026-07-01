@@ -10,7 +10,7 @@ const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
   delay: (i * 0.38) % 6,
   duration: 3.5 + (i % 5) * 0.7,
   drift: ((i % 2 === 0) ? 1 : -1) * (8 + (i * 7) % 28),
-  color: i % 3 === 0 ? '#f5c890' : i % 3 === 1 ? '#e8b84b' : '#90ddb8',
+  color: i % 3 === 0 ? '#a5b4fc' : i % 3 === 1 ? '#818cf8' : '#c7d2fe',
 }));
 
 // ── Animation helpers ─────────────────────────────────────────
@@ -244,7 +244,7 @@ export default function Home() {
                   className="card"
                   style={{ padding: 0, overflow: 'hidden', cursor: 'pointer' }}
                   onClick={() => navigate('/services')}
-                  whileHover={{ y: -8, scale: 1.02, boxShadow: '0 20px 60px rgba(14,37,28,0.15), 0 0 0 1.5px rgba(184,134,42,0.2)' }}
+                  whileHover={{ y: -8, scale: 1.02, boxShadow: '0 20px 60px rgba(30,27,75,0.15), 0 0 0 1.5px rgba(99,102,241,0.2)' }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ type: 'spring', stiffness: 320, damping: 24 }}
                 >
@@ -349,7 +349,7 @@ export default function Home() {
                   variants={fadeUp}
                   className="glass-card"
                   style={{ padding: '1.75rem', textAlign: 'center' }}
-                  whileHover={{ y: -8, boxShadow: '0 24px 60px rgba(14,37,28,0.12), 0 0 0 1px rgba(184,134,42,0.18)' }}
+                  whileHover={{ y: -8, boxShadow: '0 24px 60px rgba(30,27,75,0.12), 0 0 0 1px rgba(99,102,241,0.18)' }}
                   transition={{ type: 'spring', stiffness: 320, damping: 22 }}
                 >
                   <motion.div
