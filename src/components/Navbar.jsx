@@ -49,15 +49,15 @@ export default function Navbar() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         style={{
           background: scrolled
-            ? 'rgba(8,9,14,0.95)'
-            : 'rgba(8,9,14,0.68)',
+            ? 'rgba(5,10,7,0.96)'
+            : 'rgba(5,10,7,0.72)',
           boxShadow: scrolled
-            ? '0 4px 40px rgba(0,0,0,0.60), 0 1px 0 rgba(232,184,75,0.12)'
+            ? '0 4px 40px rgba(0,12,6,0.55), 0 1px 0 rgba(232,184,75,0.14)'
             : 'none',
           backdropFilter: 'blur(28px) saturate(200%)',
           WebkitBackdropFilter: 'blur(28px) saturate(200%)',
           borderBottom: scrolled
-            ? '1px solid rgba(232,184,75,0.18)'
+            ? '1px solid rgba(232,184,75,0.20)'
             : '1px solid rgba(255,255,255,0.04)',
           transition: 'background 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease',
         }}

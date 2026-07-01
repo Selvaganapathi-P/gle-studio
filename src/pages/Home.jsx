@@ -10,7 +10,7 @@ const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
   delay: (i * 0.38) % 6,
   duration: 3.5 + (i % 5) * 0.7,
   drift: ((i % 2 === 0) ? 1 : -1) * (8 + (i * 7) % 28),
-  color: i % 3 === 0 ? '#a78bfa' : i % 3 === 1 ? '#e8b84b' : '#22d3ee',
+  color: i % 3 === 0 ? '#f5c890' : i % 3 === 1 ? '#e8b84b' : '#90ddb8',
 }));
 
 // ── Animation helpers ─────────────────────────────────────────

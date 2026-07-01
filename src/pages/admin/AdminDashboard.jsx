@@ -15,9 +15,10 @@ function statusClass(s) {
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
-  const [stats, setStats]   = useState(null);
-  const [orders, setOrders] = useState([]);
+  const [stats,   setStats]   = useState(null);
+  const [orders,  setOrders]  = useState([]);
   const [loading, setLoading] = useState(true);
+  const [apiErr,  setApiErr]  = useState('');
 
   useEffect(() => {
     Promise.all([
@@ -26,7 +27,11 @@ export default function AdminDashboard() {
     ]).then(([s, o]) => {
       setStats(s.data);
       setOrders(o.data.orders || []);
-    }).catch(() => {}).finally(() => setLoading(false));
+      setApiErr('');
+    }).catch(err => {
+      const msg = err?.response?.data?.message || err?.message || 'Network error — backend may be offline or waking up.';
+      setApiErr(msg);
+    }).finally(() => setLoading(false));
   }, []);
 
   // Build chart data from monthlyRevenue
@@ -43,6 +48,17 @@ export default function AdminDashboard() {
         <div className="admin-page-title">Dashboard Overview</div>
         <div className="admin-page-sub">Welcome back! Here's your studio at a glance.</div>
       </div>
+
+      {/* API error banner */}
+      {apiErr && (
+        <div style={{
+          background: 'rgba(248,113,113,0.10)', border: '1px solid rgba(248,113,113,0.30)',
+          borderRadius: 'var(--radius)', padding: '0.85rem 1.2rem', marginBottom: '1.5rem',
+          color: 'var(--danger)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.6rem',
+        }}>
+          ⚠️ <span><strong>API error:</strong> {apiErr} — Check backend is running & CORS allows this domain.</span>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="stats-grid">
