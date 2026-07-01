@@ -113,9 +113,9 @@ export default function Frames() {
   return (
     <>
       <div className="page-hero">
-        <span className="section-tag">Frames & Prints</span>
-        <h1>Print Your <em style={{ color: 'var(--gold3)' }}>Memories</em></h1>
-        <p>Archival-quality prints crafted to last generations. Choose your size and material.</p>
+        <span className="section-tag" data-reveal="fade">Frames & Prints</span>
+        <h1 data-reveal style={{ '--reveal-delay': '0.08s' }}>Print Your <em style={{ color: 'var(--gold3)' }}>Memories</em></h1>
+        <p data-reveal style={{ '--reveal-delay': '0.18s' }}>Archival-quality prints crafted to last generations. Choose your size and material.</p>
       </div>
 
       <section className="section-pad">
@@ -124,15 +124,17 @@ export default function Frames() {
 
             {/* ── Left: Frame selection ── */}
             <div>
-              <h3 style={{ fontFamily: 'var(--font-serif)', marginBottom: '1.25rem' }}>Select Your Frame</h3>
+              <h3 data-reveal style={{ fontFamily: 'var(--font-serif)', marginBottom: '1.25rem' }}>Select Your Frame</h3>
               <div className="frame-options-grid">
-                {frames.map(f => {
+                {frames.map((f, idx) => {
                   const frameDiscounted = getFramePrice(f);
                   const hasOffer = f.offerPercent > 0;
                   return (
                     <div
                       key={f._id}
                       className={`frame-option${selectedFrame?._id === f._id ? ' selected' : ''}`}
+                      data-reveal="scale"
+                      style={{ '--reveal-delay': `${(idx % 6) * 0.06}s` }}
                       onClick={() => setSelectedFrame(f)}
                     >
                       {/* Frame photo */}
@@ -196,7 +198,7 @@ export default function Frames() {
               </div>
 
               {/* Material guide */}
-              <div className="card-flat" style={{ marginTop: '1.5rem' }}>
+              <div className="card-flat" data-reveal style={{ marginTop: '1.5rem' }}>
                 <h4 style={{ fontFamily: 'var(--font-serif)', marginBottom: '1rem' }}>Material Guide</h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                   {[
@@ -216,7 +218,7 @@ export default function Frames() {
 
             {/* ── Right: Order summary ── */}
             <div>
-              <div className="form-section">
+              <div className="form-section" data-reveal="right">
                 <h3 style={{ fontFamily: 'var(--font-serif)', marginBottom: '1.25rem' }}>Your Order Summary</h3>
 
                 {/* Selected frame preview */}

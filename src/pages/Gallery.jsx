@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import api from '../utils/api';
 
 const FALLBACK = [
@@ -22,37 +23,31 @@ const FALLBACK = [
   { _id: 'f18', title: 'Watch Product Shoot', category: 'Commercial', imageUrl: 'https://images.unsplash.com/photo-1524592094714-0f0654e0f411?w=800&q=80' },
 ];
 
-const SAFE_FALLBACK = 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80';
-const DEFAULT_CATS  = ['All', 'Wedding', 'Portrait', 'Events', 'Commercial'];
+const SAFE_FALLBACK  = 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=800&q=80';
+const DEFAULT_CATS   = ['All', 'Wedding', 'Portrait', 'Events', 'Commercial'];
 
 const isPhoto = url =>
-  url && (
-    url.startsWith('https://') ||
-    url.startsWith('http://') ||
-    (url.startsWith('/uploads/') && /\.(jpg|jpeg|png|webp|gif)$/i.test(url))
-  );
+  url && (url.startsWith('https://') || url.startsWith('http://') ||
+    (url.startsWith('/uploads/') && /\.(jpg|jpeg|png|webp|gif)$/i.test(url)));
+
+const ease = [0.22, 1, 0.36, 1];
 
 export default function Gallery() {
-  const [photos, setPhotos]     = useState(FALLBACK);
-  const [cats, setCats]         = useState(DEFAULT_CATS);
-  const [cat, setCat]           = useState('All');
+  const [photos,   setPhotos]   = useState(FALLBACK);
+  const [cats,     setCats]     = useState(DEFAULT_CATS);
+  const [cat,      setCat]      = useState('All');
   const [lightbox, setLightbox] = useState(null);
-  const [loading, setLoading]   = useState(true);
+  const [loading,  setLoading]  = useState(true);
 
   useEffect(() => {
     api.get('/gallery')
       .then(r => {
         const adminPhotos = r.data.filter(p => isPhoto(p.imageUrl));
         if (adminPhotos.length > 0) {
-          // Build dynamic categories from actual uploaded photos
           const uploadedCats = [...new Set(adminPhotos.map(p => p.category))];
-          // Merge with default cats, keeping All first
-          const merged = ['All', ...new Set([...DEFAULT_CATS.slice(1), ...uploadedCats])];
-          setCats(merged);
-
+          setCats(['All', ...new Set([...DEFAULT_CATS.slice(1), ...uploadedCats])]);
           const adminCatSet = new Set(adminPhotos.map(p => p.category));
-          const fillIn = FALLBACK.filter(f => !adminCatSet.has(f.category));
-          setPhotos([...adminPhotos, ...fillIn]);
+          setPhotos([...adminPhotos, ...FALLBACK.filter(f => !adminCatSet.has(f.category))]);
         }
       })
       .catch(() => {})
@@ -65,7 +60,6 @@ export default function Gallery() {
   const prevLb  = () => setLightbox(i => (i - 1 + filtered.length) % filtered.length);
   const nextLb  = () => setLightbox(i => (i + 1) % filtered.length);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const onKey = e => {
       if (lightbox === null) return;
@@ -75,88 +69,178 @@ export default function Gallery() {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lightbox, filtered.length]);
 
   return (
     <>
+      {/* Page hero */}
       <div className="page-hero">
-        <span className="section-tag">Portfolio</span>
-        <h1>Our <em style={{ color: 'var(--gold3)' }}>Gallery</em></h1>
-        <p>A showcase of moments captured — weddings, portraits, events & commercial work.</p>
+        <motion.span
+          className="section-tag"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease }}
+        >
+          Portfolio
+        </motion.span>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.08, ease }}
+        >
+          Our <em style={{ color: 'var(--gold3)' }}>Gallery</em>
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.18, ease }}
+        >
+          A showcase of moments captured — weddings, portraits, events &amp; commercial work.
+        </motion.p>
       </div>
 
       <section className="section-pad">
         <div className="container">
 
-          {/* Dynamic category filters */}
-          <div className="gallery-filters">
+          {/* Category filters */}
+          <motion.div
+            className="gallery-filters"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.25, ease }}
+          >
             {cats.map(c => (
-              <button
+              <motion.button
                 key={c}
                 className={`filter-btn${cat === c ? ' active' : ''}`}
                 onClick={() => setCat(c)}
+                whileHover={{ scale: 1.06, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 22 }}
               >
                 {c}
-              </button>
+              </motion.button>
             ))}
-          </div>
+          </motion.div>
 
           {loading ? (
             <div className="spinner-wrap"><div className="spinner" /></div>
           ) : (
-            <div className="gallery-masonry">
-              {filtered.map((photo, idx) => (
-                <div key={photo._id} className="gallery-item" onClick={() => setLightbox(idx)}>
-                  <img
-                    src={photo.imageUrl}
-                    alt={photo.title}
-                    loading="lazy"
-                    onError={e => {
-                      const same = FALLBACK.find(f => f.category === photo.category && f.imageUrl !== photo.imageUrl);
-                      e.currentTarget.src = same ? same.imageUrl : SAFE_FALLBACK;
-                      e.currentTarget.onerror = null;
-                    }}
-                  />
-                  <div className="gallery-item-overlay">
-                    <div className="gallery-item-title">{photo.title} · {photo.category}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={cat}
+                className="gallery-masonry"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {filtered.map((photo, idx) => (
+                  <motion.div
+                    key={photo._id}
+                    className="gallery-item"
+                    initial={{ opacity: 0, scale: 0.92, y: 20 }}
+                    animate={{ opacity: 1, scale: 1,    y: 0 }}
+                    transition={{ duration: 0.45, delay: (idx % 8) * 0.055, ease }}
+                    onClick={() => setLightbox(idx)}
+                    whileHover={{ scale: 1.03, zIndex: 2 }}
+                    layout
+                  >
+                    <img
+                      src={photo.imageUrl}
+                      alt={photo.title}
+                      loading="lazy"
+                      onError={e => {
+                        const same = FALLBACK.find(f => f.category === photo.category && f.imageUrl !== photo.imageUrl);
+                        e.currentTarget.src = same ? same.imageUrl : SAFE_FALLBACK;
+                        e.currentTarget.onerror = null;
+                      }}
+                    />
+                    <div className="gallery-item-overlay">
+                      <div className="gallery-item-title">{photo.title} · {photo.category}</div>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
           )}
 
           {!loading && filtered.length === 0 && (
-            <div className="empty-state">
+            <motion.div
+              className="empty-state"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
               <div className="empty-state-icon">📷</div>
               <h3>No photos in this category yet</h3>
               <p>Check back soon — we're always shooting!</p>
-            </div>
+            </motion.div>
           )}
         </div>
       </section>
 
       {/* Lightbox */}
-      {lightbox !== null && (
-        <div className="lightbox-backdrop" onClick={closeLb}>
-          <button className="lightbox-close" onClick={closeLb}>×</button>
-          <button className="lightbox-nav lightbox-prev" onClick={e => { e.stopPropagation(); prevLb(); }}>‹</button>
-          <img
-            src={filtered[lightbox]?.imageUrl}
-            alt={filtered[lightbox]?.title}
-            className="lightbox-img"
-            onClick={e => e.stopPropagation()}
-            onError={e => { e.currentTarget.src = SAFE_FALLBACK; e.currentTarget.onerror = null; }}
-          />
-          <button className="lightbox-nav lightbox-next" onClick={e => { e.stopPropagation(); nextLb(); }}>›</button>
-          <div style={{
-            position: 'fixed', bottom: '1.5rem', left: '50%', transform: 'translateX(-50%)',
-            color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem',
-            background: 'rgba(0,0,0,0.5)', padding: '0.4rem 1rem', borderRadius: '40px',
-          }}>
-            {filtered[lightbox]?.title} &nbsp;·&nbsp; {lightbox + 1} / {filtered.length}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {lightbox !== null && (
+          <motion.div
+            className="lightbox-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={closeLb}
+          >
+            <motion.button
+              className="lightbox-close"
+              onClick={closeLb}
+              whileHover={{ rotate: 90, scale: 1.15 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+            >
+              ×
+            </motion.button>
+            <motion.button
+              className="lightbox-nav lightbox-prev"
+              onClick={e => { e.stopPropagation(); prevLb(); }}
+              whileHover={{ scale: 1.15, x: -4 }}
+            >
+              ‹
+            </motion.button>
+            <motion.img
+              key={lightbox}
+              src={filtered[lightbox]?.imageUrl}
+              alt={filtered[lightbox]?.title}
+              className="lightbox-img"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.35, ease }}
+              onClick={e => e.stopPropagation()}
+              onError={e => { e.currentTarget.src = SAFE_FALLBACK; e.currentTarget.onerror = null; }}
+            />
+            <motion.button
+              className="lightbox-nav lightbox-next"
+              onClick={e => { e.stopPropagation(); nextLb(); }}
+              whileHover={{ scale: 1.15, x: 4 }}
+            >
+              ›
+            </motion.button>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              style={{
+                position: 'fixed', bottom: '1.5rem', left: '50%', transform: 'translateX(-50%)',
+                color: 'rgba(255,255,255,0.75)', fontSize: '0.85rem',
+                background: 'rgba(10,31,23,0.7)', backdropFilter: 'blur(8px)',
+                padding: '0.4rem 1.2rem', borderRadius: '40px',
+                border: '1px solid rgba(184,134,42,0.2)',
+              }}
+            >
+              {filtered[lightbox]?.title} &nbsp;·&nbsp; {lightbox + 1} / {filtered.length}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
