@@ -5619,3 +5619,199 @@ tbody tr:hover td { background: #f8fafc !important; }
     border-bottom: 1px solid #e5e7eb !important;
   }
 }
+
+/* ============================================================
+   60% OFFER BANNER — between Hero and Services
+   ============================================================ */
+
+.offer-banner-section {
+  padding: 0 0 2.5rem;
+  background: var(--bg2);
+}
+
+.offer-banner-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  background: linear-gradient(120deg, #1c1407 0%, #2a1c0b 45%, #1c1307 100%);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 3rem;
+  overflow: hidden;
+  border: 1px solid rgba(212,168,83,0.22);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.22), 0 0 0 1px rgba(212,168,83,0.06) inset;
+}
+
+/* Animated background orbs */
+.offer-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+}
+.offer-orb--left {
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(212,168,83,0.28) 0%, transparent 65%);
+  top: -140px; left: -100px;
+  animation: orbDrift 18s ease-in-out infinite;
+}
+.offer-orb--right {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(196,100,40,0.22) 0%, transparent 65%);
+  bottom: -120px; right: -80px;
+  animation: orbDrift2 24s ease-in-out infinite;
+}
+
+/* ── Discount block ── */
+.offer-discount-wrap {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center;
+  flex-shrink: 0;
+  text-align: center;
+}
+.offer-percent {
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 8vw, 6.5rem);
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, var(--gold3) 0%, #fde68a 30%, var(--gold2) 60%, var(--gold4) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmer 3s linear infinite;
+  background-size: 220% auto;
+  letter-spacing: -0.02em;
+}
+.offer-percent span {
+  font-size: 55%;
+  vertical-align: top;
+  margin-top: 0.3em;
+  display: inline-block;
+}
+.offer-off-label {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  color: rgba(255,255,255,0.75);
+  text-transform: uppercase;
+  margin-top: -0.2rem;
+}
+.offer-badge {
+  margin-top: 0.6rem;
+  background: rgba(212,168,83,0.18);
+  border: 1px solid rgba(212,168,83,0.40);
+  color: var(--gold3);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.85rem;
+  border-radius: 40px;
+  animation: breathe 2.5s ease-in-out infinite;
+}
+
+/* ── Vertical divider ── */
+.offer-divider {
+  width: 1px;
+  align-self: stretch;
+  background: linear-gradient(to bottom, transparent, rgba(212,168,83,0.35), transparent);
+  flex-shrink: 0;
+  position: relative; z-index: 1;
+}
+
+/* ── Copy block ── */
+.offer-copy {
+  flex: 1; min-width: 0;
+  position: relative; z-index: 1;
+}
+.offer-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold3);
+  margin-bottom: 0.6rem;
+}
+.offer-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.25;
+  margin-bottom: 0.65rem;
+}
+.offer-desc {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.58);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  max-width: 360px;
+}
+.offer-desc strong { color: var(--gold3); font-weight: 600; }
+.offer-perks {
+  display: flex; flex-direction: column; gap: 0.3rem;
+}
+.offer-perks li {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.62);
+}
+.offer-perk-dot {
+  color: var(--gold3);
+  font-size: 0.78rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── CTA block ── */
+.offer-cta-wrap {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.85rem; flex-shrink: 0;
+  position: relative; z-index: 1;
+  text-align: center;
+}
+.offer-urgency {
+  display: flex; align-items: center; gap: 0.45rem;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.52);
+  white-space: nowrap;
+}
+.offer-urgency-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px rgba(34,197,94,0.7);
+  animation: goldGlow 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.offer-cta-btn {
+  white-space: nowrap;
+  min-width: 160px;
+  font-size: 1rem !important;
+}
+.offer-note {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.28);
+  letter-spacing: 0.04em;
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .offer-banner-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.75rem;
+    padding: 2rem 1.75rem;
+  }
+  .offer-divider { display: none; }
+  .offer-discount-wrap { flex-direction: row; align-items: center; gap: 1rem; }
+  .offer-off-label { font-size: 1.1rem; }
+  .offer-badge { margin-top: 0; }
+  .offer-cta-wrap { width: 100%; align-items: flex-start; }
+  .offer-urgency { white-space: normal; }
+}
+@media (max-width: 480px) {
+  .offer-banner-card { padding: 1.5rem 1.25rem; gap: 1.25rem; }
+  .offer-percent { font-size: 3.5rem; }
+  .offer-desc { max-width: 100%; }
+}

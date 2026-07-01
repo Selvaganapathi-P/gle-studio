@@ -343,6 +343,71 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── LIMITED TIME OFFER BANNER ── */}
+      <section className="offer-banner-section">
+        <div className="container">
+          <motion.div
+            className="offer-banner-card"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7, ease }}
+          >
+            {/* Animated background orbs */}
+            <div className="offer-orb offer-orb--left" />
+            <div className="offer-orb offer-orb--right" />
+
+            {/* Left — discount badge */}
+            <div className="offer-discount-wrap">
+              <motion.div
+                className="offer-percent"
+                animate={{ scale: [1, 1.04, 1] }}
+                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                60<span>%</span>
+              </motion.div>
+              <div className="offer-off-label">OFF</div>
+              <div className="offer-badge">Limited Time</div>
+            </div>
+
+            {/* Divider */}
+            <div className="offer-divider" />
+
+            {/* Middle — copy */}
+            <div className="offer-copy">
+              <div className="offer-eyebrow">✦ Exclusive Seasonal Offer</div>
+              <h3 className="offer-title">Book Any Session &amp; Save Big</h3>
+              <p className="offer-desc">
+                Wedding, portrait, or commercial shoot — get <strong>60% off</strong> your session fee
+                when you book before slots run out. Premium quality, unbeatable price.
+              </p>
+              <ul className="offer-perks">
+                {['Free pre-shoot consultation', 'High-res edited gallery', 'Same-day preview shots'].map(p => (
+                  <li key={p}><span className="offer-perk-dot">✓</span>{p}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Right — CTA */}
+            <div className="offer-cta-wrap">
+              <div className="offer-urgency">
+                <span className="offer-urgency-dot" />
+                Only a few slots left this month
+              </div>
+              <motion.button
+                className="btn btn-primary btn-lg offer-cta-btn"
+                onClick={() => navigate('/booking')}
+                whileHover={{ scale: 1.05, y: -3 }}
+                whileTap={{ scale: 0.97 }}
+              >
+                Claim Offer →
+              </motion.button>
+              <div className="offer-note">No hidden charges · Cancel anytime</div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* ── SERVICES ── */}
       <section className="section-pad section-white">
         <div className="container">
