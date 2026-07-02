@@ -86,7 +86,11 @@ export default function AdminDashboard() {
         </div>
         <div className="stat-card">
           <div className="stat-value" style={{ color: 'var(--gold)' }}>
-            {stats?.revenue ? `₹${(stats.revenue / 1000).toFixed(0)}K` : '₹0'}
+            {stats?.revenue
+              ? stats.revenue >= 1000
+                ? `₹${(stats.revenue / 1000).toFixed(1)}K`
+                : `₹${stats.revenue.toLocaleString('en-IN')}`
+              : '₹0'}
           </div>
           <div className="stat-label">Revenue (YTD)</div>
           <div className="stat-change up">Confirmed orders</div>
@@ -113,7 +117,7 @@ export default function AdminDashboard() {
             <LineChart data={chartData} margin={{ top: 4, right: 4, left: -10, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--bg3)" />
               <XAxis dataKey="month" tick={{ fontSize: 11, fill: 'var(--text3)' }} />
-              <YAxis tick={{ fontSize: 11, fill: 'var(--text3)' }} tickFormatter={v => v > 0 ? `₹${(v/1000).toFixed(0)}K` : '0'} />
+              <YAxis tick={{ fontSize: 11, fill: 'var(--text3)' }} tickFormatter={v => v === 0 ? '0' : v >= 1000 ? `₹${(v/1000).toFixed(0)}K` : `₹${v}`} />
               <Tooltip contentStyle={{ fontFamily: 'Outfit,sans-serif', fontSize: '0.82rem', border: '1px solid var(--bg3)', borderRadius: 8 }}
                 formatter={v => [`₹${v.toLocaleString('en-IN')}`, 'Revenue']} />
               <Line type="monotone" dataKey="revenue" stroke="var(--gold)" strokeWidth={2.5} dot={{ fill: 'var(--gold)', r: 4 }} activeDot={{ r: 6 }} />
