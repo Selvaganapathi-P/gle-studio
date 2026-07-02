@@ -103,9 +103,9 @@ const WHY_US = [
 ];
 
 const TESTIMONIALS = [
-  { name: 'Priya & Arjun Sharma', role: 'Wedding, 2024',       text: 'GLE Studio captured our wedding beyond imagination. Every frame feels like a painting — emotional, timeless, and absolutely breathtaking.', stars: 5 },
-  { name: 'Ravi Krishnamurthy',   role: 'CEO, Velvet Brands',  text: 'The commercial shoot exceeded all expectations. Professional, creative, and the images drove real results for our brand.',                   stars: 5 },
-  { name: 'Meena & Suresh Iyer',  role: 'Baby Shower Session', text: "Our photos are treasures we'll keep forever. The team was so warm and patient — a truly magical experience from start to finish.",           stars: 5 },
+  { name: 'Anbu & Pavi', role: 'Wedding, 2024',       text: 'GLE Studio captured our wedding beyond imagination. Every frame feels like a painting — emotional, timeless, and absolutely breathtaking.', stars: 5 },
+  { name: 'Dinesh',   role: 'CEO, Infinity Web Tech',  text: 'The commercial shoot exceeded all expectations. Professional, creative, and the images drove real results for our brand.',                   stars: 5 },
+  { name: 'Mathesh & Nirmala',  role: 'Baby Shower Session', text: "Our photos are treasures we'll keep forever. The team was so warm and patient — a truly magical experience from start to finish.",           stars: 5 },
 ];
 
 const SAFE_FB = 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=500&q=80';
@@ -314,7 +314,7 @@ export default function Home() {
                 animate={{ scale: [1, 1.04, 1] }}
                 transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
               >
-                60<span>%</span>
+                50<span>%</span>
               </motion.div>
               <div className="offer-off-label">OFF</div>
               <div className="offer-badge">Limited Time</div>
@@ -328,7 +328,7 @@ export default function Home() {
               <div className="offer-eyebrow">✦ Exclusive Seasonal Offer</div>
               <h3 className="offer-title">Book Any Session &amp; Save Big</h3>
               <p className="offer-desc">
-                Wedding, portrait, or commercial shoot — get <strong>60% off</strong> your session fee
+                Wedding, portrait, or commercial shoot — get <strong>50% off</strong> your session fee
                 when you book before slots run out. Premium quality, unbeatable price.
               </p>
               <ul className="offer-perks">
