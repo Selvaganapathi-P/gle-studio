@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import offBg from '../assets/off.png';
+import coupleHands from '../assets/couple_hands.jpeg';
 
 // ── Live hero particles ───────────────────────────────────────
 const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
@@ -115,12 +116,6 @@ const SAFE_FB = 'https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=
 export default function Home() {
   const navigate = useNavigate();
 
-  // ── Hero slideshow: cycle through image pool every 3 s ───────
-  const [heroIdx, setHeroIdx] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setHeroIdx(i => (i + 1) % HERO_POOL.length), 3000);
-    return () => clearInterval(t);
-  }, []);
   return (
     <>
       {/* ── HERO ── */}
@@ -175,19 +170,11 @@ export default function Home() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1.0, delay: 0.4, ease }}
           >
-            <AnimatePresence mode="sync">
-              <motion.img
-                key={HERO_POOL[heroIdx]}
-                src={HERO_POOL[heroIdx]}
-                alt=""
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-                initial={{ opacity: 0, scale: 1.04 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.85, ease: 'easeInOut' }}
-                onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
-              />
-            </AnimatePresence>
+            <img
+              src={coupleHands}
+              alt="Couple hands"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
             <div className="hero-single-overlay" />
           </motion.div>
 
