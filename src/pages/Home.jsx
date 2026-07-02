@@ -216,7 +216,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.38, ease }}
             >
-              Luxury wedding, portrait, and commercial photography — capturing life's most luminous moments with cinematic precision in Dharmapuri.
+              Luxury wedding, portrait, and commercial photography — capturing life's most luminous moments with cinematic precision in Tirupattur.
             </motion.p>
 
             <motion.div

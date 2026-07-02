@@ -87,9 +87,9 @@ export default function Booking() {
             {/* Info panel */}
             <div className="booking-info">
               <h3>GLE Studio</h3>
-              <p style={{ marginBottom: '1.5rem' }}>Professional photography in Dharmapuri & surrounding areas.</p>
+              <p style={{ marginBottom: '1.5rem' }}>Professional photography in Tirupattur & surrounding areas.</p>
               {[
-                { icon: '📍', label: 'Location',      value: '42 Golden Lane, Dharmapuri, TN 636701' },
+                { icon: '📍', label: 'Location',      value: '42 Golden Lane, Tirupattur, TN 635601' },
                 { icon: '📞', label: 'Phone',         value: `+${waNumber}` },
                 { icon: '📱', label: 'WhatsApp',      value: `+${waNumber}` },
                 { icon: '⏰', label: 'Working Hours', value: 'Mon–Sat: 9AM – 7PM' },
