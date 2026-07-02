@@ -5116,8 +5116,7 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold) !important; }
 }
 
 /* ============================================================
-   FANCY × ALEX BENDER — 3D FLOATING FRAME HERO STACK
-   Photography frames floating in perspective on hero right side
+   HERO RIGHT SIDE — SINGLE STRAIGHT IMAGE PANEL
    ============================================================ */
 
 .hero-3d-wrap {
@@ -5125,132 +5124,41 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold) !important; }
   right: 0;
   top: 0;
   bottom: 0;
-  width: 52%;
+  width: 50%;
   z-index: 2;
   pointer-events: none;
-  perspective: 1400px;
-  perspective-origin: 40% 50%;
 }
 
-/* ── Individual 3D frame ── */
-.hero-3d-frame {
-  position: absolute;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid rgba(212,168,83,0.22);
-  box-shadow:
-    0 30px 90px rgba(0,0,0,0.65),
-    0 0 0 1px rgba(212,168,83,0.08) inset;
-  will-change: transform;
-  backface-visibility: hidden;
-}
-.hero-3d-frame img {
+/* ── Full-height straight image panel ── */
+.hero-single-panel {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+}
+.hero-single-panel img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
   display: block;
-  filter: brightness(0.88) saturate(1.05);
-}
-/* Soft colour grade overlay */
-.hero-3d-frame::before {
-  content: '';
-  position: absolute; inset: 0; z-index: 2;
-  background: linear-gradient(155deg, rgba(219,39,119,0.04) 0%, transparent 55%, rgba(249,168,212,0.10) 100%);
-  pointer-events: none;
-}
-/* Pink edge glow */
-.hero-3d-frame::after {
-  content: '';
-  position: absolute; inset: 0; z-index: 3;
-  box-shadow: inset 0 0 40px rgba(219,39,119,0.06);
-  border-radius: 20px;
-  pointer-events: none;
+  filter: brightness(0.92) saturate(1.08);
 }
 
-/* ── Back frame — largest, slightly faded, rotated most ── */
-.hero-3d-frame--back {
-  width: 62%;
-  aspect-ratio: 4/5;
-  right: 28%;
-  top: 4%;
-  transform: perspective(1100px) rotateY(-14deg) rotateX(6deg) translateZ(-80px);
-  animation: float3dBack 9s ease-in-out infinite;
-  opacity: 0.68;
-  filter: brightness(0.92);
-}
-
-/* ── Middle frame ── */
-.hero-3d-frame--mid {
-  width: 68%;
-  aspect-ratio: 4/5;
-  right: 10%;
-  top: 16%;
-  transform: perspective(1100px) rotateY(-9deg) rotateX(4deg) translateZ(-30px);
-  animation: float3dMid 11s ease-in-out infinite 1.8s;
-  opacity: 0.88;
-  filter: brightness(0.96);
-}
-
-/* ── Front frame — foreground, clearest ── */
-.hero-3d-frame--front {
-  width: 58%;
-  aspect-ratio: 4/5;
-  right: 22%;
-  bottom: 2%;
-  transform: perspective(1100px) rotateY(-4deg) rotateX(2deg) translateZ(20px);
-  animation: float3dFront 13s ease-in-out infinite 3.2s;
-  opacity: 1;
-}
-
-/* Pink inner glow on front frame */
-.hero-3d-frame-glow {
-  position: absolute; inset: 0; z-index: 4; pointer-events: none;
-  box-shadow: inset 0 0 60px rgba(219,39,119,0.10), inset 0 -80px 80px rgba(253,242,248,0.18);
-  border-radius: 20px;
-}
-
-/* ── Award badge attached to front frame ── */
-.hero-3d-badge {
+/* Left-edge fade to blend with hero content area */
+.hero-single-overlay {
   position: absolute;
-  bottom: 20px;
-  left: -28px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(219,39,119,0.22);
-  border-radius: 14px;
-  padding: 0.65rem 1rem;
-  box-shadow: 0 8px 32px rgba(219,39,119,0.14), 0 0 0 1px rgba(219,39,119,0.06) inset;
-  animation: floatBob 5s ease-in-out infinite 0.8s;
+  inset: 0;
+  z-index: 2;
   pointer-events: none;
-}
-.hero-3d-badge::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold3), transparent);
-  border-radius: 14px 14px 0 0;
-}
-.hero-3d-badge-icon { font-size: 1.4rem; line-height: 1; }
-.hero-3d-badge-title {
-  font-size: 0.77rem;
-  font-weight: 700;
-  color: var(--dark);
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-}
-.hero-3d-badge-sub {
-  font-size: 0.63rem;
-  color: var(--gold3);
-  letter-spacing: 0.08em;
-  margin-top: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(253,242,248,0.82) 0%,
+    rgba(253,242,248,0.30) 22%,
+    transparent 55%
+  );
 }
 
-/* ── Floating stat chip — clients ── */
+/* ── Floating stat chip ── */
 .hero-float-chip {
   position: absolute;
   z-index: 12;
@@ -5263,14 +5171,14 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold) !important; }
   pointer-events: none;
 }
 .hero-float-chip--clients {
-  top: 20%;
-  left: 2%;
+  top: 22%;
+  left: 6%;
   animation: floatBob 6s ease-in-out infinite 0.4s;
   text-align: center;
 }
 .hero-float-chip--live {
-  top: 40%;
-  right: 3%;
+  bottom: 22%;
+  right: 5%;
   display: flex;
   align-items: center;
   gap: 0.55rem;
@@ -5309,7 +5217,7 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold) !important; }
   white-space: nowrap;
 }
 
-/* ── Hide 3D stack on mobile — too cramped ── */
+/* ── Hide on mobile ── */
 @media (max-width: 900px) {
   .hero-3d-wrap { display: none; }
 }

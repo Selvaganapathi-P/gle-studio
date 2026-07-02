@@ -120,9 +120,6 @@ export default function Home() {
     const t = setInterval(() => setHeroIdx(i => (i + 1) % HERO_POOL.length), 3000);
     return () => clearInterval(t);
   }, []);
-  const N = HERO_POOL.length;
-  const frameImg = offset => HERO_POOL[(heroIdx + offset) % N];
-
   return (
     <>
       {/* ── HERO ── */}
@@ -169,81 +166,28 @@ export default function Home() {
           transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
         />
 
-        {/* ── 3D Floating Photography Frames (FANCY / Alex Bender style) ── */}
+        {/* ── Single straight hero image — right side ── */}
         <div className="hero-3d-wrap">
-          {/* Back frame */}
           <motion.div
-            className="hero-3d-frame hero-3d-frame--back"
-            initial={{ opacity: 0, x: 80 }}
+            className="hero-single-panel"
+            initial={{ opacity: 0, x: 60 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.1, delay: 0.4, ease }}
+            transition={{ duration: 1.0, delay: 0.4, ease }}
           >
             <AnimatePresence mode="sync">
               <motion.img
-                key={frameImg(0)}
-                src={frameImg(0)}
+                key={HERO_POOL[heroIdx]}
+                src={HERO_POOL[heroIdx]}
                 alt=""
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                initial={{ opacity: 0, scale: 1.06 }}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                initial={{ opacity: 0, scale: 1.04 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.85, ease: 'easeInOut' }}
                 onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
               />
             </AnimatePresence>
-            <div className="hero-3d-frame-glow" />
-          </motion.div>
-
-          {/* Middle frame */}
-          <motion.div
-            className="hero-3d-frame hero-3d-frame--mid"
-            initial={{ opacity: 0, x: 60, y: 30 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 1.1, delay: 0.6, ease }}
-          >
-            <AnimatePresence mode="sync">
-              <motion.img
-                key={frameImg(3)}
-                src={frameImg(3)}
-                alt=""
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                initial={{ opacity: 0, scale: 1.06 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.85, ease: 'easeInOut' }}
-                onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
-              />
-            </AnimatePresence>
-          </motion.div>
-
-          {/* Front frame */}
-          <motion.div
-            className="hero-3d-frame hero-3d-frame--front"
-            initial={{ opacity: 0, y: 60 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, delay: 0.8, ease }}
-          >
-            <AnimatePresence mode="sync">
-              <motion.img
-                key={frameImg(5)}
-                src={frameImg(5)}
-                alt=""
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-                initial={{ opacity: 0, scale: 1.06 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.85, ease: 'easeInOut' }}
-                onError={e => { e.currentTarget.src = SAFE_FB; e.currentTarget.onerror = null; }}
-              />
-            </AnimatePresence>
-            {/* Award badge on front frame */}
-            <div className="hero-3d-badge">
-              <span className="hero-3d-badge-icon">🏆</span>
-              <div>
-                <div className="hero-3d-badge-title">Award Winning</div>
-                <div className="hero-3d-badge-sub">Studio 2024</div>
-              </div>
-            </div>
+            <div className="hero-single-overlay" />
           </motion.div>
 
           {/* Floating chip — clients */}
