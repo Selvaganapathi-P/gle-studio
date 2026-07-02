@@ -623,15 +623,17 @@ p  { color: var(--text2); line-height: 1.8; }
 }
 .btn:hover .btn-liquid { transform: translateY(-20%) scaleX(1.5); }
 
-/* Diagonal shine */
+/* Diagonal shine — z-index kept at -1 so it never covers button text */
 .btn::before {
   content: '';
   position: absolute; top: 0; left: -120%;
   width: 70%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.32), transparent);
-  transform: skewX(-25deg); z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
+  transform: skewX(-25deg); z-index: -1; pointer-events: none;
 }
 .btn:hover::before { animation: shineRepeat 0.65s ease forwards; }
+/* Ensure button text always appears above all pseudo-element layers */
+.btn > span, .btn > svg, .btn > img { position: relative; z-index: 2; }
 
 /* Click ripple */
 .btn::after {
@@ -2229,6 +2231,15 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
   h1 { font-size: 2.2rem; } h2 { font-size: 1.8rem; }
   .navbar-links { display: none; }
   .hamburger { display: flex; }
+  /* On mobile: hide all action buttons — hamburger menu handles them */
+  .navbar-actions .btn,
+  .navbar-actions .nav-link { display: none !important; }
+  /* Keep only avatar + hamburger visible */
+  .navbar-actions .avatar { display: flex !important; }
+  /* Shrink logo so it fits on one line next to avatar + hamburger */
+  .navbar-logo-img  { height: 40px !important; }
+  .navbar-logo-name { font-size: 0.8rem !important; letter-spacing: 0.06em !important; }
+  .navbar-logo-sub  { display: none !important; }
   .hero { min-height: 88vh; }
   .hero-image-side { width: 100%; opacity: 0.18; z-index: 1; }
   .hero-image-side::before { display: none; }
@@ -3425,7 +3436,8 @@ table { min-width: 560px; }
 /* ── 10. NAVBAR INNER — reduce padding on small screens ── */
 @media (max-width: 400px) {
   .navbar-inner { padding: 0 0.75rem !important; }
-  .navbar-logo-img { height: 38px !important; }
+  .navbar-logo-img  { height: 34px !important; }
+  .navbar-logo-name { font-size: 0.72rem !important; }
 }
 
 /* ── 11. SECTION-PAD — reduce on mobile ── */

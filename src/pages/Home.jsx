@@ -231,7 +231,7 @@ export default function Home() {
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.97 }}
               >
-                Book a Session
+                <span>Book a Session</span>
               </motion.button>
               <motion.button
                 className="btn btn-lg"
@@ -240,7 +240,7 @@ export default function Home() {
                 whileHover={{ scale: 1.05, y: -3, background: 'rgba(255,255,255,0.92)' }}
                 whileTap={{ scale: 0.97 }}
               >
-                View Gallery
+                <span>View Gallery</span>
               </motion.button>
             </motion.div>
 
@@ -327,7 +327,7 @@ export default function Home() {
                 whileHover={{ scale: 1.05, y: -3 }}
                 whileTap={{ scale: 0.97 }}
               >
-                Claim Offer →
+                <span>Claim Offer →</span>
               </motion.button>
               <div className="offer-note">No hidden charges · Cancel anytime</div>
             </div>
