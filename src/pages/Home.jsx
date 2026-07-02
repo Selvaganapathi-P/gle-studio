@@ -185,20 +185,10 @@ export default function Home() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 1.1, ease }}
           >
-            <div className="hero-float-chip-num">500+</div>
+            <div className="hero-float-chip-num">6K+</div>
             <div className="hero-float-chip-label">Happy Clients</div>
           </motion.div>
 
-          {/* Floating chip — live */}
-          <motion.div
-            className="hero-float-chip hero-float-chip--live"
-            initial={{ opacity: 0, scale: 0.7 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 1.3, ease }}
-          >
-            <span className="hero-float-chip-dot" />
-            <span className="hero-float-chip-text">Available Now</span>
-          </motion.div>
         </div>
 
         <div className="container" style={{ width: '100%' }}>
@@ -245,9 +235,9 @@ export default function Home() {
               </motion.button>
               <motion.button
                 className="btn btn-lg"
-                style={{ background: 'rgba(255,255,255,0.08)', color: 'white', border: '1.5px solid rgba(255,255,255,0.22)' }}
+                style={{ background: 'rgba(255,255,255,0.72)', color: '#1a0a0a', border: '1.5px solid rgba(219,39,119,0.35)', backdropFilter: 'blur(8px)' }}
                 onClick={() => navigate('/gallery')}
-                whileHover={{ scale: 1.05, y: -3, background: 'rgba(255,255,255,0.14)' }}
+                whileHover={{ scale: 1.05, y: -3, background: 'rgba(255,255,255,0.92)' }}
                 whileTap={{ scale: 0.97 }}
               >
                 View Gallery
@@ -260,7 +250,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.62, ease }}
             >
-              {[['500+', 'Happy Clients'], ['7+', 'Years Experience'], ['50K+', 'Photos Delivered']].map(([num, label]) => (
+              {[['6K+', 'Happy Clients'], ['7+', 'Years Experience'], ['50K+', 'Photos Delivered']].map(([num, label]) => (
                 <motion.div
                   key={label}
                   whileHover={{ y: -4 }}
