@@ -1881,7 +1881,7 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
    ============================================================ */
 .footer {
   background: linear-gradient(180deg, var(--dark) 0%, #060504 100%);
-  color: rgba(255,255,255,0.5); padding: 5.5rem 0 2.5rem;
+  color: rgba(255,255,255,0.82); padding: 5.5rem 0 2.5rem;
   position: relative; overflow: hidden;
 }
 .footer::before {
@@ -1911,7 +1911,7 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
   -webkit-text-fill-color: transparent;
   margin-bottom: 0.4rem;
 }
-.footer-tagline { font-size: 0.82rem; color: rgba(255,255,255,0.3); letter-spacing: 0.14em; margin-bottom: 2rem; animation: breathe 4s ease-in-out infinite; }
+.footer-tagline { font-size: 0.82rem; color: rgba(255,255,255,0.62); letter-spacing: 0.14em; margin-bottom: 2rem; animation: breathe 4s ease-in-out infinite; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 3.5rem; }
 .footer-heading {
   color: var(--gold3); font-size: 0.7rem; font-weight: 700;
@@ -1919,7 +1919,7 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
   animation: breathe 3s ease-in-out infinite;
 }
 .footer-link {
-  display: block; font-size: 0.84rem; color: rgba(255,255,255,0.42);
+  display: block; font-size: 0.84rem; color: rgba(255,255,255,0.78);
   padding: 0.28rem 0; cursor: pointer;
   transition: all 0.28s cubic-bezier(0.22,1,0.36,1);
   position: relative; width: fit-content; overflow: hidden;
@@ -4831,8 +4831,8 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold) !important; }
   border-top: 1px solid rgba(212,168,83,0.10) !important;
 }
 .footer h4, .footer h5, .footer h3 { color: #ffffff !important; }
-.footer p { color: rgba(255,255,255,0.65) !important; }
-.footer a { color: rgba(255,255,255,0.45) !important; }
+.footer p { color: rgba(255,255,255,0.85) !important; }
+.footer a { color: rgba(255,255,255,0.78) !important; }
 .footer a:hover { color: var(--gold2) !important; }
 .footer-divider { border-color: rgba(255,255,255,0.10) !important; }
 
