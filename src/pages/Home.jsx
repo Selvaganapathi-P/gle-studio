@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
+import offBg from '../assets/off.png';
 
 // ── Live hero particles ───────────────────────────────────────
 const PARTICLES = Array.from({ length: 24 }, (_, i) => ({
@@ -296,6 +297,11 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.7, ease }}
+            style={{
+              backgroundImage: `linear-gradient(120deg, rgba(28,20,7,0.82) 0%, rgba(42,28,11,0.75) 45%, rgba(28,19,7,0.82) 100%), url(${offBg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
           >
             {/* Animated background orbs */}
             <div className="offer-orb offer-orb--left" />
