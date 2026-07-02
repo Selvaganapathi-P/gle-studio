@@ -1,8 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import api from '../../utils/api';
 import toast from 'react-hot-toast';
 
-const ICONS = ['📷','💍','🎭','🎂','🏢','📦','🌅','🎪','🎨','🎬','🏆','⭐','🌸','🎵','🎗️','👨‍👩‍👧'];
+const DEFAULT_IMAGES = {
+  'Wedding Photography':     'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80',
+  'Portrait Sessions':        'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80',
+  'Birthday & Baby Shower':   'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=80',
+  'Corporate Events':         'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80',
+  'Commercial & Product':     'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80',
+  'Pre-Wedding / Engagement': 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&q=80',
+};
+
+const BLANK_FORM = {
+  title: '', price: '', maxPrice: '', duration: '', desc: '', active: true,
+  imageFile: null, imagePreview: '',
+};
 
 export default function AdminServices() {
   const [services, setServices] = useState([]);
@@ -10,9 +22,8 @@ export default function AdminServices() {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing]   = useState(null);
   const [saving, setSaving]     = useState(false);
-  const [form, setForm]         = useState({
-    icon: '📷', title: '', price: '', maxPrice: '', duration: '', desc: '', active: true,
-  });
+  const [form, setForm]         = useState(BLANK_FORM);
+  const fileRef = useRef(null);
 
   useEffect(() => {
     api.get('/services/all')
@@ -23,15 +34,26 @@ export default function AdminServices() {
 
   const handle = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
 
+  const handleImage = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setForm(f => ({ ...f, imageFile: file, imagePreview: URL.createObjectURL(file) }));
+  };
+
   const openAdd = () => {
     setEditing(null);
-    setForm({ icon: '📷', title: '', price: '', maxPrice: '', duration: '', desc: '', active: true });
+    setForm(BLANK_FORM);
     setShowForm(true);
   };
 
   const openEdit = s => {
     setEditing(s._id);
-    setForm({ icon: s.icon, title: s.title, price: s.price, maxPrice: s.maxPrice || '', duration: s.duration || '', desc: s.desc || '', active: s.active });
+    setForm({
+      title: s.title, price: s.price, maxPrice: s.maxPrice || '',
+      duration: s.duration || '', desc: s.desc || '', active: s.active,
+      imageFile: null,
+      imagePreview: s.imageUrl || DEFAULT_IMAGES[s.title] || '',
+    });
     setShowForm(true);
   };
 
@@ -39,13 +61,23 @@ export default function AdminServices() {
     if (!form.title || !form.price) { toast.error('Title and starting price are required'); return; }
     setSaving(true);
     try {
-      const payload = { ...form, price: Number(form.price), maxPrice: Number(form.maxPrice) || 0 };
+      const fd = new FormData();
+      fd.append('title',    form.title);
+      fd.append('price',    form.price);
+      fd.append('maxPrice', form.maxPrice || 0);
+      fd.append('duration', form.duration);
+      fd.append('desc',     form.desc);
+      fd.append('active',   form.active);
+      if (form.imageFile) fd.append('serviceImage', form.imageFile);
+
+      const cfg = { headers: { 'Content-Type': 'multipart/form-data' } };
+
       if (editing) {
-        const res = await api.put(`/services/${editing}`, payload);
+        const res = await api.put(`/services/${editing}`, fd, cfg);
         setServices(prev => prev.map(s => s._id === editing ? res.data : s));
         toast.success('Service updated!');
       } else {
-        const res = await api.post('/services', payload);
+        const res = await api.post('/services', fd, cfg);
         setServices(prev => [...prev, res.data]);
         toast.success('Service added!');
       }
@@ -56,7 +88,14 @@ export default function AdminServices() {
 
   const toggleActive = async s => {
     try {
-      const res = await api.put(`/services/${s._id}`, { ...s, active: !s.active });
+      const fd = new FormData();
+      fd.append('title',    s.title);
+      fd.append('price',    s.price);
+      fd.append('maxPrice', s.maxPrice || 0);
+      fd.append('duration', s.duration || '');
+      fd.append('desc',     s.desc || '');
+      fd.append('active',   String(!s.active));
+      const res = await api.put(`/services/${s._id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } });
       setServices(prev => prev.map(x => x._id === s._id ? res.data : x));
       toast.success(s.active ? 'Service hidden from public' : 'Service visible to public');
     } catch { toast.error('Update failed'); }
@@ -75,7 +114,6 @@ export default function AdminServices() {
 
   return (
     <>
-      {/* Header */}
       <div className="admin-services-header">
         <div>
           <div className="admin-page-title">Services Management</div>
@@ -84,52 +122,48 @@ export default function AdminServices() {
         <button className="btn btn-primary" onClick={openAdd}>+ Add Service / Event</button>
       </div>
 
-      {/* Grid */}
       <div className="admin-services-grid">
-        {services.map(s => (
-          <div key={s._id} className={`service-card${s.active ? '' : ' is-hidden'}`}>
+        {services.map(s => {
+          const imgSrc = s.imageUrl || DEFAULT_IMAGES[s.title] || null;
+          return (
+            <div key={s._id} className={`service-card${s.active ? '' : ' is-hidden'}`}>
+              <span className={`service-status-badge ${s.active ? 'active' : 'hidden'}`}>
+                {s.active ? 'Active' : 'Hidden'}
+              </span>
 
-            {/* Status badge */}
-            <span className={`service-status-badge ${s.active ? 'active' : 'hidden'}`}>
-              {s.active ? 'Active' : 'Hidden'}
-            </span>
+              {/* Service image */}
+              <div className="service-image-wrap">
+                {imgSrc
+                  ? <img src={imgSrc} alt={s.title} className="service-img" />
+                  : <div className="service-img-placeholder">
+                      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                        <path d="M21 15l-5-5L5 21"/>
+                      </svg>
+                    </div>
+                }
+              </div>
 
-            {/* Icon */}
-            <div className="service-icon">{s.icon}</div>
+              <div className="service-title">{s.title}</div>
 
-            {/* Title */}
-            <div className="service-title">{s.title}</div>
+              <div className="service-price">
+                ₹{Number(s.price).toLocaleString('en-IN')}
+                {s.maxPrice > 0 && ` – ₹${Number(s.maxPrice).toLocaleString('en-IN')}`}
+              </div>
 
-            {/* Price */}
-            <div className="service-price">
-              ₹{Number(s.price).toLocaleString('en-IN')}
-              {s.maxPrice > 0 && ` – ₹${Number(s.maxPrice).toLocaleString('en-IN')}`}
+              {s.duration && <div className="service-duration">⏱ {s.duration}</div>}
+              {s.desc     && <p className="service-desc">{s.desc}</p>}
+
+              <div className="service-actions">
+                <button className="btn btn-ghost btn-sm" onClick={() => openEdit(s)}>✏️ Edit</button>
+                <button className="btn btn-ghost btn-sm" onClick={() => toggleActive(s)}>
+                  {s.active ? '🙈 Hide' : '👁 Show'}
+                </button>
+                <button className="btn btn-danger btn-sm" onClick={() => deleteService(s._id)}>🗑</button>
+              </div>
             </div>
-
-            {/* Duration */}
-            {s.duration && (
-              <div className="service-duration">⏱ {s.duration}</div>
-            )}
-
-            {/* Desc */}
-            {s.desc && (
-              <p className="service-desc">{s.desc}</p>
-            )}
-
-            {/* Actions */}
-            <div className="service-actions">
-              <button className="btn btn-ghost btn-sm" onClick={() => openEdit(s)}>
-                ✏️ Edit
-              </button>
-              <button className="btn btn-ghost btn-sm" onClick={() => toggleActive(s)}>
-                {s.active ? '🙈 Hide' : '👁 Show'}
-              </button>
-              <button className="btn btn-danger btn-sm" onClick={() => deleteService(s._id)}>
-                🗑
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
 
         {services.length === 0 && (
           <div className="empty-state" style={{ gridColumn: '1 / -1' }}>
@@ -140,7 +174,6 @@ export default function AdminServices() {
         )}
       </div>
 
-      {/* Add / Edit Modal */}
       {showForm && (
         <div className="modal-backdrop" onClick={() => setShowForm(false)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
@@ -151,21 +184,37 @@ export default function AdminServices() {
               <button className="modal-close" onClick={() => setShowForm(false)}>×</button>
             </div>
 
-            {/* Icon picker */}
+            {/* Image upload */}
             <div className="form-group">
-              <label className="form-label">Choose Icon</label>
-              <div className="icon-picker">
-                {ICONS.map(ic => (
-                  <button
-                    key={ic}
-                    className={`icon-option${form.icon === ic ? ' selected' : ''}`}
-                    onClick={() => setForm(f => ({ ...f, icon: ic }))}
-                    title={ic}
-                  >
-                    {ic}
-                  </button>
-                ))}
+              <label className="form-label">Service Image</label>
+              <div className="service-img-upload-area" onClick={() => fileRef.current?.click()}>
+                {form.imagePreview
+                  ? <img src={form.imagePreview} alt="preview" className="service-img-upload-preview" />
+                  : <div className="service-img-upload-placeholder">
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                      </svg>
+                      <span>Click to upload image</span>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text3)' }}>JPG, PNG up to 10 MB</span>
+                    </div>
+                }
               </div>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                onChange={handleImage}
+              />
+              {form.imagePreview && (
+                <button
+                  className="btn btn-ghost btn-sm"
+                  style={{ marginTop: '0.5rem', fontSize: '0.78rem' }}
+                  onClick={() => { setForm(f => ({ ...f, imageFile: null, imagePreview: '' })); if (fileRef.current) fileRef.current.value = ''; }}
+                >
+                  Remove image
+                </button>
+              )}
             </div>
 
             <div className="form-group">
