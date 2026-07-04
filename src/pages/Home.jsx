@@ -178,17 +178,6 @@ export default function Home() {
             <div className="hero-single-overlay" />
           </motion.div>
 
-          {/* Floating chip — clients */}
-          <motion.div
-            className="hero-float-chip hero-float-chip--clients"
-            initial={{ opacity: 0, scale: 0.7 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 1.1, ease }}
-          >
-            <div className="hero-float-chip-num">6K+</div>
-            <div className="hero-float-chip-label">Happy Clients</div>
-          </motion.div>
-
         </div>
 
         <div className="container" style={{ width: '100%' }}>

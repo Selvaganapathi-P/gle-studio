@@ -5630,7 +5630,7 @@ tbody tr:hover td { background: #f8fafc !important; }
    ============================================================ */
 
 .offer-banner-section {
-  padding: 0 0 2.5rem;
+  padding: 2.5rem 0 2.5rem;
   background: var(--bg2);
 }
 
