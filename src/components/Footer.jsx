@@ -29,8 +29,10 @@ export default function Footer() {
           <div>
             <div className="footer-heading">Contact</div>
             <p style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.85rem', lineHeight: 2 }}>
-              📍 Golden legacy events, Periyagaram<br />
-              Tirupattur 635901<br />
+              <a href="https://maps.app.goo.gl/E5GxpuczcpBS5dyP7" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '3px' }}>
+                📍 Golden legacy events, Periyagaram<br />
+                Tirupattur 635901
+              </a><br />
               📞 +91 6382748663<br />
               ✉️ tirupattur.gle2024@gmail.com<br />
               🕐 Mon–Sat: 9AM – 7PM

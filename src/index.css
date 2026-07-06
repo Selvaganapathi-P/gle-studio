@@ -1312,7 +1312,7 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
   line-height: 1;
 }
 .hero-stat-label {
-  font-size: 0.74rem; color: var(--text3);
+  font-size: 0.74rem; color: rgba(255,255,255,0.72);
   letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.2rem;
 }
 
@@ -4616,7 +4616,7 @@ p { color: var(--text2); }
   -webkit-text-fill-color: transparent !important;
   animation: shimmerFast 3s linear infinite !important;
 }
-.hero-stat-label { color: var(--text3) !important; }
+.hero-stat-label { color: rgba(255,255,255,0.72) !important; }
 .hero-stat-sep   { background: rgba(219,39,119,0.22) !important; }
 
 /* Hero live particle dots */

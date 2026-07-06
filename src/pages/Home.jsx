@@ -513,20 +513,22 @@ export default function Home() {
                 <h2 className="section-title">Ready to Create <em>Magic Together?</em></h2>
                 <div className="divider" />
                 {[
-                  ['📍', 'Studio Location', 'Golden legacy events, Tirupattur, TN 635901'],
-                  ['📞', 'Phone / WhatsApp', '+91 6382748663'],
-                  ['⏰', 'Studio Hours',     'Monday – Saturday: 9 AM to 7 PM'],
-                ].map(([icon, label, val]) => (
+                  ['📍', 'Studio Location', 'Golden legacy events, Tirupattur, TN 635901', 'https://maps.app.goo.gl/E5GxpuczcpBS5dyP7'],
+                  ['📞', 'Phone / WhatsApp', '+91 6382748663', null],
+                  ['⏰', 'Studio Hours',     'Monday – Saturday: 9 AM to 7 PM', null],
+                ].map(([icon, label, val, link]) => (
                   <motion.div
                     key={label}
                     className="contact-item"
                     whileHover={{ x: 6 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                    style={{ cursor: link ? 'pointer' : 'default' }}
+                    onClick={() => link && window.open(link, '_blank', 'noopener,noreferrer')}
                   >
                     <div className="contact-icon">{icon}</div>
                     <div>
                       <div className="contact-label">{label}</div>
-                      <div className="contact-value">{val}</div>
+                      <div className="contact-value" style={link ? { textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: '3px' } : {}}>{val}</div>
                     </div>
                   </motion.div>
                 ))}
