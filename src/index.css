@@ -1304,7 +1304,7 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
 .hero-stat:nth-child(3) { animation-delay: 1.4s; }
 .hero-stat-num {
   font-family: var(--font-serif); font-size: 2.4rem; font-weight: 700;
-  background: linear-gradient(135deg, var(--gold3), var(--gold4));
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold));
   background-size: 200%;
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1312,7 +1312,7 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
   line-height: 1;
 }
 .hero-stat-label {
-  font-size: 0.74rem; color: rgba(255,255,255,0.72);
+  font-size: 0.74rem; color: var(--text2); font-weight: 600;
   letter-spacing: 0.12em; text-transform: uppercase; margin-top: 0.2rem;
 }
 
@@ -4612,13 +4612,13 @@ p { color: var(--text2); }
 
 /* Hero stats — animated shimmer numbers */
 .hero-stat-num {
-  background: linear-gradient(135deg, var(--gold3), var(--gold4), var(--gold3)) !important;
+  background: linear-gradient(135deg, var(--gold-deep), var(--gold), var(--gold-deep)) !important;
   background-size: 200% !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   animation: shimmerFast 3s linear infinite !important;
 }
-.hero-stat-label { color: rgba(255,255,255,0.72) !important; }
+.hero-stat-label { color: var(--text2) !important; font-weight: 600 !important; }
 .hero-stat-sep   { background: rgba(219,39,119,0.22) !important; }
 
 /* Hero live particle dots */
