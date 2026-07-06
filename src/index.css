@@ -1891,6 +1891,7 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
   position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, transparent 0%, var(--gold-deep) 20%, var(--gold) 40%, var(--gold3) 50%, var(--gold) 60%, var(--gold-deep) 80%, transparent 100%);
   background-size: 200%; animation: gradSlide 5s ease infinite;
+  pointer-events: none;
 }
 .footer::after {
   content: '';
@@ -1898,6 +1899,7 @@ tbody tr:hover { box-shadow: inset 3px 0 0 var(--gold); }
   width: 500px; height: 500px; border-radius: 50%;
   border: 1px solid rgba(212,168,83,0.04);
   animation: spinCW 50s linear infinite;
+  pointer-events: none;
 }
 /* Second decorative ring */
 .footer-ring {
