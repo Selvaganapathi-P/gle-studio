@@ -244,6 +244,7 @@ html { scrollbar-color: var(--gold2) var(--bg2); scrollbar-width: thin; }
 @keyframes goldGlow     { 0%,100%{box-shadow:0 0 16px rgba(219,39,119,0.30),0 0 40px rgba(219,39,119,0.10);} 50%{box-shadow:0 0 32px rgba(219,39,119,0.65),0 0 80px rgba(219,39,119,0.25);} }
 @keyframes goldGlowText { 0%,100%{text-shadow:0 0 20px rgba(249,168,212,0.5);} 50%{text-shadow:0 0 40px rgba(249,168,212,0.9), 0 0 80px rgba(249,168,212,0.35);} }
 @keyframes softGlow     { 0%,100%{box-shadow:0 4px 20px rgba(219,39,119,0.20);} 50%{box-shadow:0 8px 40px rgba(219,39,119,0.42);} }
+@keyframes frameCardReveal { from { opacity:0; transform:translateY(24px) scale(0.94); } to { opacity:1; transform:translateY(0) scale(1); } }
 
 /* Particle / ripple */
 @keyframes particleRise {

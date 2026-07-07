@@ -133,8 +133,7 @@ export default function Frames() {
                     <div
                       key={f._id}
                       className={`frame-option${selectedFrame?._id === f._id ? ' selected' : ''}`}
-                      data-reveal="scale"
-                      style={{ '--reveal-delay': `${(idx % 6) * 0.06}s` }}
+                      style={{ animation: `frameCardReveal 0.45s cubic-bezier(0.22,1,0.36,1) calc(${idx % 6} * 0.06s) both` }}
                       onClick={() => setSelectedFrame(f)}
                     >
                       {/* Frame photo — fixed aspect-ratio container so portrait & landscape look uniform */}
